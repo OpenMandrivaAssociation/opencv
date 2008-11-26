@@ -3,7 +3,7 @@ Version: 1.1.0
 Release: %mkrel 0.pre1.1
 Group: Sound
 License: GPLv2+
-Summary: A library of programming functions mainly aimed at real time computer vision. 
+Summary: A library of programming functions mainly aimed at real time computer vision
 URL: http://opencv.willowgarage.com/wiki/
 Source: opencv-1.1pre1.tar.gz
 BuildRequires: gtk2-devel
