@@ -1,4 +1,3 @@
-
 Name: opencv
 Version: 1.1.0
 Release: %mkrel 0.pre1.1
@@ -9,7 +8,6 @@ URL: http://opencv.willowgarage.com/wiki/
 Source: opencv-1.1pre1.tar.gz
 BuildRequires: gtk2-devel
 BuildRequires: glib-devel
-BuildRequires: libxine-devel
 BuildRequires: libgstreamer-devel
 BuildRequires: zlib-devel
 BuildRequires: libjpeg-devel
@@ -124,6 +122,7 @@ OpenCv development files.
 
 %files devel
 %defattr(-,root,root,-)
+%_libdir/*.a
 %_libdir/*.so
 %_libdir/*.la
 %_includedir/*
@@ -186,7 +185,10 @@ OpenCv samples.
 autoreconf -f -i
 
 %configure2_5x \
-    --disable-static
+    --enable-static=no \
+    --with-unicap \
+    --with-gstreamer \
+    --with-swig
 
 %install
 rm -rf %{buildroot}
@@ -195,5 +197,3 @@ rm -rf %{buildroot}
 %clean
 rm -rf %{buildroot}
 
-%files
-%defattr(-,root,root)
