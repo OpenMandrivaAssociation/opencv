@@ -116,6 +116,7 @@ Requires: %{libcv}
 Requires: %{libhighgui}
 Requires: %{libcxcore}
 Requires: %{libcvaux}
+Requires: %{libml}
 
 %description devel
 OpenCv development files.
