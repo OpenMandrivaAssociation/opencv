@@ -1,6 +1,6 @@
 Name: opencv
 Version: 1.1.0
-Release: %mkrel 0.pre1.1
+Release: %mkrel 0.pre1.2
 Group: Sound
 License: GPLv2+
 Summary: A library of programming functions mainly aimed at real time computer vision
