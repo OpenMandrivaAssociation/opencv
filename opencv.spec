@@ -6,6 +6,7 @@ License: GPLv2+
 Summary: A library of programming functions mainly aimed at real time computer vision
 URL: http://opencv.willowgarage.com/wiki/
 Source: opencv-1.1pre1.tar.gz
+Patch0: opencv-1.1pre1-fix-str-fmt.patch
 BuildRequires: gtk2-devel
 BuildRequires: glib-devel
 BuildRequires: libgstreamer-devel
@@ -181,6 +182,7 @@ OpenCv samples.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 autoreconf -f -i
@@ -197,4 +199,3 @@ rm -rf %{buildroot}
 
 %clean
 rm -rf %{buildroot}
-
