@@ -6,7 +6,13 @@ License: GPLv2+
 Summary: A library of programming functions mainly aimed at real time computer vision
 URL: http://opencv.willowgarage.com/wiki/
 Source: opencv-1.1pre1.tar.gz
-Patch0: opencv-1.1pre1-fix-str-fmt.patch
+Patch0: opencv-1.0.0-gcc44.patch
+Patch1: opencv-1.1-nooptim.patch
+Patch2: opencv-1.1.0-pythondir.diff
+Patch3: opencv-1.1.0-conflicts.patch
+Patch4: opencv-1.1pre1-automake.patch
+Patch5: opencv-1.1pre1-backport_gcc43.patch
+Patch6: opencv-1.1pre1-fix-str-fmt.patch
 BuildRequires: gtk2-devel
 BuildRequires: glib-devel
 BuildRequires: libgstreamer-devel
@@ -182,11 +188,16 @@ OpenCv samples.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch0 -p1 -b .gcc44
+%patch1 -p1 -b .nooptim
+%patch2 -p1 -b .pydir
+%patch3 -p1 -b .conflicts
+%patch4 -p1 -b .automake
+%patch5 -p1 -b .gcc43
+%patch6 -p0 -b .str
 
 %build
 autoreconf -f -i
-
 %configure2_5x \
     --enable-static=no \
     --with-unicap \
