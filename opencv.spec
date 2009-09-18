@@ -13,6 +13,7 @@ Patch3: opencv-1.1.0-conflicts.patch
 Patch4: opencv-1.1pre1-automake.patch
 Patch5: opencv-1.1pre1-backport_gcc43.patch
 Patch6: opencv-1.1pre1-fix-str-fmt.patch
+Patch7: opencv-1.1.0-libtool22_fix.diff
 BuildRequires: gtk2-devel
 BuildRequires: glib-devel
 BuildRequires: libgstreamer-devel
@@ -195,6 +196,7 @@ OpenCv samples.
 %patch4 -p1 -b .automake
 %patch5 -p1 -b .gcc43
 %patch6 -p0 -b .str
+%patch7 -p0
 
 %build
 autoreconf -f -i
