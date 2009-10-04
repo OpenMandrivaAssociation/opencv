@@ -14,8 +14,8 @@ Patch4: opencv-1.1pre1-automake.patch
 Patch5: opencv-1.1pre1-backport_gcc43.patch
 Patch6: opencv-1.1pre1-fix-str-fmt.patch
 Patch7: opencv-1.1.0-libtool22_fix.diff
+Patch8: opencv-1.0.0-fix-swig.patch
 BuildRequires: gtk2-devel
-BuildRequires: glib-devel
 BuildRequires: libgstreamer-devel
 BuildRequires: zlib-devel
 BuildRequires: libjpeg-devel
@@ -197,6 +197,7 @@ OpenCv samples.
 %patch5 -p1 -b .gcc43
 %patch6 -p0 -b .str
 %patch7 -p0
+%patch8 -p0 -b .swig
 
 %build
 autoreconf -f -i
