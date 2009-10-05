@@ -1,20 +1,14 @@
 Name: opencv
-Version: 1.1.0
-Release: %mkrel 0.pre1.4
+Version: 2.0.0
+Release: %mkrel 1
 Group: Sound
 License: GPLv2+
 Summary: A library of programming functions mainly aimed at real time computer vision
 URL: http://opencv.willowgarage.com/wiki/
-Source: opencv-1.1pre1.tar.gz
-Patch0: opencv-1.0.0-gcc44.patch
-Patch1: opencv-1.1-nooptim.patch
-Patch2: opencv-1.1.0-pythondir.diff
-Patch3: opencv-1.1.0-conflicts.patch
-Patch4: opencv-1.1pre1-automake.patch
-Patch5: opencv-1.1pre1-backport_gcc43.patch
-Patch6: opencv-1.1pre1-fix-str-fmt.patch
-Patch7: opencv-1.1.0-libtool22_fix.diff
-Patch8: opencv-1.0.0-fix-swig.patch
+Source: http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
+Patch0: OpenCV-2.0.0-link-v4l2.patch
+Patch1: OpenCV-2.0.0-libdir.patch
+Patch2: OpenCV-2.0.0-gcc-4.3.patch
 BuildRequires: gtk2-devel
 BuildRequires: libgstreamer-devel
 BuildRequires: zlib-devel
@@ -25,10 +19,8 @@ BuildRequires: libv4l-devel
 BuildRequires: libunicap-devel
 BuildRequires: libpng-devel
 BuildRequires: swig
-BuildRequires: autoconf
-BuildRequires: libtool
-BuildRequires: automake
-%py_requires -d
+BuildRequires: cmake
+BuildRequires: python-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -131,24 +123,24 @@ OpenCv development files.
 
 %files devel
 %defattr(-,root,root,-)
-%_libdir/*.a
 %_libdir/*.so
-%_libdir/*.la
 %_includedir/*
 %_libdir/pkgconfig/*
+%_datadir/opencv/OpenCVConfig.cmake
 
 #--------------------------------------------------------------------------------
 
 %package -n python-opencv
 Summary: OpenCv python bindings
 Group: Development/Other
+%py_requires -d
 
 %description -n python-opencv
 OpenCv python bindings.
 
 %files -n python-opencv
 %defattr(-,root,root,-)
-%{py_sitedir}/*
+%python_sitearch/*
 
 #--------------------------------------------------------------------------------
 
@@ -161,10 +153,6 @@ OpenCv docs.
 
 %files doc
 %defattr(-,root,root,-)
-%dir %_datadir/opencv
-%_datadir/opencv/ChangeLog
-%_datadir/opencv/THANKS
-%_datadir/opencv/readme.txt
 %_datadir/opencv/doc
 
 #--------------------------------------------------------------------------------
@@ -178,38 +166,41 @@ OpenCv samples.
 
 %files samples
 %defattr(-,root,root,-)
+%{_bindir}/opencv_createsamples
+%{_bindir}/opencv_haartraining
+%{_bindir}/opencv_performance
+%{_bindir}/opencv_traincascade
 %dir %_datadir/opencv
-%_bindir/opencv-createsamples
-%_bindir/opencv-haartraining
-%_bindir/opencv-performance
 %_datadir/opencv/samples
 %_datadir/opencv/haarcascades
-
+%_datadir/opencv/lbpcascades
 #--------------------------------------------------------------------------------
 
 %prep
-%setup -q
-%patch0 -p1 -b .gcc44
-%patch1 -p1 -b .nooptim
-%patch2 -p1 -b .pydir
-%patch3 -p1 -b .conflicts
-%patch4 -p1 -b .automake
-%patch5 -p1 -b .gcc43
-%patch6 -p0 -b .str
-%patch7 -p0
-%patch8 -p0 -b .swig
+%setup -q -n OpenCV-%{version}
+%patch0 -p0 -b .v4l2
+%patch1 -p0 -b .libdir
+%patch2 -p0 -b .gcc43
 
 %build
-autoreconf -f -i
-%configure2_5x \
-    --enable-static=no \
-    --with-unicap \
-    --with-gstreamer \
-    --with-swig
+%cmake \
+	-DBUILD_EXAMPLES=BOOL:ON \
+	-DINSTALL_C_EXAMPLES=BOOL:ON \
+	-DINSTALL_PYTHON_EXAMPLES=BOOL:ON \
+	-DINSTALL_OCTAVE_EXAMPLES=BOOL:ON
+%make
 
 %install
 rm -rf %{buildroot}
-%makeinstall_std
+%makeinstall_std -C build
+
+%check
+pushd build
+# fwang: to be fixed by upstream:
+# Some correctness tests occasionally fail; in 99% of cases those
+# are known problems in the tests.
+# LD_LIBRARY_PATH=%{buildroot}%{_libdir}:`pwd`/lib:%{_libdir} ctest -V
+popd
 
 %clean
 rm -rf %{buildroot}
