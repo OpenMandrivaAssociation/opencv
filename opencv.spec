@@ -1,30 +1,32 @@
-Name: opencv
-Version: 2.0.0
-Release: %mkrel 1
-Group: Sound
-License: GPLv2+
-Summary: A library of programming functions mainly aimed at real time computer vision
-URL: http://opencv.willowgarage.com/wiki/
-Source: http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
-Patch0: OpenCV-2.0.0-link-v4l2.patch
-Patch1: OpenCV-2.0.0-libdir.patch
-Patch2: OpenCV-2.0.0-gcc-4.3.patch
-BuildRequires: gtk2-devel
-BuildRequires: libgstreamer-devel
-BuildRequires: zlib-devel
-BuildRequires: libjpeg-devel
-BuildRequires: libjasper-devel
-BuildRequires: tiff-devel
-BuildRequires: libv4l-devel
-BuildRequires: libunicap-devel
-BuildRequires: libpng-devel
-BuildRequires: swig
-BuildRequires: cmake
-BuildRequires: python-devel
+Name:		opencv
+Version:	2.0.0
+Release:	%mkrel 2
+Group:		Sciences/Computer science
+License:	GPLv2+
+Summary:	Open Source Computer Vision library
+URL:		http://opencv.willowgarage.com/wiki/
+Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
+Patch0:		OpenCV-2.0.0-link-v4l2.patch
+Patch1:		OpenCV-2.0.0-libdir.patch
+Patch2:		OpenCV-2.0.0-gcc-4.3.patch
+BuildRequires:	cmake
+BuildRequires:	ffmpeg-devel
+BuildRequires:	gtk2-devel
+BuildRequires:	libgstreamer-devel
+BuildRequires:	libjasper-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
+BuildRequires:	libunicap-devel
+BuildRequires:	libv4l-devel
+BuildRequires:	python-devel
+BuildRequires:	swig
+BuildRequires:	tiff-devel
+BuildRequires:	zlib-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-OpenCV (Open Source Computer Vision) is a library of programming functions mainly aimed at real time computer vision.
+OpenCV (Open Source Computer Vision) is a library of programming
+functions for real time computer vision.
 
 #--------------------------------------------------------------------------------
 
@@ -132,7 +134,7 @@ OpenCv development files.
 
 %package -n python-opencv
 Summary: OpenCv python bindings
-Group: Development/Other
+Group: Development/Python
 %py_requires -d
 
 %description -n python-opencv
@@ -187,11 +189,12 @@ OpenCv samples.
 	-DBUILD_EXAMPLES=BOOL:ON \
 	-DINSTALL_C_EXAMPLES=BOOL:ON \
 	-DINSTALL_PYTHON_EXAMPLES=BOOL:ON \
-	-DINSTALL_OCTAVE_EXAMPLES=BOOL:ON
+	-DINSTALL_OCTAVE_EXAMPLES=BOOL:ON \
+	-DWITH_FFMPEG=BOOL:ON
 %make
 
 %install
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 %makeinstall_std -C build
 
 %check
@@ -203,4 +206,4 @@ pushd build
 popd
 
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
