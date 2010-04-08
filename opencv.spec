@@ -1,14 +1,13 @@
 Name:		opencv
-Version:	2.0.0
-Release:	%mkrel 2
+Version:	2.1.0
+Release:	%mkrel 1
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
 Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
 Patch0:		OpenCV-2.0.0-link-v4l2.patch
-Patch1:		OpenCV-2.0.0-libdir.patch
-Patch2:		OpenCV-2.0.0-gcc-4.3.patch
+Patch1:		OpenCV-2.1.0-libdir.patch
 BuildRequires:	cmake
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk2-devel
@@ -182,9 +181,9 @@ OpenCv samples.
 %setup -q -n OpenCV-%{version}
 %patch0 -p0 -b .v4l2
 %patch1 -p0 -b .libdir
-%patch2 -p0 -b .gcc43
 
 %build
+export PYTHONDONTWRITEBYTECODE=
 %cmake \
 	-DBUILD_EXAMPLES=BOOL:ON \
 	-DINSTALL_C_EXAMPLES=BOOL:ON \
@@ -195,6 +194,7 @@ OpenCv samples.
 
 %install
 %__rm -rf %{buildroot}
+export PYTHONDONTWRITEBYTECODE=
 %makeinstall_std -C build
 
 %check
