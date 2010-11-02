@@ -8,6 +8,8 @@ URL:		http://opencv.willowgarage.com/wiki/
 Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
 Patch0:		OpenCV-2.0.0-link-v4l2.patch
 Patch1:		OpenCV-2.1.0-libdir.patch
+Patch2:		OpenCV-2.1.0-ffmpeg.patch
+Patch3:		OpenCV-2.1-nointrernal.patch
 BuildRequires:	cmake
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk2-devel
@@ -21,6 +23,7 @@ BuildRequires:	python-devel
 BuildRequires:	swig
 BuildRequires:	tiff-devel
 BuildRequires:	zlib-devel
+BuildRequires:	lapack-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -181,6 +184,8 @@ OpenCv samples.
 %setup -q -n OpenCV-%{version}
 %patch0 -p0 -b .v4l2
 %patch1 -p0 -b .libdir
+%patch2 -p0 -b .ffmpeg
+%patch3 -p1 -b .internal
 
 %build
 export PYTHONDONTWRITEBYTECODE=
