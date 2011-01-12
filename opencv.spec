@@ -1,16 +1,14 @@
 Name:		opencv
-Version:	2.1.0
-Release:	%mkrel 2
+Version:	2.2.0
+Release:	%mkrel 1
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
-Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.0/OpenCV-%{version}.tar.bz2
+Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.2/OpenCV-%{version}.tar.bz2
 Patch0:		OpenCV-2.0.0-link-v4l2.patch
-Patch1:		OpenCV-2.1.0-libdir.patch
-Patch2:		OpenCV-2.1.0-ffmpeg.patch
-Patch3:		OpenCV-2.1-nointrernal.patch
 BuildRequires:	cmake
+BuildRequires:	pkgconfig
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gtk2-devel
 BuildRequires:	libgstreamer-devel
@@ -20,10 +18,11 @@ BuildRequires:	libpng-devel
 BuildRequires:	libunicap-devel
 BuildRequires:	libv4l-devel
 BuildRequires:	python-devel
-BuildRequires:	swig
+BuildRequires:	OpenEXR-devel
 BuildRequires:	tiff-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lapack-devel
+BuildRequires:	eigen2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -32,98 +31,232 @@ functions for real time computer vision.
 
 #--------------------------------------------------------------------------------
 
-%define libcv_soname 2
-%define libcv %mklibname cv %{libcv_soname}
+%define libopencv_core_soname 2
+%define libopencv_core %mklibname opencv_core %{libopencv_core_soname}
 
-%package -n %{libcv}
-Summary: OpenCv core library
+%package -n %{libopencv_core}
+Summary: OpenCV core library
 Group: System/Libraries
 
-%description -n %{libcv}
-OpenCv core library
+%description -n %{libopencv_core}
+OpenCV core library (basic structures, arithmetics and linear algebra,
+DFT, XML and YAML I/O, etc.).
 
-%files -n %{libcv}
+%files -n %{libopencv_core}
 %defattr(-,root,root,-)
-%_libdir/libcv.so.%{libcv_soname}*
+%_libdir/libopencv_core.so.%{libopencv_core_soname}*
 
 #--------------------------------------------------------------------------------
 
-%define libcvaux_soname 2
-%define libcvaux %mklibname cvaux %{libcvaux_soname}
+%define libopencv_imgproc_soname 2
+%define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
 
-%package -n %{libcvaux}
-Summary: OpenCv core library
+%package -n %{libopencv_imgproc}
+Summary: OpenCV image processing library
 Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
 
-%description -n %{libcvaux}
-OpenCv core library
+%description -n %{libopencv_imgproc}
+OpenCV image processing library (filter, Gaussian blur, erode, dilate,
+resize, remap, etc.).
 
-%files -n %{libcvaux}
+%files -n %{libopencv_imgproc}
 %defattr(-,root,root,-)
-%_libdir/libcvaux.so.%{libcvaux_soname}*
+%_libdir/libopencv_imgproc.so.%{libopencv_imgproc_soname}*
 
 #--------------------------------------------------------------------------------
 
-%define libcxcore_soname 2
-%define libcxcore %mklibname cxcore %{libcxcore_soname}
+%define libopencv_highgui_soname 2
+%define libopencv_highgui %mklibname opencv_highgui %{libopencv_highgui_soname}
 
-%package -n %{libcxcore}
-Summary: OpenCv core library
+%package -n %{libopencv_highgui}
+Summary: OpenCV GUI and image/video I/O library
 Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
 
-%description -n %{libcxcore}
-OpenCv core library
+%description -n %{libopencv_highgui}
+OpenCV GUI and image/video I/O library.
 
-%files -n %{libcxcore}
+%files -n %{libopencv_highgui}
 %defattr(-,root,root,-)
-%_libdir/libcxcore.so.%{libcxcore_soname}*
+%_libdir/libopencv_highgui.so.%{libopencv_highgui_soname}*
 
 #--------------------------------------------------------------------------------
 
-%define libml_soname 2
-%define libml %mklibname ml %{libml_soname}
+%define libopencv_ml_soname 2
+%define libopencv_ml %mklibname opencv_ml %{libopencv_ml_soname}
 
-%package -n %{libml}
-Summary: OpenCv core library
+%package -n %{libopencv_ml}
+Summary: OpenCV machine learning model library
 Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
 
-%description -n %{libml}
-OpenCv core library
+%description -n %{libopencv_ml}
+OpenCV statistical machine learning models (SVM,
+decision trees, boosting, etc.).
 
-%files -n %{libml}
+%files -n %{libopencv_ml}
 %defattr(-,root,root,-)
-%_libdir/libml.so.%{libml_soname}*
+%_libdir/libopencv_ml.so.%{libopencv_ml_soname}*
 
 #--------------------------------------------------------------------------------
 
-%define libhighgui_soname 2
-%define libhighgui %mklibname highgui %{libhighgui_soname}
+%define libopencv_flann_soname 2
+%define libopencv_flann %mklibname opencv_flann %{libopencv_flann_soname}
 
-%package -n %{libhighgui}
-Summary: OpenCv core library
+%package -n %{libopencv_flann}
+Summary: OpenCV FLANN library
 Group: System/Libraries
 
-%description -n %{libhighgui}
-OpenCv core library
+%description -n %{libopencv_flann}
+OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
+(FLANN).
 
-%files -n %{libhighgui}
+%files -n %{libopencv_flann}
 %defattr(-,root,root,-)
-%_libdir/libhighgui.so.%{libhighgui_soname}*
+%_libdir/libopencv_flann.so.%{libopencv_flann_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_calib3d_soname 2
+%define libopencv_calib3d %mklibname opencv_calib3d %{libopencv_calib3d_soname}
+
+%package -n %{libopencv_calib3d}
+Summary: OpenCV camera calibration library
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+
+%description -n %{libopencv_calib3d}
+OpenCV library for camera calibration, stereo correspondence, and
+elements of 3D data processing.
+
+%files -n %{libopencv_calib3d}
+%defattr(-,root,root,-)
+%_libdir/libopencv_calib3d.so.%{libopencv_calib3d_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_features2d_soname 2
+%define libopencv_features2d %mklibname opencv_features2d %{libopencv_features2d_soname}
+
+%package -n %{libopencv_features2d}
+Summary: OpenCV 2D feature detectors
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+Requires: %{libopencv_calib3d} = %{version}-%{release}
+Requires: %{libopencv_highgui} = %{version}-%{release}
+Requires: %{libopencv_flann} = %{version}-%{release}
+
+%description -n %{libopencv_features2d}
+OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
+
+%files -n %{libopencv_features2d}
+%defattr(-,root,root,-)
+%_libdir/libopencv_features2d.so.%{libopencv_features2d_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_video_soname 2
+%define libopencv_video %mklibname opencv_video %{libopencv_video_soname}
+
+%package -n %{libopencv_video}
+Summary: OpenCV motion analysis and object tracking library
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+
+%description -n %{libopencv_video}
+OpenCV motion analysis and object tracking library (optical flow,
+motion templates, background subtraction, etc.).
+
+%files -n %{libopencv_video}
+%defattr(-,root,root,-)
+%_libdir/libopencv_video.so.%{libopencv_video_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_objdetect_soname 2
+%define libopencv_objdetect %mklibname opencv_objdetect %{libopencv_objdetect_soname}
+
+%package -n %{libopencv_objdetect}
+Summary: OpenCV motion analysis and object tracking library
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+Requires: %{libopencv_highgui} = %{version}-%{release}
+
+%description -n %{libopencv_objdetect}
+OpenCV object detection library (Haar and LBP face detectors, HOG
+people detector, etc.).
+
+%files -n %{libopencv_objdetect}
+%defattr(-,root,root,-)
+%_libdir/libopencv_objdetect.so.%{libopencv_objdetect_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_contrib_soname 2
+%define libopencv_contrib %mklibname opencv_contrib %{libopencv_contrib_soname}
+
+%package -n %{libopencv_contrib}
+Summary: OpenCV contributed code library
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+Requires: %{libopencv_calib3d} = %{version}-%{release}
+Requires: %{libopencv_highgui} = %{version}-%{release}
+
+%description -n %{libopencv_contrib}
+OpenCV contributed code library.
+
+%files -n %{libopencv_contrib}
+%defattr(-,root,root,-)
+%_libdir/libopencv_contrib.so.%{libopencv_contrib_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_legacy_soname 2
+%define libopencv_legacy %mklibname opencv_legacy %{libopencv_legacy_soname}
+
+%package -n %{libopencv_legacy}
+Summary: OpenCV legacy library
+Group: System/Libraries
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+Requires: %{libopencv_calib3d} = %{version}-%{release}
+Requires: %{libopencv_highgui} = %{version}-%{release}
+Requires: %{libopencv_video} = %{version}-%{release}
+
+%description -n %{libopencv_legacy}
+OpenCV library containing obsolete legacy code.
+
+%files -n %{libopencv_legacy}
+%defattr(-,root,root,-)
+%_libdir/libopencv_legacy.so.%{libopencv_legacy_soname}*
 
 #--------------------------------------------------------------------------------
 
 %package devel
-Summary: OpenCv development files
+Summary: OpenCV development files
 Group: Development/C
-Provides: libopencv-devel = %version
-Requires: %{libcv}
-Requires: %{libhighgui}
-Requires: %{libcxcore}
-Requires: %{libcvaux}
-Requires: %{libml}
+Provides: libopencv-devel = %{version}-%{release}
+Requires: %{libopencv_core} = %{version}-%{release}
+Requires: %{libopencv_imgproc} = %{version}-%{release}
+Requires: %{libopencv_highgui} = %{version}-%{release}
+Requires: %{libopencv_ml} = %{version}-%{release}
+Requires: %{libopencv_features2d} = %{version}-%{release}
+Requires: %{libopencv_video} = %{version}-%{release}
+Requires: %{libopencv_objdetect} = %{version}-%{release}
+Requires: %{libopencv_calib3d} = %{version}-%{release}
+Requires: %{libopencv_flann} = %{version}-%{release}
+Requires: %{libopencv_contrib} = %{version}-%{release}
+Requires: %{libopencv_legacy} = %{version}-%{release}
 
 %description devel
-OpenCv development files.
+OpenCV development files.
 
 %files devel
 %defattr(-,root,root,-)
@@ -135,12 +268,12 @@ OpenCv development files.
 #--------------------------------------------------------------------------------
 
 %package -n python-opencv
-Summary: OpenCv python bindings
+Summary: OpenCV Python bindings
 Group: Development/Python
 %py_requires -d
 
 %description -n python-opencv
-OpenCv python bindings.
+OpenCV python bindings.
 
 %files -n python-opencv
 %defattr(-,root,root,-)
@@ -149,11 +282,11 @@ OpenCv python bindings.
 #--------------------------------------------------------------------------------
 
 %package doc
-Summary: OpenCv docs
+Summary: OpenCV docs
 Group: Books/Computer books
 
 %description doc
-OpenCv docs.
+OpenCV docs.
 
 %files doc
 %defattr(-,root,root,-)
@@ -162,11 +295,11 @@ OpenCv docs.
 #--------------------------------------------------------------------------------
 
 %package samples
-Summary: OpenCv samples
+Summary: OpenCV sample code
 Group: Books/Computer books
 
 %description samples
-OpenCv samples.
+OpenCV sample code.
 
 %files samples
 %defattr(-,root,root,-)
@@ -183,9 +316,6 @@ OpenCv samples.
 %prep
 %setup -q -n OpenCV-%{version}
 %patch0 -p0 -b .v4l2
-%patch1 -p0 -b .libdir
-%patch2 -p0 -b .ffmpeg
-%patch3 -p1 -b .internal
 
 %build
 export PYTHONDONTWRITEBYTECODE=
@@ -194,13 +324,22 @@ export PYTHONDONTWRITEBYTECODE=
 	-DINSTALL_C_EXAMPLES=BOOL:ON \
 	-DINSTALL_PYTHON_EXAMPLES=BOOL:ON \
 	-DINSTALL_OCTAVE_EXAMPLES=BOOL:ON \
-	-DWITH_FFMPEG=BOOL:ON
+	-DWITH_FFMPEG=BOOL:ON 
 %make
 
 %install
 %__rm -rf %{buildroot}
 export PYTHONDONTWRITEBYTECODE=
 %makeinstall_std -C build
+
+# Since libraries are installed in /usr/lib even when CMAKE_INSTALL_LIBDIR is set,
+# the following workaround is needed:
+%ifarch x86_64
+mv %{buildroot}/usr/lib/ %{buildroot}%{_libdir}
+%endif
+
+# Remove GPU library because it requires CUDA:
+%__rm -rf %{buildroot}%{_libdir}/libopencv_gpu*
 
 %check
 pushd build
