@@ -9,6 +9,7 @@ Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.2/Ope
 Patch0:		OpenCV-2.0.0-link-v4l2.patch
 Patch1:		OpenCV-2.2.0-remove-extra-libs.patch
 Patch2:		OpenCV-2.2-nointernal.patch
+Patch3:		OpenCV-2.2-numpy.patch
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
 BuildRequires:	ffmpeg-devel
@@ -25,6 +26,7 @@ BuildRequires:	tiff-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lapack-devel
 BuildRequires:	eigen2
+BuildRequires:	python-numpy-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -320,9 +322,11 @@ OpenCV sample code.
 %patch0 -p0 -b .v4l2
 %patch1 -p0 -b .libs
 %patch2 -p1 -b .internal
+%patch3 -p1 -b .numpy
 
 cp -p 3rdparty/include/cblas.h 3rdparty
 cp -p 3rdparty/include/clapack.h 3rdparty
+cp -p 3rdparty/include/f2c.h 3rdparty
 
 rm -rf 3rdparty/lapack
 rm -rf 3rdparty/zlib
@@ -335,6 +339,7 @@ rm -rf 3rdparty/include/*
 
 cp -p 3rdparty/cblas.h 3rdparty/include
 cp -p 3rdparty/clapack.h 3rdparty/include
+cp -p 3rdparty/f2c.h 3rdparty/include
 
 %build
 export PYTHONDONTWRITEBYTECODE=
