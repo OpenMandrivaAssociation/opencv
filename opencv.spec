@@ -1,12 +1,14 @@
 Name:		opencv
 Version:	2.2.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
 Source:		http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.2/OpenCV-%{version}.tar.bz2
 Patch0:		OpenCV-2.0.0-link-v4l2.patch
+Patch1:		OpenCV-2.2.0-remove-extra-libs.patch
+Patch2:		OpenCV-2.2-nointernal.patch
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
 BuildRequires:	ffmpeg-devel
@@ -316,6 +318,23 @@ OpenCV sample code.
 %prep
 %setup -q -n OpenCV-%{version}
 %patch0 -p0 -b .v4l2
+%patch1 -p0 -b .libs
+%patch2 -p1 -b .internal
+
+cp -p 3rdparty/include/cblas.h 3rdparty
+cp -p 3rdparty/include/clapack.h 3rdparty
+
+rm -rf 3rdparty/lapack
+rm -rf 3rdparty/zlib
+rm -rf 3rdparty/libjasper
+rm -rf 3rdparty/libpng
+rm -rf 3rdparty/libjpeg
+rm -rf 3rdparty/libtiff
+rm -rf 3rdparty/ilmimf
+rm -rf 3rdparty/include/*
+
+cp -p 3rdparty/cblas.h 3rdparty/include
+cp -p 3rdparty/clapack.h 3rdparty/include
 
 %build
 export PYTHONDONTWRITEBYTECODE=
