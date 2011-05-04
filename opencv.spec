@@ -1,6 +1,6 @@
 Name:		opencv
 Version:	2.2.0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
