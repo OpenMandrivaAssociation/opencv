@@ -11,6 +11,8 @@ Patch1:		OpenCV-2.2.0-remove-extra-libs.patch
 Patch2:		OpenCV-2.2-nointernal.patch
 Patch3:		OpenCV-2.2-numpy.patch
 Patch4:		OpenCV-2.2-gcc46.patch
+Patch5:		OpenCV-2.2.0-ffmpeg.diff
+Patch6:		OpenCV-2.2.0-libpng15.diff
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
 BuildRequires:	ffmpeg-devel
@@ -325,6 +327,8 @@ OpenCV sample code.
 %patch2 -p1 -b .internal
 %patch3 -p1 -b .numpy
 %patch4 -p1 -b .gcc
+%patch5 -p0 -b .ffmpeg
+%patch6 -p0 -b .libpng15
 
 cp -p 3rdparty/include/cblas.h 3rdparty
 cp -p 3rdparty/include/clapack.h 3rdparty
