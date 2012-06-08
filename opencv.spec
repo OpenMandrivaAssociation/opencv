@@ -1,6 +1,6 @@
 Name:		opencv
 Version:	2.4.0
-Release:	1
+Release:	2
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
@@ -360,6 +360,11 @@ OpenCV sample code.
 %setup -q -n OpenCV-%{version}
 %patch0 -p0
 
+# Fix source files having executable permissions
+find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
+# And scripts lacking them
+find . -name "*.sh" |xargs chmod 0755
+
 %build
 export PYTHONDONTWRITEBYTECODE=
 %cmake \
@@ -380,3 +385,7 @@ export PYTHONDONTWRITEBYTECODE=
 %{buildroot}%{_libdir}/libopencv_stitching*  %{buildroot}%{_libdir}/libopencv_videostab*
 
 sed -i -e 's/opencv_gpu;//' -e 's/opencv_videostab;//' -e 's/opencv_stitching;//' %{buildroot}%{_datadir}/OpenCV/OpenCVConfig.cmake
+sed -i -e 's,\${exec_prefix}/%_lib/libopencv_gpu.so ,,;s,\${exec_prefix}/%_lib/libopencv_stitching.so ,,;s, \${exec_prefix}/%_lib/libopencv_videostab.so,,' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+
+# Requesting libraries by filename is just bogus...
+sed -i -e 's,\${exec_prefix}/%_lib/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
