@@ -1,11 +1,11 @@
 Name:		opencv
-Version:	2.4.0
-Release:	2
+Version:	2.4.2
+Release:	1
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
-Source0:		http://downloads.sourceforge.net/opencvlibrary/OpenCV-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/opencvlibrary/OpenCV-%{version}.tar.bz2
 Patch0:		OpenCV-2.3.0-link-v4l2.patch
 BuildRequires:	cmake
 BuildRequires:  pkgconfig(gstreamer-app-0.10)
@@ -358,7 +358,7 @@ OpenCV sample code.
 
 %prep
 %setup -q -n OpenCV-%{version}
-%patch0 -p0
+#%patch0 -p0
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
