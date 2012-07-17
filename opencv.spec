@@ -6,7 +6,7 @@ License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
 Source0:	http://downloads.sourceforge.net/opencvlibrary/OpenCV-%{version}.tar.bz2
-Patch0:		OpenCV-2.3.0-link-v4l2.patch
+Patch0:		OpenCV-2.4.2-link-v4l2.patch
 BuildRequires:	cmake
 BuildRequires:  pkgconfig(gstreamer-app-0.10)
 BuildRequires:  pkgconfig(gstreamer-base-0.10)
@@ -350,15 +350,15 @@ OpenCV sample code.
 %{_bindir}/opencv_haartraining
 %{_bindir}/opencv_performance
 %{_bindir}/opencv_traincascade
-%dir %_datadir/opencv
-%_datadir/opencv/samples
+%dir %_datadir/OpenCV
+%_datadir/OpenCV/samples
 %_datadir/OpenCV/haarcascades
 %_datadir/OpenCV/lbpcascades
 #--------------------------------------------------------------------------------
 
 %prep
 %setup -q -n OpenCV-%{version}
-#%patch0 -p0
+%patch0 -p1
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
