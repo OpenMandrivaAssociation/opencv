@@ -1,0 +1,12 @@
+diff --git a/cmake/OpenCVFindLibsVideo.cmake b/cmake/OpenCVFindLibsVideo.cmake
+index 41bfc65..8bb7ed5 100644
+--- a/cmake/OpenCVFindLibsVideo.cmake
++++ b/cmake/OpenCVFindLibsVideo.cmake
+@@ -75,6 +75,7 @@ endif(WITH_XINE)
+ ocv_clear_vars(HAVE_LIBV4L HAVE_CAMV4L HAVE_CAMV4L2)
+ if(WITH_V4L)
+   CHECK_MODULE(libv4l1 HAVE_LIBV4L)
++  CHECK_MODULE(libv4l2 HAVE_LIBV4L)
+   CHECK_INCLUDE_FILE(linux/videodev.h HAVE_CAMV4L)
+   CHECK_INCLUDE_FILE(linux/videodev2.h HAVE_CAMV4L2)
+ endif(WITH_V4L)
