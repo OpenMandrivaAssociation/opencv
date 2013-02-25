@@ -311,7 +311,7 @@ motion templates, background subtraction, etc.).
 %package	devel
 Summary:	OpenCV development files
 Group:		Development/C
-Provides:	libopencv-devel = %{EVRD}
+Provides:	opencv-devel = %{EVRD}
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
 Requires:	%{libopencv_highgui} = %{EVRD}
