@@ -23,11 +23,11 @@ BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(python2)
-BuildRequires:	OpenEXR-devel
+BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(lapack)
-BuildRequires:	eigen2
+BuildRequires:	pkgconfig(eigen2)
 BuildRequires:	python-numpy-devel
 
 %description
