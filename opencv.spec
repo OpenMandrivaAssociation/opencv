@@ -36,12 +36,14 @@ functions for real time computer vision.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_core_soname 2
+%define libopencv_core_soname 2.4
 %define libopencv_core %mklibname opencv_core %{libopencv_core_soname}
+%define wrongcore %mklibname opencv_core 2
 
 %package -n %{libopencv_core}
 Summary: OpenCV core library
 Group: System/Libraries
+%rename	%{wrongcore}
 
 %description -n %{libopencv_core}
 OpenCV core library (basic structures, arithmetics and linear algebra,
@@ -53,13 +55,15 @@ DFT, XML and YAML I/O, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_imgproc_soname 2
+%define libopencv_imgproc_soname 2.4
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
+%define wrongimgproc %mklibname opencv_imgproc 2
 
 %package -n %{libopencv_imgproc}
 Summary: OpenCV image processing library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
+%rename	%{wrongimgproc}
 
 %description -n %{libopencv_imgproc}
 OpenCV image processing library (filter, Gaussian blur, erode, dilate,
@@ -70,14 +74,16 @@ resize, remap, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_highgui_soname 2
+%define libopencv_highgui_soname 2.4
 %define libopencv_highgui %mklibname opencv_highgui %{libopencv_highgui_soname}
+%define wronghighgui %mklibname opencv_highgui 2
 
 %package -n %{libopencv_highgui}
 Summary: OpenCV GUI and image/video I/O library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
 Requires: %{libopencv_imgproc} = %{version}-%{release}
+%rename	%{wronghighgui}
 
 %description -n %{libopencv_highgui}
 OpenCV GUI and image/video I/O library.
@@ -87,13 +93,15 @@ OpenCV GUI and image/video I/O library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ml_soname 2
+%define libopencv_ml_soname 2.4
 %define libopencv_ml %mklibname opencv_ml %{libopencv_ml_soname}
+%define wrongml %mklibname opencv_ml 2
 
 %package -n %{libopencv_ml}
 Summary: OpenCV machine learning model library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
+%rename	%{wrongml}
 
 %description -n %{libopencv_ml}
 OpenCV statistical machine learning models (SVM,
@@ -104,13 +112,15 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ts_soname 2
+%define libopencv_ts_soname 2.4
 %define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
+%define wrongts %mklibname opencv_ts 2
 
 %package -n %{libopencv_ts}
 Summary: OpenCV Base test library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
+%rename	%{wrongts}
 
 %description -n %{libopencv_ts}
 OpenCV Base test library.
@@ -120,12 +130,14 @@ OpenCV Base test library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_flann_soname 2
+%define libopencv_flann_soname 2.4
 %define libopencv_flann %mklibname opencv_flann %{libopencv_flann_soname}
+%define wrongflann %mklibname opencv_flann 2
 
 %package -n %{libopencv_flann}
 Summary: OpenCV FLANN library
 Group: System/Libraries
+%rename	%{wrongflann}
 
 %description -n %{libopencv_flann}
 OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
@@ -136,14 +148,16 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_calib3d_soname 2
+%define libopencv_calib3d_soname 2.4
 %define libopencv_calib3d %mklibname opencv_calib3d %{libopencv_calib3d_soname}
+%define wrongcalib3d %mklibname opencv_calib3d 2
 
 %package -n %{libopencv_calib3d}
 Summary: OpenCV camera calibration library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
 Requires: %{libopencv_imgproc} = %{version}-%{release}
+%rename	%{wrongcalib3d}
 
 %description -n %{libopencv_calib3d}
 OpenCV library for camera calibration, stereo correspondence, and
@@ -154,8 +168,9 @@ elements of 3D data processing.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_features2d_soname 2
+%define libopencv_features2d_soname 2.4
 %define libopencv_features2d %mklibname opencv_features2d %{libopencv_features2d_soname}
+%define wrongfeatures2d %mklibname opencv_features2d 2
 
 %package -n %{libopencv_features2d}
 Summary: OpenCV 2D feature detectors
@@ -165,6 +180,7 @@ Requires: %{libopencv_imgproc} = %{version}-%{release}
 Requires: %{libopencv_calib3d} = %{version}-%{release}
 Requires: %{libopencv_highgui} = %{version}-%{release}
 Requires: %{libopencv_flann} = %{version}-%{release}
+%rename	%{wrongfeatures2d}
 
 %description -n %{libopencv_features2d}
 OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
@@ -174,14 +190,16 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_video_soname 2
+%define libopencv_video_soname 2.4
 %define libopencv_video %mklibname opencv_video %{libopencv_video_soname}
+%define wrongvideo %mklibname opencv_video 2
 
 %package -n %{libopencv_video}
 Summary: OpenCV motion analysis and object tracking library
 Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
 Requires: %{libopencv_imgproc} = %{version}-%{release}
+%rename	%{wrongvideo}
 
 %description -n %{libopencv_video}
 OpenCV motion analysis and object tracking library (optical flow,
@@ -192,8 +210,9 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_objdetect_soname 2
+%define libopencv_objdetect_soname 2.4
 %define libopencv_objdetect %mklibname opencv_objdetect %{libopencv_objdetect_soname}
+%define wrongobjdetect %mklibname opencv_objdetect 2
 
 %package -n %{libopencv_objdetect}
 Summary: OpenCV motion analysis and object tracking library
@@ -201,6 +220,7 @@ Group: System/Libraries
 Requires: %{libopencv_core} = %{version}-%{release}
 Requires: %{libopencv_imgproc} = %{version}-%{release}
 Requires: %{libopencv_highgui} = %{version}-%{release}
+%rename	%{wrongobjdetect}
 
 %description -n %{libopencv_objdetect}
 OpenCV object detection library (Haar and LBP face detectors, HOG
@@ -211,8 +231,9 @@ people detector, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_contrib_soname 2
+%define libopencv_contrib_soname 2.4
 %define libopencv_contrib %mklibname opencv_contrib %{libopencv_contrib_soname}
+%define wrongcontrib %mklibname opencv_contrib 2
 
 %package -n %{libopencv_contrib}
 Summary: OpenCV contributed code library
@@ -221,6 +242,7 @@ Requires: %{libopencv_core} = %{version}-%{release}
 Requires: %{libopencv_imgproc} = %{version}-%{release}
 Requires: %{libopencv_calib3d} = %{version}-%{release}
 Requires: %{libopencv_highgui} = %{version}-%{release}
+%rename	%{wrongcontrib}
 
 %description -n %{libopencv_contrib}
 OpenCV contributed code library.
@@ -230,8 +252,9 @@ OpenCV contributed code library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_legacy_soname 2
+%define libopencv_legacy_soname 2.4
 %define libopencv_legacy %mklibname opencv_legacy %{libopencv_legacy_soname}
+%define wronglegacy %mklibname opencv_legacy 2
 
 %package -n %{libopencv_legacy}
 Summary: OpenCV legacy library
@@ -241,6 +264,7 @@ Requires: %{libopencv_imgproc} = %{version}-%{release}
 Requires: %{libopencv_calib3d} = %{version}-%{release}
 Requires: %{libopencv_highgui} = %{version}-%{release}
 Requires: %{libopencv_video} = %{version}-%{release}
+%rename	%{wronglegacy}
 
 %description -n %{libopencv_legacy}
 OpenCV library containing obsolete legacy code.
@@ -250,12 +274,14 @@ OpenCV library containing obsolete legacy code.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_nonfree_soname 2
+%define libopencv_nonfree_soname 2.4
 %define libopencv_nonfree %mklibname opencv_nonfree %{libopencv_nonfree_soname}
+%define wrongnonfree %mklibname opencv_nonfree 2
 
 %package -n %{libopencv_nonfree}
 Summary: OpenCV motion analysis and object tracking library
 Group: System/Libraries
+%rename	%{wrongnonfree}
 
 %description -n %{libopencv_nonfree}
 OpenCV motion analysis and object tracking library (optical flow,
@@ -266,12 +292,14 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_photo_soname 2
+%define libopencv_photo_soname 2.4
 %define libopencv_photo %mklibname opencv_photo %{libopencv_photo_soname}
+%define wrongphoto %mklibname opencv_photo 2
 
 %package -n %{libopencv_photo}
 Summary: OpenCV motion analysis and object tracking library
 Group: System/Libraries
+%rename	%{wrongphoto}
 
 %description -n %{libopencv_photo}
 OpenCV motion analysis and object tracking library (optical flow,
