@@ -18,15 +18,15 @@ BuildRequires:  pkgconfig(gtk+-2.0)
 #BuildRequires:  pkgconfig(libavutil)
 BuildRequires:  pkgconfig(libdc1394-2)
 #BuildRequires:  pkgconfig(libswscale)
-BuildRequires:	libjasper-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	libpng-devel
-BuildRequires:	libv4l-devel
-BuildRequires:	python-devel
+BuildRequires:	pkgconfig(jasper)
+BuildRequires:	jpeg-devel
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(libv4l2)
+BuildRequires:	pkgconfig(python2)
 BuildRequires:	OpenEXR-devel
-BuildRequires:	tiff-devel
-BuildRequires:	zlib-devel
-BuildRequires:	lapack-devel
+BuildRequires:	pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(lapack)
 BuildRequires:	eigen2
 BuildRequires:	python-numpy-devel
 
