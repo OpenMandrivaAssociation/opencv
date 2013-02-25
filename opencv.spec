@@ -389,3 +389,5 @@ sed -i -e 's,\${exec_prefix}/%_lib/libopencv_gpu.so ,,;s,\${exec_prefix}/%_lib/l
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%_lib/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+
+mv %{buildroot}%{_datadir}/opencv/samples/* %{buildroot}%{_datadir}/OpenCV/samples/
