@@ -1,11 +1,11 @@
 Name:		opencv
-Version:	2.4.3
+Version:	2.4.5
 Release:	1
 Group:		Sciences/Computer science
 License:	GPLv2+
 Summary:	Open Source Computer Vision library
 URL:		http://opencv.willowgarage.com/wiki/
-Source0:	http://downloads.sourceforge.net/opencvlibrary/OpenCV-%{version}.tar.bz2
+Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%version/opencv-%version.tar.gz
 Patch0:		OpenCV-2.4.2-link-v4l2.patch
 BuildRequires:	cmake
 BuildRequires:	pkgconfig(gstreamer-app-0.10)
@@ -13,11 +13,11 @@ BuildRequires:	pkgconfig(gstreamer-base-0.10)
 BuildRequires:	pkgconfig(gstreamer-video-0.10)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
-#BuildRequires:	pkgconfig(libavcodec)
-#BuildRequires:	pkgconfig(libavformat)
-#BuildRequires:	pkgconfig(libavutil)
+BuildRequires:	pkgconfig(libavcodec)
+BuildRequires:	pkgconfig(libavformat)
+BuildRequires:	pkgconfig(libavutil)
 BuildRequires:	pkgconfig(libdc1394-2)
-#BuildRequires:	pkgconfig(libswscale)
+BuildRequires:	pkgconfig(libswscale)
 BuildRequires:	pkgconfig(jasper)
 BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(libpng)
@@ -28,7 +28,15 @@ BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(eigen2)
+BuildRequires:	pkgconfig(glu)
 BuildRequires:	python-numpy-devel
+# Java bindings
+BuildRequires:	java-1.6.0-openjdk-devel
+BuildRequires:	ant
+# Qt 4.x module
+BuildRequires:	pkgconfig(QtCore) pkgconfig(QtGui) pkgconfig(QtOpenGL) pkgconfig(QtTest)
+# Documentation generation
+BuildRequires:	python-sphinx latex2html
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
@@ -185,6 +193,23 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 %files -n	%{libopencv_features2d}
 %{_libdir}/libopencv_features2d.so.%{libopencv_features2d_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_superres_soname 2.4
+%define libopencv_superres %mklibname opencv_superres %{libopencv_superres_soname}
+
+%package -n	%{libopencv_superres}
+Summary:	OpenCV super-resolution support
+Group:		System/Libraries
+Requires:	%{libopencv_core} = %{EVRD}
+
+%description -n	%{libopencv_superres}
+Super-resolution support for OpenCV
+
+%files -n	%{libopencv_superres}
+%{_libdir}/libopencv_superres.so.%{libopencv_superres_soname}*
+
 
 #--------------------------------------------------------------------------------
 
@@ -380,9 +405,19 @@ OpenCV sample code.
 %{_datadir}/OpenCV/lbpcascades
 #--------------------------------------------------------------------------------
 
+%package	java
+Summary:	Java bindings for OpenCV
+Group:		Sciences/Computer science
+
+%description	java
+Java bindings for OpenCV
+
+%files		java
+%_datadir/OpenCV/java
+
 %prep
-%setup -q -n OpenCV-%{version}
-%patch0 -p1
+%setup -q
+%apply_patches
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
@@ -391,12 +426,15 @@ find . -name "*.sh" |xargs chmod 0755
 
 %build
 %cmake \
-	-DBUILD_EXAMPLES=BOOL:ON \
-	-DINSTALL_C_EXAMPLES=BOOL:ON \
-	-DINSTALL_PYTHON_EXAMPLES=BOOL:ON \
-	-DINSTALL_OCTAVE_EXAMPLES=BOOL:ON \
+	-DBUILD_EXAMPLES:BOOL=ON \
+	-DINSTALL_C_EXAMPLES:BOOL=ON \
+	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
+	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
 	-DPYTHON_PACKAGES_PATH=%{python_sitearch} \
-	-DWITH_FFMPEG=BOOL:OFF
+	-DWITH_FFMPEG:BOOL=ON \
+	-DWITH_OPENGL:BOOL=ON \
+	-DWITH_TIFF:BOOL=ON \
+	-DWITH_QT:BOOL=ON
 %make
 
 %install
