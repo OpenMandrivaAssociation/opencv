@@ -1,3 +1,7 @@
+%ifnarch %arm %mips
+%bcond_without	java
+%endif
+
 Name:		opencv
 Version:	2.4.5
 Release:	1
@@ -30,9 +34,11 @@ BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(eigen2)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	python-numpy-devel
+%if %{with java}
 # Java bindings
 BuildRequires:	java-1.6.0-openjdk-devel
 BuildRequires:	ant
+%endif
 # Qt 4.x module
 BuildRequires:	pkgconfig(QtCore) pkgconfig(QtGui) pkgconfig(QtOpenGL) pkgconfig(QtTest)
 # Documentation generation
@@ -405,6 +411,7 @@ OpenCV sample code.
 %{_datadir}/OpenCV/lbpcascades
 #--------------------------------------------------------------------------------
 
+%if %{with java}
 %package	java
 Summary:	Java bindings for OpenCV
 Group:		Sciences/Computer science
@@ -414,6 +421,7 @@ Java bindings for OpenCV
 
 %files		java
 %_datadir/OpenCV/java
+%endif
 
 %prep
 %setup -q
