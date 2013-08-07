@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.6.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -390,6 +390,7 @@ Requires:	%{libopencv_legacy} = %{EVRD}
 Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_nonfree} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
+Requires:	%{libopencv_superres} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 
