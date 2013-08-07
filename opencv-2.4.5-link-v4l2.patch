@@ -1,6 +1,6 @@
---- opencv-2.4.5/cmake/OpenCVFindLibsVideo.cmake.orig	2013-06-15 20:37:25.119219358 +0200
-+++ opencv-2.4.5/cmake/OpenCVFindLibsVideo.cmake	2013-06-15 20:42:45.479214307 +0200
-@@ -97,6 +97,7 @@ endif(WITH_XINE)
+--- opencv-2.4.5/cmake/OpenCVFindLibsVideo.cmake.orig	2013-04-05 11:00:20.000000000 +0200
++++ opencv-2.4.5/cmake/OpenCVFindLibsVideo.cmake	2013-05-26 21:51:06.103972542 +0200
+@@ -97,6 +97,7 @@
  ocv_clear_vars(HAVE_LIBV4L HAVE_CAMV4L HAVE_CAMV4L2 HAVE_VIDEOIO)
  if(WITH_V4L)
    CHECK_MODULE(libv4l1 HAVE_LIBV4L)

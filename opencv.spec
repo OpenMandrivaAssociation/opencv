@@ -1,38 +1,38 @@
-%ifnarch %arm %mips
+%ifnarch %{arm} %{mips}
 %bcond_without	java
 %endif
 
-Name:		opencv
-Version:	2.4.5
-Release:	2
-Group:		Sciences/Computer science
-License:	GPLv2+
 Summary:	Open Source Computer Vision library
-URL:		http://opencv.willowgarage.com/wiki/
-Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%version/opencv-%version.tar.gz
-Patch0:		OpenCV-2.4.2-link-v4l2.patch
+Name:		opencv
+Version:	2.4.6.1
+Release:	1
+License:	GPLv2+
+Group:		Sciences/Computer science
+Url:		http://opencv.org/
+Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%{version}/%{name}-%{version}.tar.gz
+Patch0:		opencv-2.4.5-link-v4l2.patch
 BuildRequires:	cmake
+BuildRequires:	pkgconfig(eigen2)
+BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gstreamer-app-0.10)
 BuildRequires:	pkgconfig(gstreamer-base-0.10)
 BuildRequires:	pkgconfig(gstreamer-video-0.10)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(jasper)
+BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(libavcodec)
 BuildRequires:	pkgconfig(libavformat)
 BuildRequires:	pkgconfig(libavutil)
 BuildRequires:	pkgconfig(libdc1394-2)
-BuildRequires:	pkgconfig(libswscale)
-BuildRequires:	pkgconfig(jasper)
-BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(libv4l2)
-BuildRequires:	pkgconfig(python2)
-BuildRequires:	pkgconfig(OpenEXR)
+BuildRequires:	pkgconfig(libswscale)
 BuildRequires:	pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(libv4l2)
+BuildRequires:	pkgconfig(OpenEXR)
+BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
-BuildRequires:	pkgconfig(lapack)
-BuildRequires:	pkgconfig(eigen2)
-BuildRequires:	pkgconfig(glu)
+BuildRequires:	jpeg-devel
 BuildRequires:	python-numpy-devel
 %if %{with java}
 # Java bindings
@@ -211,11 +211,10 @@ Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
 %description -n	%{libopencv_superres}
-Super-resolution support for OpenCV
+Super-resolution support for OpenCV.
 
 %files -n	%{libopencv_superres}
 %{_libdir}/libopencv_superres.so.%{libopencv_superres_soname}*
-
 
 #--------------------------------------------------------------------------------
 
@@ -339,6 +338,40 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
+%define libopencv_stitching_soname 2.4
+%define libopencv_stitching %mklibname opencv_stitching %{libopencv_stitching_soname}
+
+%package -n %{libopencv_stitching}
+Summary:	OpenCV Stitching Pipeline
+Group:		System/Libraries
+
+%description -n %{libopencv_stitching}
+This figure illustrates the stitching module pipeline implemented in the
+:ocv:class:`Stitcher` class. Using that class it's possible to configure/remove
+some steps, i.e. adjust the stitching pipeline according to the particular
+needs. All building blocks from the pipeline are available in the ``detail``
+namespace, one can combine and use them separately.
+
+%files -n %{libopencv_stitching}
+%{_libdir}/libopencv_stitching.so.%{libopencv_stitching_soname}*
+
+#--------------------------------------------------------------------------------
+
+%define libopencv_videostab_soname 2.4
+%define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
+
+%package -n %{libopencv_videostab}
+Summary:	OpenCV Video stabilization
+Group:		System/Libraries
+
+%description -n %{libopencv_videostab}
+OpenCV Video stabilization module.
+
+%files -n %{libopencv_videostab}
+%{_libdir}/libopencv_videostab.so.%{libopencv_videostab_soname}*
+
+#--------------------------------------------------------------------------------
+
 %package	devel
 Summary:	OpenCV development files
 Group:		Development/C
@@ -357,6 +390,8 @@ Requires:	%{libopencv_legacy} = %{EVRD}
 Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_nonfree} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
+Requires:	%{libopencv_videostab} = %{EVRD}
+Requires:	%{libopencv_stitching} = %{EVRD}
 
 %description	devel
 OpenCV development files.
@@ -420,7 +455,7 @@ Group:		Sciences/Computer science
 Java bindings for OpenCV
 
 %files		java
-%_datadir/OpenCV/java
+%{_datadir}/OpenCV/java
 %endif
 
 %prep
@@ -443,20 +478,14 @@ find . -name "*.sh" |xargs chmod 0755
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
-	-DWITH_QT:BOOL=ON
+	-DWITH_QT:BOOL=ON \
+	-DWITH_CUDA:BOOL=OFF
 %make
 
 %install
 %makeinstall_std -C build
 
-# Remove GPU library because it requires CUDA:
-rm -rf %{buildroot}%{_libdir}/libopencv_gpu* %{buildroot}%{_bindir}/opencv_stitching \
-%{buildroot}%{_libdir}/libopencv_stitching*  %{buildroot}%{_libdir}/libopencv_videostab*
-
-sed -i -e 's/opencv_gpu;//' -e 's/opencv_videostab;//' -e 's/opencv_stitching;//' %{buildroot}%{_datadir}/OpenCV/OpenCVConfig.cmake
-sed -i -e 's,\${exec_prefix}/%{_lib}/libopencv_gpu.so ,,;s,\${exec_prefix}/%{_lib}/libopencv_stitching.so ,,;s, \${exec_prefix}/%{_lib}/libopencv_videostab.so,,' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
-
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
 
-mv %{buildroot}%{_datadir}/opencv/samples/* %{buildroot}%{_datadir}/OpenCV/samples/
+mv -f %{buildroot}%{_datadir}/opencv/samples/* %{buildroot}%{_datadir}/OpenCV/samples/
