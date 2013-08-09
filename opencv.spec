@@ -12,6 +12,8 @@ Url:		http://opencv.org/
 Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%{version}/%{name}-%{version}.tar.gz
 Patch0:		opencv-2.4.5-link-v4l2.patch
 BuildRequires:	cmake
+BuildRequires:	jpeg-devel
+BuildRequires:	python-numpy-devel
 BuildRequires:	pkgconfig(eigen2)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gstreamer-app-0.10)
@@ -32,17 +34,19 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
-BuildRequires:	jpeg-devel
-BuildRequires:	python-numpy-devel
 %if %{with java}
 # Java bindings
 BuildRequires:	java-1.6.0-openjdk-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
-BuildRequires:	pkgconfig(QtCore) pkgconfig(QtGui) pkgconfig(QtOpenGL) pkgconfig(QtTest)
+BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(QtGui)
+BuildRequires:	pkgconfig(QtOpenGL)
+BuildRequires:	pkgconfig(QtTest)
 # Documentation generation
-BuildRequires:	python-sphinx latex2html
+BuildRequires:	python-sphinx
+BuildRequires:	latex2html
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
