@@ -4,8 +4,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.6.1
-Release:	2
+Version:	2.4.7
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -47,6 +47,13 @@ BuildRequires:	pkgconfig(QtTest)
 # Documentation generation
 BuildRequires:	python-sphinx
 BuildRequires:	latex2html
+
+%define last_libopencv_ts_soname 2.4
+%define last_libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
+%define wrongts %mklibname opencv_ts 2
+
+Obsoletes: %{last_libopencv_ts} < %{EVRD}
+Obsoletes: %{wrongts} < %{EVRD}
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
@@ -128,21 +135,19 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ts_soname 2.4
-%define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
-%define wrongts %mklibname opencv_ts 2
+%define libopencv_ocl_soname 2.4
+%define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
 
-%package -n	%{libopencv_ts}
-Summary:	OpenCV Base test library
+%package -n	%{libopencv_ocl}
+Summary:	OpenCV OCL library
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
-%rename		%{wrongts}
 
-%description -n %{libopencv_ts}
-OpenCV Base test library.
+%description -n	%{libopencv_ocl}
+OpenCV OCL library
 
-%files -n	%{libopencv_ts}
-%{_libdir}/libopencv_ts.so.%{libopencv_ts_soname}*
+%files -n	%{libopencv_ocl}
+%{_libdir}/libopencv_ocl.so.%{libopencv_ocl_soname}*
 
 #--------------------------------------------------------------------------------
 
@@ -391,7 +396,6 @@ Requires:	%{libopencv_calib3d} = %{EVRD}
 Requires:	%{libopencv_flann} = %{EVRD}
 Requires:	%{libopencv_contrib} = %{EVRD}
 Requires:	%{libopencv_legacy} = %{EVRD}
-Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_nonfree} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_superres} = %{EVRD}
@@ -403,6 +407,7 @@ OpenCV development files.
 
 %files		devel
 %{_libdir}/*.so
+%{_libdir}/libopencv_ts.a
 %{_includedir}/*
 %{_libdir}/pkgconfig/*
 %{_datadir}/OpenCV/*.cmake
@@ -492,5 +497,3 @@ find . -name "*.sh" |xargs chmod 0755
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
-
-mv -f %{buildroot}%{_datadir}/opencv/samples/* %{buildroot}%{_datadir}/OpenCV/samples/
