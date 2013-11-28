@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.7
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -36,7 +36,7 @@ BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
 %if %{with java}
 # Java bindings
-BuildRequires:	java-1.6.0-openjdk-devel
+BuildRequires:	java-1.7.0-openjdk-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
