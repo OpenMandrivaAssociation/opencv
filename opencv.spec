@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.7
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -496,4 +496,4 @@ find . -name "*.sh" |xargs chmod 0755
 %makeinstall_std -C build
 
 # Requesting libraries by filename is just bogus...
-sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
