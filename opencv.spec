@@ -10,6 +10,7 @@ License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%{version}/%{name}-%{version}.tar.gz
+Source100:	%name.rpmlintrc
 Patch0:		opencv-2.4.5-link-v4l2.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
