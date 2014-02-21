@@ -4,12 +4,12 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.7
-Release:	8
+Version:	2.4.8
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/Itseez/opencv/archive/2.4.8.tar.gz
 Source100:	%name.rpmlintrc
 Patch0:		opencv-2.4.5-link-v4l2.patch
 BuildRequires:	cmake
@@ -422,7 +422,7 @@ Group:		Development/Python
 OpenCV python bindings.
 
 %files -n	python-opencv
-%{python_sitearch}/*
+%{py_platsitedir}/*
 
 #--------------------------------------------------------------------------------
 
@@ -485,7 +485,7 @@ find . -name "*.sh" |xargs chmod 0755
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
-	-DPYTHON_PACKAGES_PATH=%{python_sitearch} \
+	-DPYTHON_PACKAGES_PATH=%{py_platsitedir} \
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
@@ -498,3 +498,4 @@ find . -name "*.sh" |xargs chmod 0755
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+
