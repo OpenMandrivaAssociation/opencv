@@ -36,7 +36,7 @@ BuildRequires:	pkgconfig(glu)
 BuildRequires:	python-numpy-devel
 %if %{with java}
 # Java bindings
-BuildRequires:	java-1.6.0-openjdk-devel
+BuildRequires:	java-1.7.0-openjdk-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
