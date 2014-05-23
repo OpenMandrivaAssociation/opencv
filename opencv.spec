@@ -3,6 +3,7 @@
 %endif
 
 Summary:	Open Source Computer Vision library
+
 Name:		opencv
 Version:	2.4.9
 Release:	2
@@ -71,6 +72,7 @@ functions for real time computer vision.
 
 %package -n	%{libopencv_core}
 Summary:	OpenCV core library
+
 Group:		System/Libraries
 %rename		%{wrongcore}
 
@@ -88,6 +90,7 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 %package -n	%{libopencv_ts}
 Summary:	OpenCV Base test library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongts}
@@ -105,6 +108,7 @@ OpenCV Base test library.
 
 %package -n	%{libopencv_imgproc}
 Summary:	OpenCV image processing library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongimgproc}
@@ -124,6 +128,7 @@ resize, remap, etc.).
 
 %package -n	%{libopencv_highgui}
 Summary:	OpenCV GUI and image/video I/O library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -143,6 +148,7 @@ OpenCV GUI and image/video I/O library.
 
 %package -n	%{libopencv_ml}
 Summary:	OpenCV machine learning model library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongml}
@@ -161,6 +167,7 @@ decision trees, boosting, etc.).
 
 %package -n	%{libopencv_ocl}
 Summary:	OpenCV OCL library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
@@ -178,6 +185,7 @@ OpenCV OCL library
 
 %package -n	%{libopencv_flann}
 Summary:	OpenCV FLANN library
+
 Group:		System/Libraries
 %rename		%{wrongflann}
 
@@ -196,6 +204,7 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 %package -n	%{libopencv_calib3d}
 Summary:	OpenCV camera calibration library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -216,6 +225,7 @@ elements of 3D data processing.
 
 %package -n	%{libopencv_features2d}
 Summary:	OpenCV 2D feature detectors
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -237,6 +247,7 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 %package -n	%{libopencv_superres}
 Summary:	OpenCV super-resolution support
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
@@ -254,6 +265,7 @@ Super-resolution support for OpenCV.
 
 %package -n	%{libopencv_video}
 Summary:	OpenCV motion analysis and object tracking library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -274,6 +286,7 @@ motion templates, background subtraction, etc.).
 
 %package -n	%{libopencv_objdetect}
 Summary:	OpenCV motion analysis and object tracking library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -295,6 +308,7 @@ people detector, etc.).
 
 %package -n	%{libopencv_contrib}
 Summary:	OpenCV contributed code library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -316,6 +330,7 @@ OpenCV contributed code library.
 
 %package -n	%{libopencv_legacy}
 Summary:	OpenCV legacy library
+
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -338,6 +353,7 @@ OpenCV library containing obsolete legacy code.
 
 %package -n	%{libopencv_nonfree}
 Summary:	OpenCV motion analysis and object tracking library
+
 Group:		System/Libraries
 %rename		%{wrongnonfree}
 
@@ -356,6 +372,7 @@ motion templates, background subtraction, etc.).
 
 %package -n	%{libopencv_photo}
 Summary:	OpenCV motion analysis and object tracking library
+
 Group:		System/Libraries
 %rename		%{wrongphoto}
 
@@ -373,6 +390,7 @@ motion templates, background subtraction, etc.).
 
 %package -n %{libopencv_stitching}
 Summary:	OpenCV Stitching Pipeline
+
 Group:		System/Libraries
 
 %description -n %{libopencv_stitching}
@@ -392,6 +410,7 @@ namespace, one can combine and use them separately.
 
 %package -n %{libopencv_videostab}
 Summary:	OpenCV Video stabilization
+
 Group:		System/Libraries
 
 %description -n %{libopencv_videostab}
@@ -404,6 +423,7 @@ OpenCV Video stabilization module.
 
 %package	devel
 Summary:	OpenCV development files
+
 Group:		Development/C
 Provides:	opencv-devel = %{EVRD}
 Requires:	%{libopencv_core} = %{EVRD}
@@ -442,6 +462,7 @@ OpenCV development files.
 #--------------------------------------------------------------------------------
 %package -n	python-opencv
 Summary:	OpenCV Python bindings
+
 Group:		Development/Python
 
 %description -n	python-opencv
@@ -454,6 +475,7 @@ OpenCV python bindings.
 
 %package	doc
 Summary:	OpenCV docs
+
 Group:		Books/Computer books
 BuildArch:	noarch
 
@@ -467,6 +489,7 @@ OpenCV docs.
 
 %package	samples
 Summary:	OpenCV sample code
+
 Group:		Books/Computer books
 
 %description	samples
@@ -486,6 +509,7 @@ OpenCV sample code.
 %if %{with java}
 %package	java
 Summary:	Java bindings for OpenCV
+
 Group:		Sciences/Computer science
 
 %description	java
@@ -527,140 +551,5 @@ sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
-
-
-%changelog
-* Fri Apr 25 2014 Crispin Boylan <crisb@mandriva.org> 2.4.9-2
-+ Revision: 3b950e0
-- Disable sse3, causing crashing on some cpus
-
-* Thu Apr 24 2014 Crispin Boylan <crisb@mandriva.org> 2.4.9-1
-+ Revision: 5bea401
-- 2.4.9
-
-* Tue Mar 04 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-4
-+ Revision: cac2974
-- Make devel package require all subpackages and python bindings
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-3
-+ Revision: 784b81c
-- Cmake causes an error if opencv-java is not installed
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-2
-+ Revision: e04c7e8
-- Merge with master
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-2
-+ Revision: a1bee33
-- Rebuild
-
-* Wed Feb 26 2014 Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org> 2.4.8-1
-+ Revision: 58666c5
-- - new version
-- - pick up patches from fedora
-
-* Sat Feb 22 2014 Crispin Boylan <crisb@mandriva.org> 2.4.7-1
-+ Revision: 4c4663b
-- Merge
-
-* Fri Feb 21 2014 Crispin Boylan <crisb@mandriva.org> 2.4.5-4
-+ Revision: e2f8d75
-- BumP
-
-* Fri Feb 21 2014 Crispin Boylan <crisb@mandriva.org> 2.4.5-3
-+ Revision: 7beadea
-- Use java 1.7
-
-* Fri Feb 21 2014 Denis Silakov <denis.silakov@rosalab.ru> 2.4.8-1
-+ Revision: de4a2ab
-- Updated to 2.4.8 (by updates_builder)
-
-* Sat Feb 08 2014 Tomasz Paweł Gajc <tpgxyz@gmail.com> 2.4.5-3
-+ Revision: 3ddb6fc
-- MassBuild#328: Increase release tag
-
-* Tue Dec 10 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-8
-+ Revision: f91fe70
-- Shut up rpmlint devel-file-in-non-devel-package complaints for -samples
-
-* Tue Dec 10 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-8
-+ Revision: a6177ac
-- Don't reference libopencv_ts.a by -lopencv_ts.a, that's bogus
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-7
-+ Revision: 119828a
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-6
-+ Revision: 32ab2c2
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-5
-+ Revision: ea27778
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-4
-+ Revision: 9f21260
-- MassBuild#289: Increase release tag
-
-* Thu Nov 28 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.7-3
-+ Revision: 11b4dea
-- usr java 1.7.0
-
-* Sun Nov 24 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.7-2
-+ Revision: 5e83fc2
-- bump rel
-
-* Sat Nov 23 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-1
-+ Revision: 5259e5f
-- 2.4.7, build for new ffmpeg
-
-* Wed Aug 07 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2.4.6.1-2
-+ Revision: e393808
-- LOG Fix devel package Requires
-
-* Wed Aug 07 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2.4.6.1-1
-+ Revision: cc38cdd
-- LOG New version 2.4.6.1, enable videostab and stitching subpackages, make sure CUDA is disabled
-
-* Thu Aug 01 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-2
-+ Revision: 1a0bea0
-- disable cuda in options
-
-* Thu Aug 01 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-2
-+ Revision: 4350385
-- rel up
-
-* Tue Jul 30 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-1
-+ Revision: 630d53b
-- java as option
-
-* Sat Jun 15 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.5-1
-+ Revision: cbd81d3
-- 2.4.5, better default config
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: dfcff72
-- provide opencv-devel rather than libopencv-devel
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 78694a9
-- cleanups
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 64a75f6
-- fix incoherent-version-in-name
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 0b8831c
-- new version
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.2-1
-+ Revision: 3a6dc66
-- use pkgconfig() deps for buildrequires
-
-* Sat Dec 08 2012 alex <alex@localhost.localdomain> 2.4.2-1
-+ Revision: 2a9cf0c
-- merging with rosa2012.1 of project opencv
 
 
