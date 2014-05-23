@@ -4,27 +4,14 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.9
+Version:	2.4.6.1
 Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	https://github.com/Itseez/opencv/archive/%{version}.tar.gz
-Source100:	%{name}.rpmlintrc
+Source0:	http://kent.dl.sourceforge.net/project/opencvlibrary/opencv-unix/%{version}/%{name}-%{version}.tar.gz
 Patch0:		opencv-2.4.5-link-v4l2.patch
-Patch1:         opencv-pkgcmake.patch
-Patch2:         opencv-pkgcmake2.patch
-#http://code.opencv.org/issues/2720
-Patch4:         OpenCV-2.4.4-pillow.patch
-Patch5:         opencv-2.4.8-ts_static.patch
-# fix/simplify cmake config install location (upstreamable)
-# https://bugzilla.redhat.com/1031312
-Patch6:         opencv-2.4.7-cmake_paths.patch
-
 BuildRequires:	cmake
-BuildRequires:	jpeg-devel
-BuildRequires:	%{_lib}opencl-devel
-BuildRequires:	python-numpy-devel
 BuildRequires:	pkgconfig(eigen2)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gstreamer-app-0.10)
@@ -45,19 +32,17 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	jpeg-devel
+BuildRequires:	python-numpy-devel
 %if %{with java}
 # Java bindings
-BuildRequires:	java-1.7.0-openjdk-devel
+BuildRequires:	java-1.6.0-openjdk-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
-BuildRequires:	pkgconfig(QtCore)
-BuildRequires:	pkgconfig(QtGui)
-BuildRequires:	pkgconfig(QtOpenGL)
-BuildRequires:	pkgconfig(QtTest)
+BuildRequires:	pkgconfig(QtCore) pkgconfig(QtGui) pkgconfig(QtOpenGL) pkgconfig(QtTest)
 # Documentation generation
-BuildRequires:	python-sphinx
-BuildRequires:	latex2html
+BuildRequires:	python-sphinx latex2html
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
@@ -82,23 +67,6 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ts_soname 2.4
-%define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
-%define wrongts %mklibname opencv_ts 2
-
-%package -n	%{libopencv_ts}
-Summary:	OpenCV Base test library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-%rename		%{wrongts}
-
-%description -n	%{libopencv_ts}
-OpenCV Base test library.
-
-#--------------------------------------------------------------------------------
-
-%files -n      %{libopencv_ts}
-%{_libdir}/libopencv_ts.so.%{libopencv_ts_soname}*
 %define libopencv_imgproc_soname 2.4
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
 %define wrongimgproc %mklibname opencv_imgproc 2
@@ -156,19 +124,21 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ocl_soname 2.4
-%define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
+%define libopencv_ts_soname 2.4
+%define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
+%define wrongts %mklibname opencv_ts 2
 
-%package -n	%{libopencv_ocl}
-Summary:	OpenCV OCL library
+%package -n	%{libopencv_ts}
+Summary:	OpenCV Base test library
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
+%rename		%{wrongts}
 
-%description -n	%{libopencv_ocl}
-OpenCV OCL library
+%description -n %{libopencv_ts}
+OpenCV Base test library.
 
-%files -n	%{libopencv_ocl}
-%{_libdir}/libopencv_ocl.so.%{libopencv_ocl_soname}*
+%files -n	%{libopencv_ts}
+%{_libdir}/libopencv_ts.so.%{libopencv_ts_soname}*
 
 #--------------------------------------------------------------------------------
 
@@ -407,27 +377,22 @@ Summary:	OpenCV development files
 Group:		Development/C
 Provides:	opencv-devel = %{EVRD}
 Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
 Requires:	%{libopencv_highgui} = %{EVRD}
 Requires:	%{libopencv_ml} = %{EVRD}
-Requires:	%{libopencv_ocl} = %{EVRD}
-Requires:	%{libopencv_flann} = %{EVRD}
-Requires:	%{libopencv_calib3d} = %{EVRD}
 Requires:	%{libopencv_features2d} = %{EVRD}
-Requires:	%{libopencv_superres} = %{EVRD}
 Requires:	%{libopencv_video} = %{EVRD}
 Requires:	%{libopencv_objdetect} = %{EVRD}
+Requires:	%{libopencv_calib3d} = %{EVRD}
+Requires:	%{libopencv_flann} = %{EVRD}
 Requires:	%{libopencv_contrib} = %{EVRD}
 Requires:	%{libopencv_legacy} = %{EVRD}
+Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_nonfree} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
-Requires:	%{libopencv_stitching} = %{EVRD}
+Requires:	%{libopencv_superres} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
-%if %{with java}
-Requires:	%{name}-java = %{EVRD}
-%endif
-Requires:	python-%{name} = %{EVRD}
+Requires:	%{libopencv_stitching} = %{EVRD}
 
 %description	devel
 OpenCV development files.
@@ -436,8 +401,7 @@ OpenCV development files.
 %{_libdir}/*.so
 %{_includedir}/*
 %{_libdir}/pkgconfig/*
-%dir %{_libdir}/OpenCV
-%{_libdir}/OpenCV/*.cmake
+%{_datadir}/OpenCV/*.cmake
 
 #--------------------------------------------------------------------------------
 %package -n	python-opencv
@@ -448,7 +412,7 @@ Group:		Development/Python
 OpenCV python bindings.
 
 %files -n	python-opencv
-%{py_platsitedir}/*
+%{python_sitearch}/*
 
 #--------------------------------------------------------------------------------
 
@@ -504,8 +468,6 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
 
-sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
-
 %build
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
@@ -513,154 +475,18 @@ sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
-	-DPYTHON_PACKAGES_PATH=%{py_platsitedir} \
+	-DPYTHON_PACKAGES_PATH=%{python_sitearch} \
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
 	-DWITH_QT:BOOL=ON \
-	-DWITH_CUDA:BOOL=OFF \
-	-DENABLE_SSE3=0
-%make VERBOSE=1
+	-DWITH_CUDA:BOOL=OFF
+%make
 
 %install
 %makeinstall_std -C build
 
 # Requesting libraries by filename is just bogus...
-sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
 
-
-%changelog
-* Fri Apr 25 2014 Crispin Boylan <crisb@mandriva.org> 2.4.9-2
-+ Revision: 3b950e0
-- Disable sse3, causing crashing on some cpus
-
-* Thu Apr 24 2014 Crispin Boylan <crisb@mandriva.org> 2.4.9-1
-+ Revision: 5bea401
-- 2.4.9
-
-* Tue Mar 04 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-4
-+ Revision: cac2974
-- Make devel package require all subpackages and python bindings
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-3
-+ Revision: 784b81c
-- Cmake causes an error if opencv-java is not installed
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-2
-+ Revision: e04c7e8
-- Merge with master
-
-* Mon Mar 03 2014 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> 2.4.8-2
-+ Revision: a1bee33
-- Rebuild
-
-* Wed Feb 26 2014 Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org> 2.4.8-1
-+ Revision: 58666c5
-- - new version
-- - pick up patches from fedora
-
-* Sat Feb 22 2014 Crispin Boylan <crisb@mandriva.org> 2.4.7-1
-+ Revision: 4c4663b
-- Merge
-
-* Fri Feb 21 2014 Crispin Boylan <crisb@mandriva.org> 2.4.5-4
-+ Revision: e2f8d75
-- BumP
-
-* Fri Feb 21 2014 Crispin Boylan <crisb@mandriva.org> 2.4.5-3
-+ Revision: 7beadea
-- Use java 1.7
-
-* Fri Feb 21 2014 Denis Silakov <denis.silakov@rosalab.ru> 2.4.8-1
-+ Revision: de4a2ab
-- Updated to 2.4.8 (by updates_builder)
-
-* Sat Feb 08 2014 Tomasz Paweł Gajc <tpgxyz@gmail.com> 2.4.5-3
-+ Revision: 3ddb6fc
-- MassBuild#328: Increase release tag
-
-* Tue Dec 10 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-8
-+ Revision: f91fe70
-- Shut up rpmlint devel-file-in-non-devel-package complaints for -samples
-
-* Tue Dec 10 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-8
-+ Revision: a6177ac
-- Don't reference libopencv_ts.a by -lopencv_ts.a, that's bogus
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-7
-+ Revision: 119828a
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-6
-+ Revision: 32ab2c2
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-5
-+ Revision: ea27778
-- MassBuild#289: Increase release tag
-
-* Sat Dec 07 2013 Bernhard Rosenkraenzer <bero@bero.eu> 2.4.7-4
-+ Revision: 9f21260
-- MassBuild#289: Increase release tag
-
-* Thu Nov 28 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.7-3
-+ Revision: 11b4dea
-- usr java 1.7.0
-
-* Sun Nov 24 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.7-2
-+ Revision: 5e83fc2
-- bump rel
-
-* Sat Nov 23 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.7-1
-+ Revision: 5259e5f
-- 2.4.7, build for new ffmpeg
-
-* Wed Aug 07 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2.4.6.1-2
-+ Revision: e393808
-- LOG Fix devel package Requires
-
-* Wed Aug 07 2013 Andrey Bondrov <andrey.bondrov@rosalab.ru> 2.4.6.1-1
-+ Revision: cc38cdd
-- LOG New version 2.4.6.1, enable videostab and stitching subpackages, make sure CUDA is disabled
-
-* Thu Aug 01 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-2
-+ Revision: 1a0bea0
-- disable cuda in options
-
-* Thu Aug 01 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-2
-+ Revision: 4350385
-- rel up
-
-* Tue Jul 30 2013 Alexander Khryukin <alexander@mezon.ru> 2.4.5-1
-+ Revision: 630d53b
-- java as option
-
-* Sat Jun 15 2013 Bernhard Rosenkränzer <bero@lindev.ch> 2.4.5-1
-+ Revision: cbd81d3
-- 2.4.5, better default config
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: dfcff72
-- provide opencv-devel rather than libopencv-devel
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 78694a9
-- cleanups
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 64a75f6
-- fix incoherent-version-in-name
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.3-1
-+ Revision: 0b8831c
-- new version
-
-* Mon Feb 25 2013 Per Øyvind Karlsen (proyvind) <peroyvind@mandriva.org> 2.4.2-1
-+ Revision: 3a6dc66
-- use pkgconfig() deps for buildrequires
-
-* Sat Dec 08 2012 alex <alex@localhost.localdomain> 2.4.2-1
-+ Revision: 2a9cf0c
-- merging with rosa2012.1 of project opencv
-
-
+mv -f %{buildroot}%{_datadir}/opencv/samples/* %{buildroot}%{_datadir}/OpenCV/samples/
