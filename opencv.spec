@@ -3,7 +3,6 @@
 %endif
 
 Summary:	Open Source Computer Vision library
-
 Name:		opencv
 Version:	2.4.9
 Release:	3
@@ -13,14 +12,14 @@ Url:		http://opencv.org/
 Source0:	https://github.com/Itseez/opencv/archive/%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
 Patch0:		opencv-2.4.5-link-v4l2.patch
-Patch1:         opencv-pkgcmake.patch
-Patch2:         opencv-pkgcmake2.patch
+Patch1:		opencv-pkgcmake.patch
+Patch2:		opencv-pkgcmake2.patch
 #http://code.opencv.org/issues/2720
-Patch4:         OpenCV-2.4.4-pillow.patch
-Patch5:         opencv-2.4.8-ts_static.patch
+Patch4:		OpenCV-2.4.4-pillow.patch
+Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
-Patch6:         opencv-2.4.7-cmake_paths.patch
+Patch6:		opencv-2.4.7-cmake_paths.patch
 
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
