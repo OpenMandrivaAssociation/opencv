@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.9
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -14,6 +14,8 @@ Source100:	%{name}.rpmlintrc
 Patch0:		opencv-2.4.5-link-v4l2.patch
 Patch1:		opencv-pkgcmake.patch
 Patch2:		opencv-pkgcmake2.patch
+# Fixes for clang-only warnings
+Patch3:		opencv-2.4.9-clang.patch
 #http://code.opencv.org/issues/2720
 Patch4:		OpenCV-2.4.4-pillow.patch
 Patch5:		opencv-2.4.8-ts_static.patch

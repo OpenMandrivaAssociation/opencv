@@ -1,0 +1,30 @@
+--- opencv-2.4.9/modules/legacy/src/calibfilter.cpp.omv~	2014-07-07 13:33:04.442547772 +0200
++++ opencv-2.4.9/modules/legacy/src/calibfilter.cpp	2014-07-07 13:33:23.043315230 +0200
+@@ -95,7 +95,7 @@ bool CvCalibFilter::SetEtalon( CvCalibEt
+ 
+     Stop();
+ 
+-    if (latestPoints != NULL)
++    //if (latestPoints != NULL)
+     {
+         for( i = 0; i < MAX_CAMERAS; i++ )
+             cvFree( latestPoints + i );
+@@ -529,7 +529,7 @@ void CvCalibFilter::DrawPoints( CvMat**
+         return;
+     }
+ 
+-    if( latestCounts )
++    //if( latestCounts )
+     {
+         for( i = 0; i < cameraCount; i++ )
+         {
+--- opencv-2.4.9/modules/ts/src/ts.cpp.omv~	2014-07-07 13:09:44.137053999 +0200
++++ opencv-2.4.9/modules/ts/src/ts.cpp	2014-07-07 13:10:14.451675014 +0200
+@@ -111,6 +111,7 @@ static void SEHTranslator( unsigned int
+ #else
+ 
+ #include <signal.h>
++#define __sigsetjmp ___sigsetjmp /* Workaround for glibc 2.19 having different definitions of __sigsetjmp in pthread.h and setjmp.h */
+ #include <setjmp.h>
+ 
+ static const int tsSigId[] = { SIGSEGV, SIGBUS, SIGFPE, SIGILL, SIGABRT, -1 };
