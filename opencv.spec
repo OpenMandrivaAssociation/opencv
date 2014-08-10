@@ -49,7 +49,7 @@ BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
 %if %{with java}
 # Java bindings
-BuildRequires:	java-1.7.0-openjdk-devel
+BuildRequires:	java-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
