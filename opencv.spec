@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.9
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -22,16 +22,16 @@ Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
 Patch6:		opencv-2.4.7-cmake_paths.patch
-
+Patch7:		bomb_commit_gstreamer-1x-support.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
 BuildRequires:	python-numpy-devel
-BuildRequires:	pkgconfig(eigen2)
+BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(gstreamer-app-0.10)
-BuildRequires:	pkgconfig(gstreamer-base-0.10)
-BuildRequires:	pkgconfig(gstreamer-video-0.10)
+BuildRequires:	pkgconfig(gstreamer-app-1.0)
+BuildRequires:	pkgconfig(gstreamer-base-1.0)
+BuildRequires:	pkgconfig(gstreamer-video-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(jasper)
