@@ -26,7 +26,7 @@ Patch7:		bomb_commit_gstreamer-1x-support.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
-BuildRequires:	python-numpy-devel
+BuildRequires:	python2-numpy-devel
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gstreamer-app-1.0)
@@ -448,7 +448,7 @@ Requires:	%{libopencv_videostab} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
-Requires:	python-%{name} = %{EVRD}
+Requires:	python2-%{name} = %{EVRD}
 
 %description	devel
 OpenCV development files.
@@ -461,16 +461,16 @@ OpenCV development files.
 %{_libdir}/OpenCV/*.cmake
 
 #--------------------------------------------------------------------------------
-%package -n	python-opencv
+%package -n	python2-opencv
 Summary:	OpenCV Python bindings
 
 Group:		Development/Python
 
-%description -n	python-opencv
-OpenCV python bindings.
+%description -n	python2-opencv
+OpenCV python2 bindings.
 
-%files -n	python-opencv
-%{py_platsitedir}/*
+%files -n	python2-opencv
+%{py2_platsitedir}/*
 
 #--------------------------------------------------------------------------------
 
@@ -530,6 +530,11 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 find . -name "*.sh" |xargs chmod 0755
 
 sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
+# remove bundled stuff
+rm -rf 3rdparty
+sed -i \
+	-e '/add_subdirectory(3rdparty)/ d' \
+	CMakeLists.txt
 
 %build
 %cmake \
@@ -538,7 +543,7 @@ sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
-	-DPYTHON_PACKAGES_PATH=%{py_platsitedir} \
+	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
