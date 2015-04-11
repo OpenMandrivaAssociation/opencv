@@ -4,25 +4,21 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.9
-Release:	10
+Version:	2.4.11
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	https://github.com/Itseez/opencv/archive/%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
-Patch0:		opencv-2.4.5-link-v4l2.patch
-Patch1:		opencv-pkgcmake.patch
+#Patch1:		opencv-pkgcmake.patch
 Patch2:		opencv-pkgcmake2.patch
-# Fixes for clang-only warnings
-Patch3:		opencv-2.4.9-clang.patch
 #http://code.opencv.org/issues/2720
 Patch4:		OpenCV-2.4.4-pillow.patch
 Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
 Patch6:		opencv-2.4.7-cmake_paths.patch
-Patch7:		bomb_commit_gstreamer-1x-support.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -507,6 +503,7 @@ Group:		Books/Computer books
 OpenCV sample code.
 
 %files		samples
+%{_bindir}/opencv_annotation
 %{_bindir}/opencv_createsamples
 %{_bindir}/opencv_haartraining
 %{_bindir}/opencv_performance
@@ -562,7 +559,10 @@ sed -i \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
-	-DENABLE_SSE3=0
+	-DENABLE_SSE3=0 \
+	-DENABLE_SSSE3=0 \
+	-DENABLE_SSE41=0 \
+	-DENABLE_SSE42=0 
 %make VERBOSE=1
 
 %install
