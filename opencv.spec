@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.9
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -34,12 +34,12 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(jasper)
 BuildRequires:	pkgconfig(lapack)
-BuildRequires:	pkgconfig(libavcodec)
-BuildRequires:	pkgconfig(libavformat)
-BuildRequires:	pkgconfig(libavutil)
+BuildRequires:	pkgconfig(libavcodec) >= 2.5.4
+BuildRequires:	pkgconfig(libavformat) >= 2.5.4
+BuildRequires:	pkgconfig(libavutil) >= 2.5.4
 BuildRequires:	pkgconfig(libdc1394-2)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(libswscale)
+BuildRequires:	pkgconfig(libswscale) >= 2.5.4
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
