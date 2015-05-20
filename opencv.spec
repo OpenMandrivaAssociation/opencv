@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.9
-Release:	4
+Release:	4.1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -20,16 +20,22 @@ Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
 Patch6:		opencv-2.4.7-cmake_paths.patch
-
+Patch7:		bomb_commit_gstreamer-1x-support.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
+%if "%{distepoch}" < "2015.0"
+%define	py2_platsitedir	%{py_platsitedir}
 BuildRequires:	python-numpy-devel
 BuildRequires:	pkgconfig(eigen2)
+%else
+BuildRequires:	python2-numpy-devel
+BuildRequires:	pkgconfig(eigen3)
+%endif
 BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(gstreamer-app-0.10)
-BuildRequires:	pkgconfig(gstreamer-base-0.10)
-BuildRequires:	pkgconfig(gstreamer-video-0.10)
+BuildRequires:	pkgconfig(gstreamer-app-1.0)
+BuildRequires:	pkgconfig(gstreamer-base-1.0)
+BuildRequires:	pkgconfig(gstreamer-video-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(jasper)
@@ -47,7 +53,7 @@ BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
 %if %{with java}
 # Java bindings
-BuildRequires:	java-1.7.0-openjdk-devel
+BuildRequires:	java-devel
 BuildRequires:	ant
 %endif
 # Qt 4.x module
@@ -161,6 +167,7 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
+%if "%{distepoch}" >= "2015.0"
 %define libopencv_ocl_soname 2.4
 %define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
 
@@ -175,6 +182,7 @@ OpenCV OCL library
 
 %files -n	%{libopencv_ocl}
 %{_libdir}/libopencv_ocl.so.%{libopencv_ocl_soname}*
+%endif
 
 #--------------------------------------------------------------------------------
 
@@ -430,7 +438,9 @@ Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
 Requires:	%{libopencv_highgui} = %{EVRD}
 Requires:	%{libopencv_ml} = %{EVRD}
+%if "%{distepoch}" >= "2015.0"
 Requires:	%{libopencv_ocl} = %{EVRD}
+%endif
 Requires:	%{libopencv_flann} = %{EVRD}
 Requires:	%{libopencv_calib3d} = %{EVRD}
 Requires:	%{libopencv_features2d} = %{EVRD}
@@ -446,7 +456,7 @@ Requires:	%{libopencv_videostab} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
-Requires:	python-%{name} = %{EVRD}
+Requires:	python2-%{name} = %{EVRD}
 
 %description	devel
 OpenCV development files.
@@ -459,16 +469,16 @@ OpenCV development files.
 %{_libdir}/OpenCV/*.cmake
 
 #--------------------------------------------------------------------------------
-%package -n	python-opencv
+%package -n	python2-opencv
 Summary:	OpenCV Python bindings
 
 Group:		Development/Python
 
-%description -n	python-opencv
-OpenCV python bindings.
+%description -n	python2-opencv
+OpenCV python2 bindings.
 
-%files -n	python-opencv
-%{py_platsitedir}/*
+%files -n	python2-opencv
+%{py2_platsitedir}/*
 
 #--------------------------------------------------------------------------------
 
@@ -528,6 +538,11 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 find . -name "*.sh" |xargs chmod 0755
 
 sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
+# remove bundled stuff
+rm -rf 3rdparty
+sed -i \
+	-e '/add_subdirectory(3rdparty)/ d' \
+	CMakeLists.txt
 
 %build
 %cmake \
@@ -536,12 +551,15 @@ sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
-	-DPYTHON_PACKAGES_PATH=%{py_platsitedir} \
+	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
 	-DWITH_QT:BOOL=ON \
 	-DWITH_CUDA:BOOL=OFF \
+	-DWITH_VTK:BOOL=ON \
+	-DWITH_OPENMP:BOOL=ON \
+	-DENABLE_FAST_MATH:BOOL=ON \
 	-DENABLE_SSE3=0
 %make VERBOSE=1
 
