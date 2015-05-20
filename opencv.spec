@@ -167,7 +167,6 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%if "%{distepoch}" >= "2015.0"
 %define libopencv_ocl_soname 2.4
 %define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
 
@@ -182,7 +181,6 @@ OpenCV OCL library
 
 %files -n	%{libopencv_ocl}
 %{_libdir}/libopencv_ocl.so.%{libopencv_ocl_soname}*
-%endif
 
 #--------------------------------------------------------------------------------
 
@@ -438,9 +436,7 @@ Requires:	%{libopencv_ts} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
 Requires:	%{libopencv_highgui} = %{EVRD}
 Requires:	%{libopencv_ml} = %{EVRD}
-%if "%{distepoch}" >= "2015.0"
 Requires:	%{libopencv_ocl} = %{EVRD}
-%endif
 Requires:	%{libopencv_flann} = %{EVRD}
 Requires:	%{libopencv_calib3d} = %{EVRD}
 Requires:	%{libopencv_features2d} = %{EVRD}
