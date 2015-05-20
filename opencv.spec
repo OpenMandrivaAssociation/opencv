@@ -5,7 +5,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.9
-Release:	4.1
+Release:	4.2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -452,7 +452,7 @@ Requires:	%{libopencv_videostab} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
-Requires:	python2-%{name} = %{EVRD}
+Requires:	python-%{name} = %{EVRD}
 
 %description	devel
 OpenCV development files.
@@ -465,15 +465,15 @@ OpenCV development files.
 %{_libdir}/OpenCV/*.cmake
 
 #--------------------------------------------------------------------------------
-%package -n	python2-opencv
+%package -n	python-opencv
 Summary:	OpenCV Python bindings
 
 Group:		Development/Python
 
-%description -n	python2-opencv
-OpenCV python2 bindings.
+%description -n	python-opencv
+OpenCV python bindings.
 
-%files -n	python2-opencv
+%files -n	python-opencv
 %{py2_platsitedir}/*
 
 #--------------------------------------------------------------------------------
