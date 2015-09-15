@@ -55,6 +55,7 @@ BuildRequires:	java-devel
 BuildRequires:	ant
 %endif
 # Qt 5.x module
+BuildRequires:	qmake5
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5OpenGL)
