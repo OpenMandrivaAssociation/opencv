@@ -1,2 +1,3 @@
 # sample files are intended to go to -samples, even if they're C++
 addFilter("E: devel-file-in-non-devel-package")
+addFilter("E: non-executable-script")

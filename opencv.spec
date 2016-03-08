@@ -4,12 +4,12 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.11
-Release:	5
+Version:	2.4.12.3
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	https://github.com/Itseez/opencv/archive/%{version}.tar.gz
+Source0:	https://github.com/Itseez/opencv/archive/%{name}-%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
 #Patch1:		opencv-pkgcmake.patch
 Patch2:		opencv-pkgcmake2.patch
@@ -19,6 +19,8 @@ Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
 Patch6:		opencv-2.4.7-cmake_paths.patch
+# debian
+Patch7:		opencv-ffmpeg3.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -64,7 +66,7 @@ BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Widgets)
 # Documentation generation
 BuildRequires:	python-sphinx
-BuildRequires:	latex2html
+#BuildRequires:	latex2html
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
