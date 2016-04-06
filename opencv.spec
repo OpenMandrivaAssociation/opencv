@@ -1,6 +1,7 @@
-%ifnarch %{armx} %{mips}
+%ifnarch %{armx}
 %bcond_without	java
 %endif
+%bcond_without	python
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
@@ -24,14 +25,11 @@ Patch7:		opencv-ffmpeg3.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
-%if "%{distepoch}" < "2015.0"
-%define	py2_platsitedir	%{py_platsitedir}
-BuildRequires:	python-numpy-devel
-BuildRequires:	pkgconfig(eigen2)
-%else
+%if %{with python}
 BuildRequires:	python2-numpy-devel
-BuildRequires:	pkgconfig(eigen3)
+BuildRequires:	pkgconfig(python2)
 %endif
+BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gstreamer-app-1.0)
 BuildRequires:	pkgconfig(gstreamer-base-1.0)
@@ -49,7 +47,6 @@ BuildRequires:	pkgconfig(libswscale)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
-BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(zlib)
 %if %{with java}
 # Java bindings
@@ -459,7 +456,9 @@ Requires:	%{libopencv_videostab} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
+%if %{with python}
 Requires:	python2-%{name} = %{EVRD}
+%endif
 
 %description	devel
 OpenCV development files.
@@ -471,6 +470,7 @@ OpenCV development files.
 %dir %{_libdir}/OpenCV
 %{_libdir}/OpenCV/*.cmake
 
+%if %{with python}
 #--------------------------------------------------------------------------------
 %package -n	python2-opencv
 Summary:	OpenCV Python bindings
@@ -482,6 +482,7 @@ OpenCV python2 bindings.
 
 %files -n	python2-opencv
 %{py2_platsitedir}/*
+%endif
 
 #--------------------------------------------------------------------------------
 
@@ -553,7 +554,9 @@ sed -i \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
+%if %{with python}
 	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
+%endif
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
 	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
 	-DWITH_FFMPEG:BOOL=ON \
@@ -568,6 +571,7 @@ sed -i \
 	-DENABLE_SSSE3=0 \
 	-DENABLE_SSE41=0 \
 	-DENABLE_SSE42=0 
+
 %make VERBOSE=1
 
 %install
