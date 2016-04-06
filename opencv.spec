@@ -1,4 +1,4 @@
-%ifnarch %{arm} %{mips}
+%ifnarch %{armx} %{mips}
 %bcond_without	java
 %endif
 
@@ -575,5 +575,3 @@ sed -i \
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
-
-
