@@ -5,8 +5,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.12.3
-Release:	2
+Version:	2.4.13
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -15,13 +15,13 @@ Source100:	%{name}.rpmlintrc
 #Patch1:		opencv-pkgcmake.patch
 Patch2:		opencv-pkgcmake2.patch
 #http://code.opencv.org/issues/2720
-Patch4:		OpenCV-2.4.4-pillow.patch
+#Patch4:		OpenCV-2.4.4-pillow.patch
 Patch5:		opencv-2.4.8-ts_static.patch
 # fix/simplify cmake config install location (upstreamable)
 # https://bugzilla.redhat.com/1031312
 Patch6:		opencv-2.4.7-cmake_paths.patch
 # debian
-Patch7:		opencv-ffmpeg3.patch
+#Patch7:		opencv-ffmpeg3.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -514,6 +514,7 @@ OpenCV sample code.
 %{_bindir}/opencv_haartraining
 %{_bindir}/opencv_performance
 %{_bindir}/opencv_traincascade
+%{_bindir}/opencv_visualisation
 %dir %{_datadir}/OpenCV
 %{_datadir}/OpenCV/samples
 %{_datadir}/OpenCV/haarcascades
