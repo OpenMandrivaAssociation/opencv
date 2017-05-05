@@ -46,6 +46,7 @@ BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(libgphoto2)
 %if %{with java}
 # Java bindings
 BuildRequires:	java-devel
@@ -69,7 +70,7 @@ functions for real time computer vision.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_core_soname 2.4
+%define libopencv_core_soname 3.2
 %define libopencv_core %mklibname opencv_core %{libopencv_core_soname}
 %define wrongcore %mklibname opencv_core 2
 
@@ -87,7 +88,7 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ts_soname 2.4
+%define libopencv_ts_soname 3.2
 %define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
 %define wrongts %mklibname opencv_ts 2
 
@@ -105,7 +106,7 @@ OpenCV Base test library.
 
 %files -n      %{libopencv_ts}
 %{_libdir}/libopencv_ts.so.%{libopencv_ts_soname}*
-%define libopencv_imgproc_soname 2.4
+%define libopencv_imgproc_soname 3.2
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
 %define wrongimgproc %mklibname opencv_imgproc 2
 
@@ -125,7 +126,7 @@ resize, remap, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_highgui_soname 2.4
+%define libopencv_highgui_soname 3.2
 %define libopencv_highgui %mklibname opencv_highgui %{libopencv_highgui_soname}
 %define wronghighgui %mklibname opencv_highgui 2
 
@@ -145,7 +146,7 @@ OpenCV GUI and image/video I/O library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ml_soname 2.4
+%define libopencv_ml_soname 3.2
 %define libopencv_ml %mklibname opencv_ml %{libopencv_ml_soname}
 %define wrongml %mklibname opencv_ml 2
 
@@ -166,7 +167,7 @@ decision trees, boosting, etc.).
 #--------------------------------------------------------------------------------
 
 %if "%{distepoch}" >= "2015.0"
-%define libopencv_ocl_soname 2.4
+%define libopencv_ocl_soname 3.2
 %define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
 
 %package -n	%{libopencv_ocl}
@@ -184,7 +185,7 @@ OpenCV OCL library
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_flann_soname 2.4
+%define libopencv_flann_soname 3.2
 %define libopencv_flann %mklibname opencv_flann %{libopencv_flann_soname}
 %define wrongflann %mklibname opencv_flann 2
 
@@ -203,7 +204,7 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_calib3d_soname 2.4
+%define libopencv_calib3d_soname 3.2
 %define libopencv_calib3d %mklibname opencv_calib3d %{libopencv_calib3d_soname}
 %define wrongcalib3d %mklibname opencv_calib3d 2
 
@@ -224,7 +225,7 @@ elements of 3D data processing.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_features2d_soname 2.4
+%define libopencv_features2d_soname 3.2
 %define libopencv_features2d %mklibname opencv_features2d %{libopencv_features2d_soname}
 %define wrongfeatures2d %mklibname opencv_features2d 2
 
@@ -247,7 +248,7 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_superres_soname 2.4
+%define libopencv_superres_soname 3.2
 %define libopencv_superres %mklibname opencv_superres %{libopencv_superres_soname}
 
 %package -n	%{libopencv_superres}
@@ -264,7 +265,7 @@ Super-resolution support for OpenCV.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_video_soname 2.4
+%define libopencv_video_soname 3.2
 %define libopencv_video %mklibname opencv_video %{libopencv_video_soname}
 %define wrongvideo %mklibname opencv_video 2
 
@@ -285,7 +286,7 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_objdetect_soname 2.4
+%define libopencv_objdetect_soname 3.2
 %define libopencv_objdetect %mklibname opencv_objdetect %{libopencv_objdetect_soname}
 %define wrongobjdetect %mklibname opencv_objdetect 2
 
@@ -307,7 +308,7 @@ people detector, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_contrib_soname 2.4
+%define libopencv_contrib_soname 3.2
 %define libopencv_contrib %mklibname opencv_contrib %{libopencv_contrib_soname}
 %define wrongcontrib %mklibname opencv_contrib 2
 
@@ -329,7 +330,7 @@ OpenCV contributed code library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_legacy_soname 2.4
+%define libopencv_legacy_soname 3.2
 %define libopencv_legacy %mklibname opencv_legacy %{libopencv_legacy_soname}
 %define wronglegacy %mklibname opencv_legacy 2
 
@@ -352,7 +353,7 @@ OpenCV library containing obsolete legacy code.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_nonfree_soname 2.4
+%define libopencv_nonfree_soname 3.2
 %define libopencv_nonfree %mklibname opencv_nonfree %{libopencv_nonfree_soname}
 %define wrongnonfree %mklibname opencv_nonfree 2
 
@@ -371,7 +372,7 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_photo_soname 2.4
+%define libopencv_photo_soname 3.2
 %define libopencv_photo %mklibname opencv_photo %{libopencv_photo_soname}
 %define wrongphoto %mklibname opencv_photo 2
 
@@ -390,7 +391,7 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_stitching_soname 2.4
+%define libopencv_stitching_soname 3.2
 %define libopencv_stitching %mklibname opencv_stitching %{libopencv_stitching_soname}
 
 %package -n %{libopencv_stitching}
@@ -410,7 +411,7 @@ namespace, one can combine and use them separately.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_videostab_soname 2.4
+%define libopencv_videostab_soname 3.2
 %define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
 
 %package -n %{libopencv_videostab}
@@ -559,7 +560,7 @@ sed -i \
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
 	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
 	-DWITH_IPP=OFF \
-	-DWITH_UNICAP=ON \
+	-DWITH_UNICAP=OFF \
 	-DCMAKE_SKIP_RPATH=ON \
 	-DWITH_CAROTENE=OFF \
 	-DENABLE_PRECOMPILED_HEADERS:BOOL=OFF \
