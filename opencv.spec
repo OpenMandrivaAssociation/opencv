@@ -8,23 +8,18 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.13.2
-Release:	2
+Version:	3.2.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	https://github.com/Itseez/opencv/archive/%{name}-%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
-#Patch1:		opencv-pkgcmake.patch
-Patch2:		opencv-pkgcmake2.patch
-#http://code.opencv.org/issues/2720
-#Patch4:		OpenCV-2.4.4-pillow.patch
-Patch5:		opencv-2.4.8-ts_static.patch
-# fix/simplify cmake config install location (upstreamable)
-# https://bugzilla.redhat.com/1031312
-Patch6:		opencv-2.4.7-cmake_paths.patch
-# debian
-#Patch7:		opencv-ffmpeg3.patch
+
+Patch1:         opencv-3.2.0-cmake_paths.patch
+
+#Patch2:		opencv-pkgcmake2.patch
+#Patch5:		opencv-2.4.8-ts_static.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -547,7 +542,6 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
 
-sed -i 's|\r||g'  samples/c/adaptiveskindetector.cpp
 # remove bundled stuff
 rm -rf 3rdparty
 sed -i \
@@ -564,6 +558,11 @@ sed -i \
 %endif
 	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
 	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
+	-DWITH_IPP=OFF \
+	-DWITH_UNICAP=ON \
+	-DCMAKE_SKIP_RPATH=ON \
+	-DWITH_CAROTENE=OFF \
+	-DENABLE_PRECOMPILED_HEADERS:BOOL=OFF \
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
