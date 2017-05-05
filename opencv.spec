@@ -515,6 +515,7 @@ OpenCV sample code.
 %{_bindir}/opencv_performance
 %{_bindir}/opencv_traincascade
 %{_bindir}/opencv_visualisation
+%{_bindir}/opencv_version
 %dir %{_datadir}/OpenCV
 %{_datadir}/OpenCV/samples
 %{_datadir}/OpenCV/haarcascades
@@ -568,7 +569,11 @@ sed -i \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
-	-DENABLE_SSE3=0 \
+%ifnarch x86_64
+	-DENABLE_SSE=OFF \
+	-DENABLE_SSE2=OFF \
+	-DENABLE_SSE3=OFF \
+%endif
 	-DENABLE_SSSE3=0 \
 	-DENABLE_SSE41=0 \
 	-DENABLE_SSE42=0
