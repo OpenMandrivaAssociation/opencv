@@ -65,7 +65,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Widgets)
 # Documentation generation
-BuildRequires:	python-sphinx
+#BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
 
 %description
