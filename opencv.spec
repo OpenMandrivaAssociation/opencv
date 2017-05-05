@@ -3,10 +3,13 @@
 %endif
 %bcond_without	python
 
+# (tpg) libomp is already in llvm-devel
+%define __noautoreq 'devel\\(libomp.*\\)'
+
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	2.4.13.2
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
