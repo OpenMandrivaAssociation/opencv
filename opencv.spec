@@ -486,17 +486,17 @@ OpenCV python2 bindings.
 
 #--------------------------------------------------------------------------------
 
-%package	doc
-Summary:	OpenCV docs
+#%package	doc
+#Summary:	OpenCV docs
 
-Group:		Books/Computer books
-BuildArch:	noarch
+#Group:		Books/Computer books
+#BuildArch:	noarch
 
-%description	doc
-OpenCV docs.
+#%description	doc
+#OpenCV docs.
 
-%files	doc
-%{_datadir}/OpenCV/doc
+#%files	doc
+#%{_datadir}/OpenCV/doc
 
 #--------------------------------------------------------------------------------
 
