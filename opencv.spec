@@ -5,7 +5,7 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	2.4.13
+Version:	2.4.13.2
 Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
@@ -571,7 +571,7 @@ sed -i \
 	-DENABLE_SSE3=0 \
 	-DENABLE_SSSE3=0 \
 	-DENABLE_SSE41=0 \
-	-DENABLE_SSE42=0 
+	-DENABLE_SSE42=0
 
 %make VERBOSE=1
 
