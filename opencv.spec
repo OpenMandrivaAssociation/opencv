@@ -88,24 +88,25 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ts_soname 3.2
-%define libopencv_ts %mklibname opencv_ts %{libopencv_ts_soname}
-%define wrongts %mklibname opencv_ts 2
+%define libopencv_imgcodecs_soname 3.2
+%define libopencv_imgcodecs %mklibname opencv_imgcodecs %{libopencv_imgcodecs_soname}
+%define wrongts %mklibname opencv_imgcodecs 2
 
-%package -n	%{libopencv_ts}
-Summary:	OpenCV Base test library
+%package -n	%{libopencv_imgcodecs}
+Summary:	OpenCV image codecs library
 
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongts}
 
-%description -n	%{libopencv_ts}
-OpenCV Base test library.
+%description -n	%{libopencv_imgcodecs}
+OpenCV image codecs library.
 
 #--------------------------------------------------------------------------------
 
-%files -n      %{libopencv_ts}
-%{_libdir}/libopencv_ts.so.%{libopencv_ts_soname}*
+%files -n      %{libopencv_imgcodecs}
+%{_libdir}/libopencv_imgcodecs.so.%{libopencv_imgcodecs_soname}*
+
 %define libopencv_imgproc_soname 3.2
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
 %define wrongimgproc %mklibname opencv_imgproc 2
@@ -166,22 +167,20 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%if "%{distepoch}" >= "2015.0"
-%define libopencv_ocl_soname 3.2
-%define libopencv_ocl %mklibname opencv_ocl %{libopencv_ocl_soname}
+%define libopencv_shape_soname 3.2
+%define libopencv_shape %mklibname opencv_shape %{libopencv_shape_soname}
 
-%package -n	%{libopencv_ocl}
-Summary:	OpenCV OCL library
+%package -n	%{libopencv_shape}
+Summary:	OpenCV shape library
 
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
-%description -n	%{libopencv_ocl}
-OpenCV OCL library
+%description -n	%{libopencv_shape}
+OpenCV shape library.
 
-%files -n	%{libopencv_ocl}
-%{_libdir}/libopencv_ocl.so.%{libopencv_ocl_soname}*
-%endif
+%files -n	%{libopencv_shape}
+%{_libdir}/libopencv_shape.so.%{libopencv_shape_soname}*
 
 #--------------------------------------------------------------------------------
 
@@ -308,67 +307,20 @@ people detector, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_contrib_soname 3.2
-%define libopencv_contrib %mklibname opencv_contrib %{libopencv_contrib_soname}
-%define wrongcontrib %mklibname opencv_contrib 2
+%define libopencv_videoio_soname 3.2
+%define libopencv_videoio %mklibname opencv_videoio %{libopencv_videoio_soname}
 
-%package -n	%{libopencv_contrib}
-Summary:	OpenCV contributed code library
-
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-Requires:	%{libopencv_calib3d} = %{EVRD}
-Requires:	%{libopencv_highgui} = %{EVRD}
-%rename		%{wrongcontrib}
-
-%description -n	%{libopencv_contrib}
-OpenCV contributed code library.
-
-%files -n	%{libopencv_contrib}
-%{_libdir}/libopencv_contrib.so.%{libopencv_contrib_soname}*
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_legacy_soname 3.2
-%define libopencv_legacy %mklibname opencv_legacy %{libopencv_legacy_soname}
-%define wronglegacy %mklibname opencv_legacy 2
-
-%package -n	%{libopencv_legacy}
-Summary:	OpenCV legacy library
+%package -n	%{libopencv_videoio}
+Summary:	OpenCV videoio library
 
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-Requires:	%{libopencv_calib3d} = %{EVRD}
-Requires:	%{libopencv_highgui} = %{EVRD}
-Requires:	%{libopencv_video} = %{EVRD}
-%rename		%{wronglegacy}
 
-%description -n	%{libopencv_legacy}
-OpenCV library containing obsolete legacy code.
+%description -n	%{libopencv_videoio}
+OpenCV videoio library.
 
-%files -n	%{libopencv_legacy}
-%{_libdir}/libopencv_legacy.so.%{libopencv_legacy_soname}*
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_nonfree_soname 3.2
-%define libopencv_nonfree %mklibname opencv_nonfree %{libopencv_nonfree_soname}
-%define wrongnonfree %mklibname opencv_nonfree 2
-
-%package -n	%{libopencv_nonfree}
-Summary:	OpenCV motion analysis and object tracking library
-
-Group:		System/Libraries
-%rename		%{wrongnonfree}
-
-%description -n	%{libopencv_nonfree}
-OpenCV motion analysis and object tracking library (optical flow,
-motion templates, background subtraction, etc.).
-
-%files -n %{libopencv_nonfree}
-%{_libdir}/libopencv_nonfree.so.%{libopencv_nonfree_soname}*
+%files -n	%{libopencv_videoio}
+%{_libdir}/libopencv_videoio.so.%{libopencv_videoio_soname}*
 
 #--------------------------------------------------------------------------------
 
@@ -433,22 +385,18 @@ Summary:	OpenCV development files
 Group:		Development/C
 Provides:	opencv-devel = %{EVRD}
 Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_ts} = %{EVRD}
+Requires:	%{libopencv_imgcodecs} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
 Requires:	%{libopencv_highgui} = %{EVRD}
 Requires:	%{libopencv_ml} = %{EVRD}
-%if "%{distepoch}" >= "2015.0"
-Requires:	%{libopencv_ocl} = %{EVRD}
-%endif
+Requires:	%{libopencv_shape} = %{EVRD}
 Requires:	%{libopencv_flann} = %{EVRD}
 Requires:	%{libopencv_calib3d} = %{EVRD}
 Requires:	%{libopencv_features2d} = %{EVRD}
 Requires:	%{libopencv_superres} = %{EVRD}
 Requires:	%{libopencv_video} = %{EVRD}
 Requires:	%{libopencv_objdetect} = %{EVRD}
-Requires:	%{libopencv_contrib} = %{EVRD}
-Requires:	%{libopencv_legacy} = %{EVRD}
-Requires:	%{libopencv_nonfree} = %{EVRD}
+Requires:	%{libopencv_videoio} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
@@ -510,8 +458,6 @@ OpenCV sample code.
 %files		samples
 %{_bindir}/opencv_annotation
 %{_bindir}/opencv_createsamples
-%{_bindir}/opencv_haartraining
-%{_bindir}/opencv_performance
 %{_bindir}/opencv_traincascade
 %{_bindir}/opencv_visualisation
 %{_bindir}/opencv_version
