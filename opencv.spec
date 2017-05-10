@@ -496,7 +496,7 @@ sed -i \
 	CMakeLists.txt
 
 %build
-%if %mdvver <= 300000
+%if %mdvver <= 3000000
 export CC=gcc
 export CXX=g++
 %endif
