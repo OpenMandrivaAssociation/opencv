@@ -496,6 +496,11 @@ sed -i \
 	CMakeLists.txt
 
 %build
+%if %mdvver <= 300000
+export CC=gcc
+export CXX=g++
+%endif
+
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
