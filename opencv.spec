@@ -63,6 +63,9 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 # Documentation generation
 #BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
+%if %mdvver <= 3000000
+BuildRequires:	gomp-devel
+%endif
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
