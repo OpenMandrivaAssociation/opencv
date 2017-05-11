@@ -9,7 +9,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	3.2.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -63,9 +63,6 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 # Documentation generation
 #BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
-%if %mdvver <= 3000000
-BuildRequires:	gomp-devel
-%endif
 
 %description
 OpenCV (Open Source Computer Vision) is a library of programming
@@ -97,7 +94,6 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 %package -n	%{libopencv_imgcodecs}
 Summary:	OpenCV image codecs library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongts}
@@ -116,7 +112,6 @@ OpenCV image codecs library.
 
 %package -n	%{libopencv_imgproc}
 Summary:	OpenCV image processing library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongimgproc}
@@ -136,7 +131,6 @@ resize, remap, etc.).
 
 %package -n	%{libopencv_highgui}
 Summary:	OpenCV GUI and image/video I/O library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -156,7 +150,6 @@ OpenCV GUI and image/video I/O library.
 
 %package -n	%{libopencv_ml}
 Summary:	OpenCV machine learning model library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 %rename		%{wrongml}
@@ -175,7 +168,6 @@ decision trees, boosting, etc.).
 
 %package -n	%{libopencv_shape}
 Summary:	OpenCV shape library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
@@ -193,7 +185,6 @@ OpenCV shape library.
 
 %package -n	%{libopencv_flann}
 Summary:	OpenCV FLANN library
-
 Group:		System/Libraries
 %rename		%{wrongflann}
 
@@ -212,7 +203,6 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 %package -n	%{libopencv_calib3d}
 Summary:	OpenCV camera calibration library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -233,7 +223,6 @@ elements of 3D data processing.
 
 %package -n	%{libopencv_features2d}
 Summary:	OpenCV 2D feature detectors
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -255,7 +244,6 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 %package -n	%{libopencv_superres}
 Summary:	OpenCV super-resolution support
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
@@ -273,7 +261,6 @@ Super-resolution support for OpenCV.
 
 %package -n	%{libopencv_video}
 Summary:	OpenCV motion analysis and object tracking library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -294,7 +281,6 @@ motion templates, background subtraction, etc.).
 
 %package -n	%{libopencv_objdetect}
 Summary:	OpenCV motion analysis and object tracking library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 Requires:	%{libopencv_imgproc} = %{EVRD}
@@ -315,7 +301,6 @@ people detector, etc.).
 
 %package -n	%{libopencv_videoio}
 Summary:	OpenCV videoio library
-
 Group:		System/Libraries
 Requires:	%{libopencv_core} = %{EVRD}
 
@@ -333,7 +318,6 @@ OpenCV videoio library.
 
 %package -n	%{libopencv_photo}
 Summary:	OpenCV motion analysis and object tracking library
-
 Group:		System/Libraries
 %rename		%{wrongphoto}
 
@@ -351,7 +335,6 @@ motion templates, background subtraction, etc.).
 
 %package -n %{libopencv_stitching}
 Summary:	OpenCV Stitching Pipeline
-
 Group:		System/Libraries
 
 %description -n %{libopencv_stitching}
@@ -371,7 +354,6 @@ namespace, one can combine and use them separately.
 
 %package -n %{libopencv_videostab}
 Summary:	OpenCV Video stabilization
-
 Group:		System/Libraries
 
 %description -n %{libopencv_videostab}
@@ -384,7 +366,6 @@ OpenCV Video stabilization module.
 
 %package	devel
 Summary:	OpenCV development files
-
 Group:		Development/C
 Provides:	opencv-devel = %{EVRD}
 Requires:	%{libopencv_core} = %{EVRD}
@@ -424,7 +405,6 @@ OpenCV development files.
 #--------------------------------------------------------------------------------
 %package -n	python2-opencv
 Summary:	OpenCV Python bindings
-
 Group:		Development/Python
 
 %description -n	python2-opencv
@@ -438,7 +418,6 @@ OpenCV python2 bindings.
 
 #%package	doc
 #Summary:	OpenCV docs
-
 #Group:		Books/Computer books
 #BuildArch:	noarch
 
@@ -452,7 +431,6 @@ OpenCV python2 bindings.
 
 %package	samples
 Summary:	OpenCV sample code
-
 Group:		Books/Computer books
 
 %description	samples
@@ -473,11 +451,10 @@ OpenCV sample code.
 %if %{with java}
 %package	java
 Summary:	Java bindings for OpenCV
-
 Group:		Sciences/Computer science
 
 %description	java
-Java bindings for OpenCV
+Java bindings for OpenCV.
 
 %files		java
 %{_datadir}/OpenCV/java
@@ -499,10 +476,6 @@ sed -i \
 	CMakeLists.txt
 
 %build
-%if %mdvver <= 3000000
-export CC=gcc
-export CXX=g++
-%endif
 
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
