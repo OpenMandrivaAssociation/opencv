@@ -14,6 +14,7 @@ License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	https://github.com/Itseez/opencv/archive/%{name}-%{version}.tar.gz
+Source1:	https://github.com/opencv/opencv_contrib/%{name}_contrib-%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
 
 Patch1:         opencv-3.2.0-cmake_paths.patch
@@ -461,7 +462,7 @@ Java bindings for OpenCV.
 %endif
 
 %prep
-%setup -q
+%setup -q -a 1
 %apply_patches
 
 # Fix source files having executable permissions
@@ -506,7 +507,8 @@ sed -i \
 %endif
 	-DENABLE_SSSE3=0 \
 	-DENABLE_SSE41=0 \
-	-DENABLE_SSE42=0
+	-DENABLE_SSE42=0 \
+	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules
 
 %make VERBOSE=1
 
