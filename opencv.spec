@@ -6,6 +6,8 @@
 # (tpg) libomp is already in llvm-devel
 %define __noautoreq 'devel\\(libomp.*\\)'
 
+%define _disable_ld_no_undefined 1
+
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	3.2.0
@@ -48,6 +50,10 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libgphoto2)
+BuildRequires:	pkgconfig(lapack)
+BuildRequires:	pkgconfig(tesseract)
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	hdf5-devel
 %if %{with java}
 # Java bindings
 BuildRequires:	java-devel
