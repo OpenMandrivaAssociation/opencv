@@ -372,6 +372,35 @@ OpenCV Video stabilization module.
 
 #--------------------------------------------------------------------------------
 
+%libpackage opencv_aruco 3.2
+%libpackage opencv_bgsegm 3.2
+%libpackage opencv_bioinspired 3.2
+%libpackage opencv_ccalib 3.2
+%libpackage opencv_cvv 3.2
+%libpackage opencv_datasets 3.2
+%libpackage opencv_dnn 3.2
+%libpackage opencv_dpm 3.2
+%libpackage opencv_face 3.2
+%libpackage opencv_freetype 3.2
+%libpackage opencv_fuzzy 3.2
+%libpackage opencv_hdf 3.2
+%libpackage opencv_line_descriptor 3.2
+%libpackage opencv_optflow 3.2
+%libpackage opencv_phase_unwrapping 3.2
+%libpackage opencv_plot 3.2
+%libpackage opencv_reg 3.2
+%libpackage opencv_rgbd 3.2
+%libpackage opencv_saliency 3.2
+%libpackage opencv_stereo 3.2
+%libpackage opencv_structured_light 3.2
+%libpackage opencv_surface_matching 3.2
+%libpackage opencv_text 3.2
+%libpackage opencv_tracking 3.2
+%libpackage opencv_xfeatures2d 3.2
+%libpackage opencv_ximgproc 3.2
+%libpackage opencv_xobjdetect 3.2
+%libpackage opencv_xphoto 3.2
+
 %package	devel
 Summary:	OpenCV development files
 Group:		Development/C
@@ -392,6 +421,34 @@ Requires:	%{libopencv_videoio} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
+Requires:	%{mklibname opencv_aruco 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_bgsegm 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_bioinspired 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_ccalib 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_cvv 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_datasets 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_dnn 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_dpm 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_face 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_freetype 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_fuzzy 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_hdf 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_line_descriptor 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_optflow 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_phase_unwrapping 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_plot 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_reg 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_rgbd 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_saliency 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_stereo 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_structured_light 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_surface_matching 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_text 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_tracking 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_xfeatures2d 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_ximgproc 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_xobjdetect 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_xphoto 3.2} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
@@ -450,6 +507,8 @@ OpenCV sample code.
 %{_bindir}/opencv_traincascade
 %{_bindir}/opencv_visualisation
 %{_bindir}/opencv_version
+%{_bindir}/opencv_interactive-calibration
+%{_bindir}/opencv_waldboost_detector
 %dir %{_datadir}/OpenCV
 %{_datadir}/OpenCV/samples
 %{_datadir}/OpenCV/haarcascades
