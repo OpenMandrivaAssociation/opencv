@@ -23,6 +23,7 @@ Patch1:         opencv-3.2.0-cmake_paths.patch
 
 #Patch2:		opencv-pkgcmake2.patch
 #Patch5:		opencv-2.4.8-ts_static.patch
+Patch10:	opencv-3.2.0-fix-freetype-module.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -483,8 +484,6 @@ sed -i \
 	CMakeLists.txt
 
 %build
-export FREETYPE_LIBRARIES=" -lfreetype2"
-
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
