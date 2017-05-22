@@ -483,6 +483,7 @@ sed -i \
 	CMakeLists.txt
 
 %build
+export FREETYPE_LIBRARIES=" -lfreetype2"
 
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
