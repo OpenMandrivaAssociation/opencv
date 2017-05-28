@@ -27,9 +27,13 @@ Patch10:	opencv-3.2.0-fix-freetype-module.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
+BuildRequires:	protobuf-compiler
+BuildRequires:	protobuf-devel
 %if %{with python}
+BuildRequires:	python-numpy-devel
 BuildRequires:	python2-numpy-devel
 BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
@@ -453,7 +457,8 @@ Requires:	%{mklibname opencv_xphoto 3.2} = %{EVRD}
 Requires:	%{name}-java = %{EVRD}
 %endif
 %if %{with python}
-Requires:	python2-%{name} = %{EVRD}
+Suggests:	python2-%{name} = %{EVRD}
+Requires:	python-%{name} = %{EVRD}
 %endif
 
 %description	devel
@@ -468,12 +473,23 @@ OpenCV development files.
 
 %if %{with python}
 #--------------------------------------------------------------------------------
-%package -n	python2-opencv
+%package -n	python-opencv
 Summary:	OpenCV Python bindings
 Group:		Development/Python
 
+%description -n	python-opencv
+OpenCV python bindings.
+
+%files -n	python-opencv
+%{py_platsitedir}/*
+
+#--------------------------------------------------------------------------------
+%package -n	python2-opencv
+Summary:	OpenCV Python 2.x bindings
+Group:		Development/Python
+
 %description -n	python2-opencv
-OpenCV python2 bindings.
+OpenCV python 2.x bindings.
 
 %files -n	python2-opencv
 %{py2_platsitedir}/*
@@ -542,6 +558,15 @@ sed -i \
 	-e '/add_subdirectory(3rdparty)/ d' \
 	CMakeLists.txt
 
+# rebuild protobuf files with our version of protobuf
+find . -name "*.proto" |while read r; do
+	dir=$(dirname $(realpath $r))
+	out=${dir/src/misc}
+	cd $dir
+	protoc --cpp_out=$out $(basename $r)
+	cd -
+done
+
 %build
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
@@ -565,6 +590,7 @@ sed -i \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
+	-DBUILD_PROTOBUF:BOOL=OFF \
 %ifnarch x86_64
 	-DENABLE_SSE=OFF \
 	-DENABLE_SSE2=OFF \
