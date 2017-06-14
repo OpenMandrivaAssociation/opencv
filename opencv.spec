@@ -568,6 +568,13 @@ find . -name "*.proto" |while read r; do
 done
 
 %build
+%ifarch aarch64
+# As of 3.2.0, clang 4.0.1, OpenCV uses NEON intrinsics
+# understood only by gcc (v_float16x4 on 64bit)
+export CC=gcc
+export CXX=g++
+%endif
+
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
