@@ -382,7 +382,9 @@ OpenCV Video stabilization module.
 %libpackage opencv_ccalib 3.2
 %libpackage opencv_cvv 3.2
 %libpackage opencv_datasets 3.2
+%ifnarch aarch64
 %libpackage opencv_dnn 3.2
+%endif
 %libpackage opencv_dpm 3.2
 %libpackage opencv_face 3.2
 %libpackage opencv_freetype 3.2
@@ -399,7 +401,9 @@ OpenCV Video stabilization module.
 %libpackage opencv_structured_light 3.2
 %libpackage opencv_surface_matching 3.2
 %libpackage opencv_text 3.2
+%ifnarch aarch64
 %libpackage opencv_tracking 3.2
+%endif
 %libpackage opencv_xfeatures2d 3.2
 %libpackage opencv_ximgproc 3.2
 %libpackage opencv_xobjdetect 3.2
@@ -431,7 +435,9 @@ Requires:	%{mklibname opencv_bioinspired 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_cvv 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_datasets 3.2} = %{EVRD}
+%ifnarch aarch64
 Requires:	%{mklibname opencv_dnn 3.2} = %{EVRD}
+%endif
 Requires:	%{mklibname opencv_dpm 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_face 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_freetype 3.2} = %{EVRD}
@@ -448,7 +454,9 @@ Requires:	%{mklibname opencv_stereo 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_structured_light 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_text 3.2} = %{EVRD}
+%ifnarch aarch64
 Requires:	%{mklibname opencv_tracking 3.2} = %{EVRD}
+%endif
 Requires:	%{mklibname opencv_xfeatures2d 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect 3.2} = %{EVRD}
