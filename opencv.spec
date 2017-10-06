@@ -11,7 +11,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	3.2.0
-Release:	2
+Release:	4
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -27,9 +27,13 @@ Patch10:	opencv-3.2.0-fix-freetype-module.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
+BuildRequires:	protobuf-compiler
+BuildRequires:	protobuf-devel
 %if %{with python}
+BuildRequires:	python-numpy-devel
 BuildRequires:	python2-numpy-devel
 BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
@@ -378,7 +382,9 @@ OpenCV Video stabilization module.
 %libpackage opencv_ccalib 3.2
 %libpackage opencv_cvv 3.2
 %libpackage opencv_datasets 3.2
+%ifnarch aarch64
 %libpackage opencv_dnn 3.2
+%endif
 %libpackage opencv_dpm 3.2
 %libpackage opencv_face 3.2
 %libpackage opencv_freetype 3.2
@@ -395,7 +401,9 @@ OpenCV Video stabilization module.
 %libpackage opencv_structured_light 3.2
 %libpackage opencv_surface_matching 3.2
 %libpackage opencv_text 3.2
+%ifnarch aarch64
 %libpackage opencv_tracking 3.2
+%endif
 %libpackage opencv_xfeatures2d 3.2
 %libpackage opencv_ximgproc 3.2
 %libpackage opencv_xobjdetect 3.2
@@ -427,7 +435,9 @@ Requires:	%{mklibname opencv_bioinspired 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_cvv 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_datasets 3.2} = %{EVRD}
+%ifnarch aarch64
 Requires:	%{mklibname opencv_dnn 3.2} = %{EVRD}
+%endif
 Requires:	%{mklibname opencv_dpm 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_face 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_freetype 3.2} = %{EVRD}
@@ -444,7 +454,9 @@ Requires:	%{mklibname opencv_stereo 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_structured_light 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_text 3.2} = %{EVRD}
+%ifnarch aarch64
 Requires:	%{mklibname opencv_tracking 3.2} = %{EVRD}
+%endif
 Requires:	%{mklibname opencv_xfeatures2d 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc 3.2} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect 3.2} = %{EVRD}
@@ -453,7 +465,8 @@ Requires:	%{mklibname opencv_xphoto 3.2} = %{EVRD}
 Requires:	%{name}-java = %{EVRD}
 %endif
 %if %{with python}
-Requires:	python2-%{name} = %{EVRD}
+Suggests:	python2-%{name} = %{EVRD}
+Requires:	python-%{name} = %{EVRD}
 %endif
 
 %description	devel
@@ -468,12 +481,23 @@ OpenCV development files.
 
 %if %{with python}
 #--------------------------------------------------------------------------------
-%package -n	python2-opencv
+%package -n	python-opencv
 Summary:	OpenCV Python bindings
 Group:		Development/Python
 
+%description -n	python-opencv
+OpenCV python bindings.
+
+%files -n	python-opencv
+%{py_platsitedir}/*
+
+#--------------------------------------------------------------------------------
+%package -n	python2-opencv
+Summary:	OpenCV Python 2.x bindings
+Group:		Development/Python
+
 %description -n	python2-opencv
-OpenCV python2 bindings.
+OpenCV python 2.x bindings.
 
 %files -n	python2-opencv
 %{py2_platsitedir}/*
@@ -542,7 +566,23 @@ sed -i \
 	-e '/add_subdirectory(3rdparty)/ d' \
 	CMakeLists.txt
 
+# rebuild protobuf files with our version of protobuf
+find . -name "*.proto" |while read r; do
+	dir=$(dirname $(realpath $r))
+	out=${dir/src/misc}
+	cd $dir
+	protoc --cpp_out=$out $(basename $r)
+	cd -
+done
+
 %build
+%ifarch aarch64
+# As of 3.2.0, clang 4.0.1, OpenCV uses NEON intrinsics
+# understood only by gcc (v_float16x4 on 64bit)
+export CC=gcc
+export CXX=g++
+%endif
+
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
@@ -565,6 +605,7 @@ sed -i \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
+	-DBUILD_PROTOBUF:BOOL=OFF \
 %ifnarch x86_64
 	-DENABLE_SSE=OFF \
 	-DENABLE_SSE2=OFF \
