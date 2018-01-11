@@ -8,22 +8,23 @@
 
 %define _disable_ld_no_undefined 1
 
+%define major %(echo %{version} |cut -d. -f1-2)
+
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	3.2.0
-Release:	4
+Version:	3.4.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	https://github.com/Itseez/opencv/archive/%{name}-%{version}.tar.gz
-Source1:	https://github.com/opencv/opencv_contrib/%{name}_contrib-%{version}.tar.gz
+Source0:	https://github.com/opencv/opencv/archive/%{version}.tar.gz
+Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}.zip
 Source100:	%{name}.rpmlintrc
 
-Patch1:         opencv-3.2.0-cmake_paths.patch
+Patch2:		opencv-3.4-libdir.patch
 
 #Patch2:		opencv-pkgcmake2.patch
 #Patch5:		opencv-2.4.8-ts_static.patch
-Patch10:	opencv-3.2.0-fix-freetype-module.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
@@ -82,7 +83,7 @@ functions for real time computer vision.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_core_soname 3.2
+%define libopencv_core_soname %{major}
 %define libopencv_core %mklibname opencv_core %{libopencv_core_soname}
 %define wrongcore %mklibname opencv_core 2
 
@@ -100,7 +101,7 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_imgcodecs_soname 3.2
+%define libopencv_imgcodecs_soname %{major}
 %define libopencv_imgcodecs %mklibname opencv_imgcodecs %{libopencv_imgcodecs_soname}
 %define wrongts %mklibname opencv_imgcodecs 2
 
@@ -118,7 +119,7 @@ OpenCV image codecs library.
 %files -n      %{libopencv_imgcodecs}
 %{_libdir}/libopencv_imgcodecs.so.%{libopencv_imgcodecs_soname}*
 
-%define libopencv_imgproc_soname 3.2
+%define libopencv_imgproc_soname %{major}
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
 %define wrongimgproc %mklibname opencv_imgproc 2
 
@@ -137,7 +138,7 @@ resize, remap, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_highgui_soname 3.2
+%define libopencv_highgui_soname %{major}
 %define libopencv_highgui %mklibname opencv_highgui %{libopencv_highgui_soname}
 %define wronghighgui %mklibname opencv_highgui 2
 
@@ -156,7 +157,7 @@ OpenCV GUI and image/video I/O library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_ml_soname 3.2
+%define libopencv_ml_soname %{major}
 %define libopencv_ml %mklibname opencv_ml %{libopencv_ml_soname}
 %define wrongml %mklibname opencv_ml 2
 
@@ -175,7 +176,7 @@ decision trees, boosting, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_shape_soname 3.2
+%define libopencv_shape_soname %{major}
 %define libopencv_shape %mklibname opencv_shape %{libopencv_shape_soname}
 
 %package -n	%{libopencv_shape}
@@ -191,7 +192,7 @@ OpenCV shape library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_flann_soname 3.2
+%define libopencv_flann_soname %{major}
 %define libopencv_flann %mklibname opencv_flann %{libopencv_flann_soname}
 %define wrongflann %mklibname opencv_flann 2
 
@@ -209,7 +210,7 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_calib3d_soname 3.2
+%define libopencv_calib3d_soname %{major}
 %define libopencv_calib3d %mklibname opencv_calib3d %{libopencv_calib3d_soname}
 %define wrongcalib3d %mklibname opencv_calib3d 2
 
@@ -229,7 +230,7 @@ elements of 3D data processing.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_features2d_soname 3.2
+%define libopencv_features2d_soname %{major}
 %define libopencv_features2d %mklibname opencv_features2d %{libopencv_features2d_soname}
 %define wrongfeatures2d %mklibname opencv_features2d 2
 
@@ -251,7 +252,7 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_superres_soname 3.2
+%define libopencv_superres_soname %{major}
 %define libopencv_superres %mklibname opencv_superres %{libopencv_superres_soname}
 
 %package -n	%{libopencv_superres}
@@ -267,7 +268,7 @@ Super-resolution support for OpenCV.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_video_soname 3.2
+%define libopencv_video_soname %{major}
 %define libopencv_video %mklibname opencv_video %{libopencv_video_soname}
 %define wrongvideo %mklibname opencv_video 2
 
@@ -287,7 +288,7 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_objdetect_soname 3.2
+%define libopencv_objdetect_soname %{major}
 %define libopencv_objdetect %mklibname opencv_objdetect %{libopencv_objdetect_soname}
 %define wrongobjdetect %mklibname opencv_objdetect 2
 
@@ -308,7 +309,7 @@ people detector, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_videoio_soname 3.2
+%define libopencv_videoio_soname %{major}
 %define libopencv_videoio %mklibname opencv_videoio %{libopencv_videoio_soname}
 
 %package -n	%{libopencv_videoio}
@@ -324,7 +325,7 @@ OpenCV videoio library.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_photo_soname 3.2
+%define libopencv_photo_soname %{major}
 %define libopencv_photo %mklibname opencv_photo %{libopencv_photo_soname}
 %define wrongphoto %mklibname opencv_photo 2
 
@@ -342,7 +343,7 @@ motion templates, background subtraction, etc.).
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_stitching_soname 3.2
+%define libopencv_stitching_soname %{major}
 %define libopencv_stitching %mklibname opencv_stitching %{libopencv_stitching_soname}
 
 %package -n %{libopencv_stitching}
@@ -361,7 +362,7 @@ namespace, one can combine and use them separately.
 
 #--------------------------------------------------------------------------------
 
-%define libopencv_videostab_soname 3.2
+%define libopencv_videostab_soname %{major}
 %define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
 
 %package -n %{libopencv_videostab}
@@ -376,38 +377,40 @@ OpenCV Video stabilization module.
 
 #--------------------------------------------------------------------------------
 
-%libpackage opencv_aruco 3.2
-%libpackage opencv_bgsegm 3.2
-%libpackage opencv_bioinspired 3.2
-%libpackage opencv_ccalib 3.2
-%libpackage opencv_cvv 3.2
-%libpackage opencv_datasets 3.2
+%libpackage opencv_aruco %{major}
+%libpackage opencv_bgsegm %{major}
+%libpackage opencv_bioinspired %{major}
+%libpackage opencv_ccalib %{major}
+%libpackage opencv_cvv %{major}
+%libpackage opencv_datasets %{major}
 %ifnarch aarch64
-%libpackage opencv_dnn 3.2
+%libpackage opencv_dnn %{major}
+%libpackage opencv_dnn_modern %{major}
 %endif
-%libpackage opencv_dpm 3.2
-%libpackage opencv_face 3.2
-%libpackage opencv_freetype 3.2
-%libpackage opencv_fuzzy 3.2
-%libpackage opencv_hdf 3.2
-%libpackage opencv_line_descriptor 3.2
-%libpackage opencv_optflow 3.2
-%libpackage opencv_phase_unwrapping 3.2
-%libpackage opencv_plot 3.2
-%libpackage opencv_reg 3.2
-%libpackage opencv_rgbd 3.2
-%libpackage opencv_saliency 3.2
-%libpackage opencv_stereo 3.2
-%libpackage opencv_structured_light 3.2
-%libpackage opencv_surface_matching 3.2
-%libpackage opencv_text 3.2
+%libpackage opencv_dpm %{major}
+%libpackage opencv_face %{major}
+%libpackage opencv_freetype %{major}
+%libpackage opencv_fuzzy %{major}
+%libpackage opencv_hdf %{major}
+%libpackage opencv_img_hash %{major}
+%libpackage opencv_line_descriptor %{major}
+%libpackage opencv_optflow %{major}
+%libpackage opencv_phase_unwrapping %{major}
+%libpackage opencv_plot %{major}
+%libpackage opencv_reg %{major}
+%libpackage opencv_rgbd %{major}
+%libpackage opencv_saliency %{major}
+%libpackage opencv_stereo %{major}
+%libpackage opencv_structured_light %{major}
+%libpackage opencv_surface_matching %{major}
+%libpackage opencv_text %{major}
 %ifnarch aarch64
-%libpackage opencv_tracking 3.2
+%libpackage opencv_tracking %{major}
 %endif
-%libpackage opencv_xfeatures2d 3.2
-%libpackage opencv_ximgproc 3.2
-%libpackage opencv_xobjdetect 3.2
-%libpackage opencv_xphoto 3.2
+%libpackage opencv_xfeatures2d %{major}
+%libpackage opencv_ximgproc %{major}
+%libpackage opencv_xobjdetect %{major}
+%libpackage opencv_xphoto %{major}
 
 %package	devel
 Summary:	OpenCV development files
@@ -429,38 +432,38 @@ Requires:	%{libopencv_videoio} = %{EVRD}
 Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
-Requires:	%{mklibname opencv_aruco 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_bgsegm 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_bioinspired 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_ccalib 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_cvv 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_datasets 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_aruco %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 %ifnarch aarch64
-Requires:	%{mklibname opencv_dnn 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
 %endif
-Requires:	%{mklibname opencv_dpm 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_face 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_freetype 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_fuzzy 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_hdf 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_line_descriptor 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_optflow 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_phase_unwrapping 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_plot 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_reg 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_rgbd 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_saliency 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_stereo 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_structured_light 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_surface_matching 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_text 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_dpm %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_face %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_freetype %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_fuzzy %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_hdf %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_line_descriptor %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_optflow %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_phase_unwrapping %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_plot %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_reg %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_rgbd %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_saliency %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_stereo %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
 %ifnarch aarch64
-Requires:	%{mklibname opencv_tracking 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
 %endif
-Requires:	%{mklibname opencv_xfeatures2d 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_ximgproc 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_xobjdetect 3.2} = %{EVRD}
-Requires:	%{mklibname opencv_xphoto 3.2} = %{EVRD}
+Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_xphoto %{major}} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
@@ -476,8 +479,9 @@ OpenCV development files.
 %{_libdir}/*.so
 %{_includedir}/*
 %{_libdir}/pkgconfig/*
-%dir %{_libdir}/OpenCV
-%{_libdir}/OpenCV/*.cmake
+%dir %{_datadir}/OpenCV
+%{_datadir}/OpenCV/*.cmake
+%{_datadir}/OpenCV/valgrind*.supp
 
 %if %{with python}
 #--------------------------------------------------------------------------------
@@ -559,12 +563,6 @@ Java bindings for OpenCV.
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
-
-# remove bundled stuff
-rm -rf 3rdparty
-sed -i \
-	-e '/add_subdirectory(3rdparty)/ d' \
-	CMakeLists.txt
 
 # rebuild protobuf files with our version of protobuf
 find . -name "*.proto" |while read r; do

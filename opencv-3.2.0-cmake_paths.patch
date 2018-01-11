@@ -1,13 +1,12 @@
-diff -urNp old/CMakeLists.txt new/CMakeLists.txt
---- old/CMakeLists.txt	2016-12-23 13:54:44.000000000 +0100
-+++ new/CMakeLists.txt	2017-02-27 08:56:04.504933013 +0100
-@@ -402,12 +402,7 @@ else()
+--- opencv-3.4.0/CMakeLists.txt.0001~	2018-01-11 16:46:00.651867684 +0100
++++ opencv-3.4.0/CMakeLists.txt	2018-01-11 16:49:36.729027197 +0100
+@@ -428,12 +428,7 @@ else()
      ocv_update(OPENCV_OTHER_INSTALL_PATH   share/OpenCV)
  
      if(NOT DEFINED OPENCV_CONFIG_INSTALL_PATH)
 -      math(EXPR SIZEOF_VOID_P_BITS "8 * ${CMAKE_SIZEOF_VOID_P}")
 -      if(LIB_SUFFIX AND NOT SIZEOF_VOID_P_BITS EQUAL LIB_SUFFIX)
--        ocv_update(OPENCV_CONFIG_INSTALL_PATH lib${LIB_SUFFIX}/cmake/opencv)
+-        ocv_update(OPENCV_CONFIG_INSTALL_PATH ${CMAKE_INSTALL_LIBDIR}${LIB_SUFFIX}/cmake/opencv)
 -      else()
 -        ocv_update(OPENCV_CONFIG_INSTALL_PATH share/OpenCV)
 -      endif()
