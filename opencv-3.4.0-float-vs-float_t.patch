@@ -1,0 +1,35 @@
+--- opencv-3.4.0/opencv_contrib-3.4.0/modules/dnn_modern/samples/simple_test.cpp.omv~	2018-01-12 02:55:38.657863835 +0100
++++ opencv-3.4.0/opencv_contrib-3.4.0/modules/dnn_modern/samples/simple_test.cpp	2018-01-12 02:56:10.845939245 +0100
+@@ -28,7 +28,7 @@ static void help() {
+ 
+ vector<string> get_label_list(const string& label_file);
+ void print_n_labels(const vector<string>& labels,
+-                    const vector<float_t>& result,
++                    const vector<float>& result,
+                     const int top_n);
+ 
+ vector<string> get_label_list(const string& label_file) {
+@@ -46,11 +46,11 @@ vector<string> get_label_list(const stri
+ }
+ 
+ void print_n_labels(const vector<string>& labels,
+-                    const vector<float_t>& result,
++                    const vector<float>& result,
+                     const int top_n) {
+-    vector<float_t> sorted(result.begin(), result.end());
++    vector<float> sorted(result.begin(), result.end());
+ 
+-    partial_sort(sorted.begin(), sorted.begin()+top_n, sorted.end(), greater<float_t>());
++    partial_sort(sorted.begin(), sorted.begin()+top_n, sorted.end(), greater<float>());
+ 
+     for (int i = 0; i < top_n; i++) {
+         size_t idx = distance(result.begin(), find(result.begin(), result.end(), sorted[i]));
+@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
+     cv::Mat img = cv::imread(img_file, -1);
+ 
+     // inference !
+-    vector<float_t> scores;
++    vector<float> scores;
+     caffe_ptr->eval(img, scores);
+ 
+     // retrieve n labels
