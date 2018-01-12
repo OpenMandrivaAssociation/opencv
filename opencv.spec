@@ -21,6 +21,7 @@ Source0:	https://github.com/opencv/opencv/archive/%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}.zip
 Source100:	%{name}.rpmlintrc
 
+Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
 
 #Patch2:		opencv-pkgcmake2.patch
