@@ -19,6 +19,8 @@ Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	https://github.com/opencv/opencv/archive/%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}.zip
+# TODO Keep in sync with version required in opencv_contrib-3.4.0/modules/dnn_modern/CMakeLists.txt!
+Source2:	https://github.com/tiny-dnn/tiny-dnn/archive/v1.0.0a3.tar.gz
 Source100:	%{name}.rpmlintrc
 
 Patch1:		opencv-3.4.0-x32-sse.patch
@@ -62,9 +64,10 @@ BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	hdf5-devel
+BuildRequires:	doxygen graphviz
 %if %{with java}
 # Java bindings
-BuildRequires:	java-devel
+BuildRequires:	java-devel java-openjdk java-openjdk-headless
 BuildRequires:	ant
 %endif
 # Qt 5.x module
@@ -560,6 +563,11 @@ Java bindings for OpenCV.
 %prep
 %setup -q -a 1
 %apply_patches
+
+mkdir -p build/3rdparty/tinydnn
+cd build/3rdparty/tinydnn
+tar xf %{SOURCE2}
+cd -
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
