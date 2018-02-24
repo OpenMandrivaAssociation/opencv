@@ -29,6 +29,7 @@ Patch3:		opencv-3.4.0-float-vs-float_t.patch
 
 #Patch2:		opencv-pkgcmake2.patch
 #Patch5:		opencv-2.4.8-ts_static.patch
+Patch11:	opencv-3.4.0-python3.7.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
