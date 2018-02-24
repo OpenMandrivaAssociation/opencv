@@ -389,10 +389,8 @@ OpenCV Video stabilization module.
 %libpackage opencv_ccalib %{major}
 %libpackage opencv_cvv %{major}
 %libpackage opencv_datasets %{major}
-%ifnarch aarch64
 %libpackage opencv_dnn %{major}
 %libpackage opencv_dnn_modern %{major}
-%endif
 %libpackage opencv_dpm %{major}
 %libpackage opencv_face %{major}
 %libpackage opencv_freetype %{major}
@@ -410,9 +408,7 @@ OpenCV Video stabilization module.
 %libpackage opencv_structured_light %{major}
 %libpackage opencv_surface_matching %{major}
 %libpackage opencv_text %{major}
-%ifnarch aarch64
 %libpackage opencv_tracking %{major}
-%endif
 %libpackage opencv_xfeatures2d %{major}
 %libpackage opencv_ximgproc %{major}
 %libpackage opencv_xobjdetect %{major}
@@ -444,9 +440,7 @@ Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
-%ifnarch aarch64
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
-%endif
 Requires:	%{mklibname opencv_dpm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_face %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_freetype %{major}} = %{EVRD}
@@ -463,9 +457,7 @@ Requires:	%{mklibname opencv_stereo %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
-%ifnarch aarch64
 Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
-%endif
 Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
