@@ -12,8 +12,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	3.4.0
-Release:	3
+Version:	3.4.1
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -25,7 +25,7 @@ Source100:	%{name}.rpmlintrc
 
 Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
-Patch3:		opencv-3.4.0-float-vs-float_t.patch
+#Patch3:		opencv-3.4.0-float-vs-float_t.patch
 
 #Patch2:		opencv-pkgcmake2.patch
 #Patch5:		opencv-2.4.8-ts_static.patch
