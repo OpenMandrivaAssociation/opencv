@@ -6,12 +6,14 @@
 # (tpg) libomp is already in llvm-devel
 %define __noautoreq 'devel\\(libomp.*\\)'
 
-%define _disable_ld_no_undefined 1
+# Python2 bits are harmful
+%global _python_bytecompile_build 0
 
 %define major %(echo %{version} |cut -d. -f1-2)
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
+# When updating, please check if patch 12 is still needed
 Version:	3.4.1
 Release:	1
 License:	GPLv2+
@@ -26,11 +28,18 @@ Source100:	%{name}.rpmlintrc
 Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
-
-#Patch2:		opencv-pkgcmake2.patch
-#Patch5:		opencv-2.4.8-ts_static.patch
+Patch4:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/11275.patch
+Patch5:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/549b5df22520b60b91dd77096434d79425b31ac2.patch
+#Patch6:		opencv-pkgcmake2.patch
+#Patch7:		opencv-2.4.8-ts_static.patch
 Patch11:	opencv-3.4.0-python3.7.patch
-BuildRequires:	cmake
+# FIXME THIS PATCH IS BOGUS
+# We disable the OpenCL sample here because it won't build,
+# without addressing the real issue.
+# For now, this is good enough, hoping upstream will fix the
+# problem...
+Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
+BuildRequires:	cmake ninja
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
 BuildRequires:	protobuf-compiler
@@ -391,11 +400,13 @@ OpenCV Video stabilization module.
 %libpackage opencv_datasets %{major}
 %libpackage opencv_dnn %{major}
 %libpackage opencv_dnn_modern %{major}
+%libpackage opencv_dnn_objdetect %{major}
 %libpackage opencv_dpm %{major}
 %libpackage opencv_face %{major}
 %libpackage opencv_freetype %{major}
 %libpackage opencv_fuzzy %{major}
 %libpackage opencv_hdf %{major}
+%libpackage opencv_hfs %{major}
 %libpackage opencv_img_hash %{major}
 %libpackage opencv_line_descriptor %{major}
 %libpackage opencv_optflow %{major}
@@ -607,20 +618,23 @@ export CXX=g++
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
+%ifarch %{ix86} x86_64
+	-DENABLE_SSE=ON \
+%endif
 %ifnarch x86_64
-	-DENABLE_SSE=OFF \
 	-DENABLE_SSE2=OFF \
 	-DENABLE_SSE3=OFF \
 %endif
 	-DENABLE_SSSE3=0 \
 	-DENABLE_SSE41=0 \
 	-DENABLE_SSE42=0 \
-	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules
+	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
+	-G Ninja
 
-%make VERBOSE=1
+%ninja_build
 
 %install
-%makeinstall_std -C build
+%ninja_install -C build
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc

@@ -1,0 +1,11 @@
+--- opencv-3.4.1/CMakeLists.txt.orig	2018-02-23 10:38:33.000000000 +0200
++++ opencv-3.4.1/CMakeLists.txt	2018-04-09 15:22:50.539167691 +0300
+@@ -439,7 +439,7 @@
+     ocv_update(OPENCV_CONFIG_INSTALL_PATH  ".")
+   else()
+     include(GNUInstallDirs)
+-    ocv_update(OPENCV_LIB_INSTALL_PATH     ${CMAKE_INSTALL_LIBDIR}${LIB_SUFFIX})
++    ocv_update(OPENCV_LIB_INSTALL_PATH     ${CMAKE_INSTALL_LIBDIR})
+     ocv_update(OPENCV_3P_LIB_INSTALL_PATH  share/OpenCV/3rdparty/${OPENCV_LIB_INSTALL_PATH})
+     ocv_update(OPENCV_SAMPLES_SRC_INSTALL_PATH    share/OpenCV/samples)
+     ocv_update(OPENCV_JAR_INSTALL_PATH share/OpenCV/java)
