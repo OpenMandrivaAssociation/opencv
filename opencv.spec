@@ -23,6 +23,20 @@ Source0:	https://github.com/opencv/opencv/archive/%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}.zip
 # TODO Keep in sync with version required in opencv_contrib-3.4.0/modules/dnn_modern/CMakeLists.txt!
 Source2:	https://github.com/tiny-dnn/tiny-dnn/archive/v1.0.0a3.tar.gz
+# TODO Keep in sync with versions downloaded by opencv_contrib/modules/xfeatures2d/cmake/download_boostdesc.cmake
+Source3:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm.i
+Source4:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm_bi.i
+Source5:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm_hd.i
+Source6:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_binboost_064.i
+Source7:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_binboost_128.i
+Source8:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_binboost_256.i
+Source9:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_lbgm.i
+Source10:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_48.i
+Source11:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
+Source12:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
+Source13:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
+Source14:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/8afa57abc8229d611c4937165d20e2a2d9fc5a12/face_landmark_model.dat
+Source15:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/b2bfc75f6aea5b1f834ff0f0b865a7c18ff1459f/res10_300x300_ssd_iter_140000.caffemodel
 Source100:	%{name}.rpmlintrc
 
 Patch1:		opencv-3.4.0-x32-sse.patch
@@ -567,6 +581,17 @@ Java bindings for OpenCV.
 %prep
 %setup -q -a 1
 %apply_patches
+
+mkdir -p build/downloads/xfeatures2d \
+         build/share/OpenCV/testdata/cv/face/ \
+         samples/dnn/face_detector/
+cp %{S:3} %{S:4} %{S:5} %{S:6} %{S:7} %{S:8} \
+   %{S:9} %{S:10} %{S:11} %{S:12} %{S:13} \
+   build/downloads/xfeatures2d/
+cp %{S:14} \
+   build/share/OpenCV/testdata/cv/face/
+cp %{S:15} \
+   samples/dnn/face_detector/
 
 mkdir -p build/3rdparty/tinydnn
 cd build/3rdparty/tinydnn
