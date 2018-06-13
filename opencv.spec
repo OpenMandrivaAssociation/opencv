@@ -15,7 +15,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	3.4.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -466,11 +466,15 @@ Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_dnn_modern %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dpm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_face %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_freetype %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_fuzzy %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_hdf %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_hfs %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_img_hash %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_line_descriptor %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_optflow %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_phase_unwrapping %{major}} = %{EVRD}
