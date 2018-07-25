@@ -11,7 +11,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	3.2.0
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -24,6 +24,8 @@ Patch1:         opencv-3.2.0-cmake_paths.patch
 #Patch2:		opencv-pkgcmake2.patch
 #Patch5:		opencv-2.4.8-ts_static.patch
 Patch10:	opencv-3.2.0-fix-freetype-module.patch
+# fix build with ffmpeg 4, upstream git merge req
+Patch11:	10011.patch
 BuildRequires:	cmake
 BuildRequires:	jpeg-devel
 BuildRequires:	%{_lib}opencl-devel
