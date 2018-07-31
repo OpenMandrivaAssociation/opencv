@@ -647,7 +647,7 @@ export CXX=g++
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-%ifarch %{ix86} x86_64
+%ifarch %{ix86} x86_64 znver1
 	-DENABLE_SSE=ON \
 %endif
 %ifnarch x86_64
