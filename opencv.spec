@@ -14,13 +14,13 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	3.4.1
-Release:	3
+Version:	3.4.2
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	https://github.com/opencv/opencv/archive/%{version}.tar.gz
-Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}.zip
+Source0:	https://github.com/opencv/opencv/archive/%{name}-%{version}.tar.gz
+Source1:	https://github.com/opencv/opencv_contrib/archive/%{name}_contrib-%{version}.tar.gz
 # TODO Keep in sync with version required in opencv_contrib-3.4.0/modules/dnn_modern/CMakeLists.txt!
 Source2:	https://github.com/tiny-dnn/tiny-dnn/archive/v1.0.0a3.tar.gz
 # TODO Keep in sync with versions downloaded by opencv_contrib/modules/xfeatures2d/cmake/download_boostdesc.cmake
