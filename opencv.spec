@@ -4,7 +4,7 @@
 %bcond_without	python
 
 # (tpg) libomp is already in llvm-devel
-%define __noautoreq 'devel\\(libomp.*\\)'
+%global __requires_exclude 'devel\\(libomp.*\\)'
 
 # Python2 bits are harmful
 %global _python_bytecompile_build 0
