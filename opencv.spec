@@ -39,7 +39,7 @@ Source14:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/8afa57abc8229
 Source15:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/b2bfc75f6aea5b1f834ff0f0b865a7c18ff1459f/res10_300x300_ssd_iter_140000.caffemodel
 Source100:	%{name}.rpmlintrc
 
-Patch1:		opencv-3.4.0-x32-sse.patch
+#Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
 Patch4:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/11275.patch
