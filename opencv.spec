@@ -44,7 +44,7 @@ Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
 #Patch6:		opencv-pkgcmake2.patch
 #Patch7:		opencv-2.4.8-ts_static.patch
-Patch11:	opencv-3.4.0-python3.7.patch
+#Patch11:	opencv-3.4.0-python3.7.patch
 # FIXME THIS PATCH IS BOGUS
 # We disable the OpenCL sample here because it won't build,
 # without addressing the real issue.
