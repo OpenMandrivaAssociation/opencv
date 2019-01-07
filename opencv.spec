@@ -14,8 +14,8 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	3.4.2
-Release:	2
+Version:	3.4.5
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -42,7 +42,6 @@ Source100:	%{name}.rpmlintrc
 #Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
-Patch5:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/549b5df22520b60b91dd77096434d79425b31ac2.patch
 #Patch6:		opencv-pkgcmake2.patch
 #Patch7:		opencv-2.4.8-ts_static.patch
 Patch11:	opencv-3.4.0-python3.7.patch
