@@ -42,7 +42,6 @@ Source100:	%{name}.rpmlintrc
 #Patch1:		opencv-3.4.0-x32-sse.patch
 Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
-Patch4:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/11275.patch
 Patch5:		http://svnweb.mageia.org/packages/cauldron/opencv/current/SOURCES/549b5df22520b60b91dd77096434d79425b31ac2.patch
 #Patch6:		opencv-pkgcmake2.patch
 #Patch7:		opencv-2.4.8-ts_static.patch
@@ -584,7 +583,7 @@ Java bindings for OpenCV.
 
 %prep
 %setup -q -a 1
-%apply_patches
+%autopatch -p1
 
 mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
@@ -647,10 +646,10 @@ export CXX=g++
 	-DWITH_OPENMP:BOOL=ON \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-%ifarch %{ix86} x86_64 znver1
+%ifarch %{ix86} %{x86_64}
 	-DENABLE_SSE=ON \
 %endif
-%ifnarch x86_64
+%ifnarch %{x86_64}
 	-DENABLE_SSE2=OFF \
 	-DENABLE_SSE3=OFF \
 %endif
