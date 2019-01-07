@@ -1,7 +1,7 @@
 %ifnarch %{armx}
-%bcond_without	java
+%bcond_without java
 %endif
-%bcond_without	python
+%bcond_without python
 
 # (tpg) libomp is already in llvm-devel
 %global __requires_exclude 'devel\\(libomp.*\\)'
@@ -87,6 +87,7 @@ BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
+BuildRequires:	pkgconfig(lapack)
 %if %{with java}
 # Java bindings
 BuildRequires:	java-devel java-openjdk java-openjdk-headless
@@ -411,7 +412,6 @@ OpenCV Video stabilization module.
 %libpackage opencv_cvv %{major}
 %libpackage opencv_datasets %{major}
 %libpackage opencv_dnn %{major}
-%libpackage opencv_dnn_modern %{major}
 %libpackage opencv_dnn_objdetect %{major}
 %libpackage opencv_dpm %{major}
 %libpackage opencv_face %{major}
@@ -464,7 +464,6 @@ Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_dnn_modern %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dpm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_face %{major}} = %{EVRD}
@@ -643,18 +642,16 @@ export CXX=g++
 	-DWITH_CUDA:BOOL=OFF \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
+	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-%ifarch %{ix86} %{x86_64}
-	-DENABLE_SSE=ON \
+%ifarch %{ix86} x86_64
+	-DCPU_BASELINE=SSE2 \
 %endif
-%ifnarch %{x86_64}
-	-DENABLE_SSE2=OFF \
-	-DENABLE_SSE3=OFF \
+%ifarch znver1
+	-DCPU_BASELINE=SSE3 \
+	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
-	-DENABLE_SSSE3=0 \
-	-DENABLE_SSE41=0 \
-	-DENABLE_SSE42=0 \
 	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
 	-G Ninja
 
