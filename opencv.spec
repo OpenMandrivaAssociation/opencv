@@ -70,6 +70,7 @@ BuildRequires:	pkgconfig(gstreamer-video-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(jasper)
+BuildRequires:	pkgconfig(blas)
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(libavcodec)
 BuildRequires:	pkgconfig(libavformat)
@@ -517,6 +518,7 @@ Group:		Development/Python
 OpenCV python bindings.
 
 %files -n	python-opencv
+%{_bindir}/setup_vars_opencv3.sh
 %{py_platsitedir}/*
 
 #--------------------------------------------------------------------------------
@@ -662,3 +664,5 @@ export CXX=g++
 
 # Requesting libraries by filename is just bogus...
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
+# (tpg) remove not needed files
+rm -rf %{buildroot}%{_datadir}/OpenCV/licenses
