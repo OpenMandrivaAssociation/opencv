@@ -11,11 +11,14 @@
 
 %define major %(echo %{version} |cut -d. -f1-2)
 
+# (tpg) enable PGO build
+%bcond_without pgo
+
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	3.4.5
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -623,6 +626,71 @@ export CC=gcc
 export CXX=g++
 %endif
 
+%if %{with pgo}
+CFLAGS_PGO="%{optflags} -fprofile-instr-generate"
+CXXFLAGS_PGO="%{optflags} -fprofile-instr-generate"
+FFLAGS_PGO="$CFLAGS_PGO"
+FCFLAGS_PGO="$CFLAGS_PGO"
+LDFLAGS_PGO="%{ldflags} -fprofile-instr-generate"
+export LLVM_PROFILE_FILE=%{name}-%p.profile.d
+export LD_LIBRARY_PATH="$(pwd)"
+mkdir pgo
+cd pgo
+CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS="${FCFLAGS_PGO}" LDFLAGS="${LDFLAGS_PGO}" CC="%{__cc}" \
+%cmake \
+	-DBUILD_EXAMPLES:BOOL=ON \
+	-DBUILD_opencv_gpu:BOOL=OFF \
+	-DINSTALL_C_EXAMPLES:BOOL=ON \
+%if %{with python}
+	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
+%endif
+	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
+	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
+	-DWITH_IPP=OFF \
+	-DWITH_UNICAP=OFF \
+	-DCMAKE_SKIP_RPATH=ON \
+	-DWITH_CAROTENE=OFF \
+	-DENABLE_PRECOMPILED_HEADERS:BOOL=OFF \
+	-DWITH_FFMPEG:BOOL=ON \
+	-DWITH_OPENGL:BOOL=ON \
+	-DWITH_TIFF:BOOL=ON \
+	-DWITH_QT:BOOL=ON \
+	-DWITH_CUDA:BOOL=OFF \
+	-DWITH_VTK:BOOL=ON \
+	-DWITH_OPENMP:BOOL=ON \
+	-DOpenGL_GL_PREFERENCE=GLVND \
+	-DENABLE_FAST_MATH:BOOL=ON \
+	-DBUILD_PROTOBUF:BOOL=OFF \
+%ifarch %{ix86} x86_64
+	-DCPU_BASELINE=SSE2 \
+%endif
+%ifarch znver1
+	-DCPU_BASELINE=SSE3 \
+	-DCPU_DISPATCH=AVX,AVX2 \
+%endif
+	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
+	-G Ninja
+
+%ninja_build
+
+bin/opencv_perf_core ||:
+bin/opencv_perf_imgproc ||:
+bin/opencv_perf_dnn ||:
+bin/opencv_perf_stitching ||:
+bin/opencv_perf_features2d ||:
+bin/opencv_perf_superres ||:
+unset LD_LIBRARY_PATH
+unset LLVM_PROFILE_FILE
+llvm-profdata merge --output=%{name}.profile *.profile.d
+rm -f *.profile.d
+ninja clean
+rm -rf pgo
+cd -
+
+CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
