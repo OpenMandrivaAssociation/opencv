@@ -633,7 +633,7 @@ FFLAGS_PGO="$CFLAGS_PGO"
 FCFLAGS_PGO="$CFLAGS_PGO"
 LDFLAGS_PGO="%{ldflags} -fprofile-instr-generate"
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
-export LD_LIBRARY_PATH="$(pwd)"
+export LD_LIBRARY_PATH="$(pwd)/pgo/lib"
 mkdir pgo
 %define _vpath_builddir pgo
 
@@ -660,11 +660,16 @@ CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-%ifarch %{ix86} x86_64
+%ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
-%ifarch znver1
+%ifarch x86_64
 	-DCPU_BASELINE=SSE3 \
+	-DCPU_DISPATCH=AVX \
+%endif
+
+%ifarch znver1
+	-DCPU_BASELINE=SSE4_2 \
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
 	-G Ninja
@@ -714,11 +719,15 @@ LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-%ifarch %{ix86} x86_64
+%ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
-%ifarch znver1
+%ifarch x86_64
 	-DCPU_BASELINE=SSE3 \
+	-DCPU_DISPATCH=AVX \
+%endif
+%ifarch znver1
+	-DCPU_BASELINE=SSE4_2 \
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
 	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
