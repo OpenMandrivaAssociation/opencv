@@ -635,16 +635,15 @@ LDFLAGS_PGO="%{ldflags} -fprofile-instr-generate"
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
 mkdir pgo
-cd pgo
+%define _vpath_builddir pgo
+
 CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS="${FCFLAGS_PGO}" LDFLAGS="${LDFLAGS_PGO}" CC="%{__cc}" \
 %cmake \
-	-DBUILD_EXAMPLES:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=OFF \
 	-DBUILD_opencv_gpu:BOOL=OFF \
-	-DINSTALL_C_EXAMPLES:BOOL=ON \
-%if %{with python}
-	-DINSTALL_PYTHON_EXAMPLES:BOOL=ON \
-%endif
-	-DINSTALL_OCTAVE_EXAMPLES:BOOL=ON \
+	-DINSTALL_C_EXAMPLES:BOOL=OFF \
+	-DINSTALL_PYTHON_EXAMPLES:BOOL=OFF \
+	-DINSTALL_OCTAVE_EXAMPLES:BOOL=OFF \
 	-DPYTHON_PACKAGES_PATH=%{py2_platsitedir} \
 	-DWITH_IPP=OFF \
 	-DWITH_UNICAP=OFF \
@@ -654,7 +653,7 @@ CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
-	-DWITH_QT:BOOL=ON \
+	-DWITH_QT:BOOL=OFF \
 	-DWITH_CUDA:BOOL=OFF \
 	-DWITH_VTK:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
@@ -668,7 +667,6 @@ CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS
 	-DCPU_BASELINE=SSE3 \
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
-	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
 	-G Ninja
 
 %ninja_build
@@ -685,7 +683,8 @@ llvm-profdata merge --output=%{name}.profile *.profile.d
 rm -f *.profile.d
 ninja clean
 rm -rf pgo
-cd -
+
+%undefine _vpath_builddir
 
 CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
