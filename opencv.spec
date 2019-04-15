@@ -95,6 +95,7 @@ BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	cmake(VTK)
+BuildRequires:	vtk-tcl
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
 BuildRequires:	pkgconfig(lapack)
