@@ -12,7 +12,11 @@
 %define major %(echo %{version} |cut -d. -f1-2)
 
 # (tpg) enable PGO build
+%ifnarch riscv64
 %bcond_without pgo
+%else
+%bcond_with pgo
+%endif
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
@@ -54,11 +58,12 @@ Patch2:		opencv-3.4-libdir.patch
 # For now, this is good enough, hoping upstream will fix the
 # problem...
 Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
-BuildRequires:	cmake ninja
-BuildRequires:	jpeg-devel
+BuildRequires:	cmake
+BuildRequires:	ninja
+BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	%{_lib}opencl-devel
 BuildRequires:	protobuf-compiler
-BuildRequires:	protobuf-devel
+BuildRequires:	pkgconfig(protobuf)
 %if %{with python}
 BuildRequires:	python-numpy-devel
 BuildRequires:	python2-numpy-devel
@@ -73,7 +78,7 @@ BuildRequires:	pkgconfig(gstreamer-video-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(jasper)
-BuildRequires:	pkgconfig(blas)
+BuildRequires:	pkgconfig(atlas)
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(libavcodec)
 BuildRequires:	pkgconfig(libavformat)
@@ -89,6 +94,7 @@ BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	cmake(VTK)
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
 BuildRequires:	pkgconfig(lapack)
@@ -627,14 +633,14 @@ export CXX=g++
 %endif
 
 %if %{with pgo}
-CFLAGS_PGO="%{optflags} -fprofile-instr-generate"
-CXXFLAGS_PGO="%{optflags} -fprofile-instr-generate"
-FFLAGS_PGO="$CFLAGS_PGO"
-FCFLAGS_PGO="$CFLAGS_PGO"
-LDFLAGS_PGO="%{ldflags} -fprofile-instr-generate"
+%global optflags_normal %{optflags}
+%global ldflags_normal %{ldflags}
+%global optflags %{optflags} -fprofile-instr-generate
+%global ldflags %{ldflags} -fprofile-instr-generate
+
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)/build/lib"
-CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS="${FCFLAGS_PGO}" LDFLAGS="${LDFLAGS_PGO}" CC="%{__cc}" \
+
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=OFF \
 	-DBUILD_opencv_gpu:BOOL=OFF \
@@ -672,22 +678,22 @@ CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS
 
 %ninja_build
 
-LD_PRELOAD="./lib/libopencv_imgproc.so.3.4 ./lib/libopencv_imgproc.so" bin/opencv_perf_core ||:
-LD_PRELOAD="./lib/libopencv_imgcodecs.so.3.4 ./lib/libopencv_imgcodecs.so" bin/opencv_perf_imgproc ||:
-LD_PRELOAD="./lib/libopencv_dnn.so.3.4 ./lib/libopencv_dnn.so" bin/opencv_perf_dnn ||:
-LD_PRELOAD="./lib/libopencv_stitching.so.3.4 ./lib/libopencv_stitching.so" bin/opencv_perf_stitching ||:
-LD_PRELOAD="./lib/libopencv_features2d.so.3.4 ./lib/libopencv_features2d.so" bin/opencv_perf_features2d ||:
-LD_PRELOAD="./lib/libopencv_superres.so.3.4 ./lib/libopencv_superres.so" bin/opencv_perf_superres ||:
+LD_PRELOAD="./lib/libopencv_imgproc.so.%{major} ./lib/libopencv_imgproc.so" bin/opencv_perf_core ||:
+LD_PRELOAD="./lib/libopencv_imgcodecs.so.%{major} ./lib/libopencv_imgcodecs.so" bin/opencv_perf_imgproc ||:
+LD_PRELOAD="./lib/libopencv_dnn.so.%{major} ./lib/libopencv_dnn.so" bin/opencv_perf_dnn ||:
+LD_PRELOAD="./lib/libopencv_stitching.so.%{major} ./lib/libopencv_stitching.so" bin/opencv_perf_stitching ||:
+LD_PRELOAD="./lib/libopencv_features2d.so.%{major} ./lib/libopencv_features2d.so" bin/opencv_perf_features2d ||:
+LD_PRELOAD="./lib/libopencv_superres.so.%{major} ./lib/libopencv_superres.so" bin/opencv_perf_superres ||:
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
 rm -f *.profile.d
 ninja clean
 
-CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%global optflags %{optlfags_normal} -fprofile-instr-use=$(realpath %{name}.profile)
+%global ldflags %{ldlfags_normal} -fprofile-instr-use=$(realpath %{name}.profile)
 %endif
+
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 	-DBUILD_opencv_gpu:BOOL=OFF \
