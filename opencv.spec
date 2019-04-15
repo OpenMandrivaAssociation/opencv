@@ -633,10 +633,7 @@ FFLAGS_PGO="$CFLAGS_PGO"
 FCFLAGS_PGO="$CFLAGS_PGO"
 LDFLAGS_PGO="%{ldflags} -fprofile-instr-generate"
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
-export LD_LIBRARY_PATH="$(pwd)/pgo/lib"
-mkdir pgo
-%define _vpath_builddir pgo
-
+export LD_LIBRARY_PATH="$(pwd)/build/lib"
 CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS="${FCFLAGS_PGO}" LDFLAGS="${LDFLAGS_PGO}" CC="%{__cc}" \
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=OFF \
@@ -675,20 +672,17 @@ CFLAGS="${CFLAGS_PGO}" CXXFLAGS="${CXXFLAGS_PGO}" FFLAGS="${FFLAGS_PGO}" FCFLAGS
 
 %ninja_build
 
-bin/opencv_perf_core ||:
-bin/opencv_perf_imgproc ||:
-bin/opencv_perf_dnn ||:
-bin/opencv_perf_stitching ||:
-bin/opencv_perf_features2d ||:
-bin/opencv_perf_superres ||:
+LD_PRELOAD="./lib/libopencv_imgproc.so.3.4 ./lib/libopencv_imgproc.so" bin/opencv_perf_core ||:
+LD_PRELOAD="./lib/libopencv_imgcodecs.so.3.4 ./lib/libopencv_imgcodecs.so" bin/opencv_perf_imgproc ||:
+LD_PRELOAD="./lib/libopencv_dnn.so.3.4 ./lib/libopencv_dnn.so" bin/opencv_perf_dnn ||:
+LD_PRELOAD="./lib/libopencv_stitching.so.3.4 ./lib/libopencv_stitching.so" bin/opencv_perf_stitching ||:
+LD_PRELOAD="./lib/libopencv_features2d.so.3.4 ./lib/libopencv_features2d.so" bin/opencv_perf_features2d ||:
+LD_PRELOAD="./lib/libopencv_superres.so.3.4 ./lib/libopencv_superres.so" bin/opencv_perf_superres ||:
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
 rm -f *.profile.d
 ninja clean
-rm -rf pgo
-
-%undefine _vpath_builddir
 
 CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
