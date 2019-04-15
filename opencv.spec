@@ -694,13 +694,21 @@ llvm-profdata merge --output=%{name}.profile $(find . -name "*.profile.d" -type 
 find . -name "*.profile.d" -type f -delete
 ninja -t clean
 cd ..
-
-%global optflags %{optlfags} -fprofile-instr-use=$(realpath %{name}.profile)
-%global ldflags %{ldlfags} -fprofile-instr-use=$(realpath %{name}.profile)
 %endif
 
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
+%if %{with pgo}
+	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_EXE_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_SHARED_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \|sed -e 's#-Wl,--no-undefined##')" \
+%endif
 	-DBUILD_opencv_gpu:BOOL=OFF \
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 %if %{with python}
