@@ -13,7 +13,7 @@
 
 # (tpg) enable PGO build
 %ifnarch riscv64
-%bcond_with pgo
+%bcond_without pgo
 %else
 %bcond_with pgo
 %endif
@@ -448,6 +448,7 @@ OpenCV Video stabilization module.
 %libpackage opencv_surface_matching %{major}
 %libpackage opencv_text %{major}
 %libpackage opencv_tracking %{major}
+%libpackage opencv_viz %{major}
 %libpackage opencv_xfeatures2d %{major}
 %libpackage opencv_ximgproc %{major}
 %libpackage opencv_xobjdetect %{major}
@@ -500,6 +501,7 @@ Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_viz %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
