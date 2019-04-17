@@ -103,6 +103,7 @@ BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
 BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(sm)
+BuildRequires:	pkgconfig(xt)
 %if %{with java}
 # Java bindings
 BuildRequires:	java-devel java-openjdk java-openjdk-headless
