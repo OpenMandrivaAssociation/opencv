@@ -102,6 +102,7 @@ BuildRequires:	tcl-vtk-qt
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
 BuildRequires:	pkgconfig(lapack)
+BuildRequires:	pkgconfig(sm)
 %if %{with java}
 # Java bindings
 BuildRequires:	java-devel java-openjdk java-openjdk-headless
