@@ -91,7 +91,6 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libgphoto2)
-BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
@@ -101,7 +100,6 @@ BuildRequires:	vtk-python
 BuildRequires:	tcl-vtk-qt
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
-BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(sm)
 BuildRequires:	pkgconfig(xt)
 %if %{with java}
