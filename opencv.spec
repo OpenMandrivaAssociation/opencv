@@ -95,9 +95,7 @@ BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	cmake(VTK)
-BuildRequires:	vtk-tcl
 BuildRequires:	vtk-python
-BuildRequires:	tcl-vtk-qt
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen graphviz
 BuildRequires:	pkgconfig(sm)
