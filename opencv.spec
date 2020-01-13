@@ -47,7 +47,7 @@ Source15:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/b2bfc75f6aea5
 Source100:	%{name}.rpmlintrc
 
 #Patch1:		opencv-3.4.0-x32-sse.patch
-Patch2:		opencv-3.4-libdir.patch
+#Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
 #Patch6:		opencv-pkgcmake2.patch
 #Patch7:		opencv-2.4.8-ts_static.patch
