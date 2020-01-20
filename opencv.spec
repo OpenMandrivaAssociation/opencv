@@ -72,6 +72,7 @@ BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(gstreamer-app-1.0)
 BuildRequires:	pkgconfig(gstreamer-base-1.0)
 BuildRequires:	pkgconfig(gstreamer-video-1.0)
