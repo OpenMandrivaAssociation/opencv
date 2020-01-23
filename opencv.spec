@@ -98,7 +98,9 @@ BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	cmake(VTK)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
-BuildRequires:	doxygen graphviz
+BuildRequires:	doxygen
+BuildRequires:	graphviz
+BuildRequires:	cmake(double-conversion)
 BuildRequires:	pkgconfig(sm)
 BuildRequires:	pkgconfig(xt)
 %if %{with java}
