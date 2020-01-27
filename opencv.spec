@@ -535,7 +535,7 @@ OpenCV python bindings.
 
 %files -n	python-opencv
 %{_bindir}/setup_vars_opencv3.sh
-%{%py_puresitedir}/*
+%{py_puresitedir}/*
 
 #--------------------------------------------------------------------------------
 %package -n	python2-opencv
@@ -560,7 +560,7 @@ OpenCV python 2.x bindings.
 #OpenCV docs.
 
 #%files	doc
-#%{_datadir}/OpenCV/doc
+#{_datadir}/OpenCV/doc
 
 #--------------------------------------------------------------------------------
 
