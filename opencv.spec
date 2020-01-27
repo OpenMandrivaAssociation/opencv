@@ -535,7 +535,7 @@ OpenCV python bindings.
 
 %files -n	python-opencv
 %{_bindir}/setup_vars_opencv3.sh
-%{py_platsitedir}/*
+%{%py_puresitedir}/*
 
 #--------------------------------------------------------------------------------
 %package -n	python2-opencv
