@@ -546,7 +546,7 @@ Group:		Development/Python
 OpenCV python 2.x bindings.
 
 %files -n	python2-opencv
-%{py2_platsitedir}/*
+%{py2_puresitedir}/*
 %endif
 
 #--------------------------------------------------------------------------------
