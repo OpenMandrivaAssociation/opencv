@@ -12,7 +12,7 @@
 %define major %(echo %{version} |cut -d. -f1-2)
 
 # (tpg) enable PGO build
-%ifnarch riscv64
+%ifnarch riscv64 %{armx}
 %bcond_without pgo
 %else
 %bcond_with pgo
