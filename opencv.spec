@@ -755,3 +755,4 @@ cd ..
 sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
 # (tpg) remove not needed files
 rm -rf %{buildroot}%{_datadir}/OpenCV/licenses
+rm -rf %{buildroot}%{_datadir}/licenses
