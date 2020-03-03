@@ -548,9 +548,10 @@ Group:		Development/Python
 OpenCV python 2.x bindings.
 
 %files -n	python2-opencv
+%ifnarch %{ix86}
 %{py2_puresitedir}/*
 %endif
-
+%endif
 #--------------------------------------------------------------------------------
 
 #%package	doc
