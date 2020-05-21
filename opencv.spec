@@ -21,15 +21,13 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	3.4.9
-Release:	3
+Version:	4.3.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
-Source0:	https://github.com/opencv/opencv/archive/%{name}-%{version}.tar.gz
-Source1:	https://github.com/opencv/opencv_contrib/archive/%{name}_contrib-%{version}.tar.gz
-# TODO Keep in sync with version required in opencv_contrib-3.4.0/modules/dnn_modern/CMakeLists.txt!
-Source2:	https://github.com/tiny-dnn/tiny-dnn/archive/v1.0.0a3.tar.gz
+Source0:	https://github.com/opencv/opencv/archive/%{version}/%{name}-%{version}.tar.gz
+Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}/%{name}_contrib-%{version}.tar.gz
 # TODO Keep in sync with versions downloaded by opencv_contrib/modules/xfeatures2d/cmake/download_boostdesc.cmake
 Source3:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm.i
 Source4:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm_bi.i
@@ -38,10 +36,6 @@ Source6:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d5
 Source7:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_binboost_128.i
 Source8:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_binboost_256.i
 Source9:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_lbgm.i
-Source10:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_48.i
-Source11:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
-Source12:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
-Source13:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
 Source14:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/8afa57abc8229d611c4937165d20e2a2d9fc5a12/face_landmark_model.dat
 Source15:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/b2bfc75f6aea5b1f834ff0f0b865a7c18ff1459f/res10_300x300_ssd_iter_140000.caffemodel
 Source100:	%{name}.rpmlintrc
@@ -66,8 +60,6 @@ BuildRequires:	protobuf-compiler
 BuildRequires:	pkgconfig(protobuf)
 %if %{with python}
 BuildRequires:	python3-numpy-devel >= 1.16.5
-BuildRequires:	python2-numpy-devel >= 1.16.5
-BuildRequires:	pkgconfig(python2)
 BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
@@ -452,6 +444,14 @@ OpenCV Video stabilization module.
 %libpackage opencv_ximgproc %{major}
 %libpackage opencv_xobjdetect %{major}
 %libpackage opencv_xphoto %{major}
+# Added in 4.x
+%libpackage opencv_alphamat %{major}
+%libpackage opencv_dnn_superres %{major}
+%libpackage opencv_gapi %{major}
+%libpackage opencv_intensity_transform %{major}
+%libpackage opencv_quality %{major}
+%{_datadir}/opencv4/quality
+%libpackage opencv_rapid %{major}
 
 %package	devel
 Summary:	OpenCV development files
@@ -505,11 +505,16 @@ Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xphoto %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_alphamat %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_dnn_superres %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_gapi %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_intensity_transform %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_quality %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_rapid %{major}} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
 %if %{with python}
-Suggests:	python2-%{name} = %{EVRD}
 Requires:	python-%{name} = %{EVRD}
 %endif
 
@@ -520,9 +525,10 @@ OpenCV development files.
 %{_libdir}/*.so
 %{_includedir}/*
 %{_libdir}/pkgconfig/*
-%dir %{_datadir}/OpenCV
-%{_datadir}/OpenCV/*.cmake
-%{_datadir}/OpenCV/valgrind*.supp
+%{_libdir}/cmake/opencv4
+%dir %{_datadir}/opencv4
+%{_datadir}/opencv4/valgrind.supp
+%{_datadir}/opencv4/valgrind_3rdparty.supp
 
 %if %{with python}
 #--------------------------------------------------------------------------------
@@ -534,24 +540,12 @@ Group:		Development/Python
 OpenCV python bindings.
 
 %files -n	python-opencv
-%{_bindir}/setup_vars_opencv3.sh
+%{_bindir}/setup_vars_opencv4.sh
 %ifnarch %{ix86}
 %{py_puresitedir}/*
 %endif
-
-#--------------------------------------------------------------------------------
-%package -n	python2-opencv
-Summary:	OpenCV Python 2.x bindings
-Group:		Development/Python
-
-%description -n	python2-opencv
-OpenCV python 2.x bindings.
-
-%files -n	python2-opencv
-%ifnarch %{ix86}
-%{py2_puresitedir}/*
 %endif
-%endif
+
 #--------------------------------------------------------------------------------
 
 #%package	doc
@@ -576,16 +570,13 @@ OpenCV sample code.
 
 %files		samples
 %{_bindir}/opencv_annotation
-%{_bindir}/opencv_createsamples
-%{_bindir}/opencv_traincascade
 %{_bindir}/opencv_visualisation
 %{_bindir}/opencv_version
 %{_bindir}/opencv_interactive-calibration
 %{_bindir}/opencv_waldboost_detector
-%dir %{_datadir}/OpenCV
-%{_datadir}/OpenCV/samples
-%{_datadir}/OpenCV/haarcascades
-%{_datadir}/OpenCV/lbpcascades
+%{_datadir}/opencv4/samples
+%{_datadir}/opencv4/haarcascades
+%{_datadir}/opencv4/lbpcascades
 #--------------------------------------------------------------------------------
 
 %if %{with java}
@@ -597,7 +588,7 @@ Group:		Sciences/Computer science
 Java bindings for OpenCV.
 
 %files		java
-%{_datadir}/OpenCV/java
+%{_datadir}/java/opencv4
 %endif
 
 %prep
@@ -608,17 +599,19 @@ mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
          samples/dnn/face_detector/
 cp %{S:3} %{S:4} %{S:5} %{S:6} %{S:7} %{S:8} \
-   %{S:9} %{S:10} %{S:11} %{S:12} %{S:13} \
+   %{S:9} \
    build/downloads/xfeatures2d/
 cp %{S:14} \
    build/share/OpenCV/testdata/cv/face/
 cp %{S:15} \
    samples/dnn/face_detector/
 
+%if 0
 mkdir -p build/3rdparty/tinydnn
 cd build/3rdparty/tinydnn
 tar xf %{SOURCE2}
 cd -
+%endif
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
@@ -682,6 +675,11 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DCPU_BASELINE=SSE4_2 \
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
+	-DOPENCV_GENERATE_PKGCONFIG:BOOL=ON \
+	-DWITH_FREETYPE:BOOL=ON \
+	-DWITH_VULKAN:BOOL=ON \
+	-DWITH_VA:BOOL=ON \
+	-DWITH_VA_INTEL:BOOL=ON \
 	-G Ninja
 
 %ninja_build
@@ -754,8 +752,6 @@ cd ..
 %install
 %ninja_install -C build
 
-# Requesting libraries by filename is just bogus...
-sed -i -e 's,\${exec_prefix}/%{_lib}/lib,-l,g;s,\.so,,g;s,\.a,,g' %{buildroot}%{_libdir}/pkgconfig/opencv.pc
 # (tpg) remove not needed files
 rm -rf %{buildroot}%{_datadir}/OpenCV/licenses
 rm -rf %{buildroot}%{_datadir}/licenses
