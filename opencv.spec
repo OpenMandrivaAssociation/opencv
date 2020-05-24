@@ -87,7 +87,7 @@ BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
-BuildRequires:	cmake(vkt)
+BuildRequires:	cmake(vtk)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen
