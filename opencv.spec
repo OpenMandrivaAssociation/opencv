@@ -94,6 +94,7 @@ BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	cmake(vtk)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
+BuildRequires:	opencl-headers
 BuildRequires:	doxygen
 BuildRequires:	cmake(double-conversion)
 BuildRequires:	pkgconfig(sm)
