@@ -13,7 +13,7 @@
 
 # (tpg) enable PGO build
 %ifnarch riscv64 %{armx}
-%bcond_without pgo
+%bcond_with pgo
 %else
 %bcond_with pgo
 %endif
@@ -55,7 +55,7 @@ Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(libjpeg)
-BuildRequires:	%{_lib}opencl-devel
+BuildRequires:	pkgconfig(OpenCL)
 BuildRequires:	protobuf-compiler
 BuildRequires:	pkgconfig(protobuf)
 %if %{with python}
@@ -70,6 +70,8 @@ BuildRequires:	pkgconfig(gstreamer-base-1.0)
 BuildRequires:	pkgconfig(gstreamer-video-1.0)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(gtkglext-1.0)
 BuildRequires:	pkgconfig(jasper)
 BuildRequires:	pkgconfig(atlas)
 BuildRequires:	pkgconfig(lapack)
@@ -87,11 +89,12 @@ BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
+BuildRequires:	pkgconfig(libva)
+BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	cmake(vtk)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
 BuildRequires:	doxygen
-BuildRequires:	graphviz
 BuildRequires:	cmake(double-conversion)
 BuildRequires:	pkgconfig(sm)
 BuildRequires:	pkgconfig(xt)
@@ -439,7 +442,6 @@ OpenCV Video stabilization module.
 %libpackage opencv_surface_matching %{major}
 %libpackage opencv_text %{major}
 %libpackage opencv_tracking %{major}
-%libpackage opencv_viz %{major}
 %libpackage opencv_xfeatures2d %{major}
 %libpackage opencv_ximgproc %{major}
 %libpackage opencv_xobjdetect %{major}
@@ -500,7 +502,6 @@ Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_viz %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
