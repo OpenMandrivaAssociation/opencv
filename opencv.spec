@@ -751,6 +751,7 @@ cd ..
 	-G Ninja
 
 cat $(find . -type f -name "CMakeOutput.log")
+cat $(find . -type f -name "CMakeError.log")
 
 exit 1
 %ninja_build
