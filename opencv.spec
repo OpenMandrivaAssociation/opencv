@@ -91,6 +91,7 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	pkgconfig(libva)
 BuildRequires:	pkgconfig(libwebp)
+BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(vtk)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
