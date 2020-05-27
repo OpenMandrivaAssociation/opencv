@@ -95,7 +95,7 @@ BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(vtk)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
-BuildRequires:	opencl-headers
+BuildRequires:	mesa-opencl-devel
 BuildRequires:	doxygen
 BuildRequires:	cmake(double-conversion)
 BuildRequires:	pkgconfig(sm)
