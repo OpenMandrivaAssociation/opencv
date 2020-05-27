@@ -750,7 +750,7 @@ cd ..
 	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
 	-G Ninja
 
-cat build/CMakeFiles/CMakeOutput.log
+cat $(find . -type f -name "CMakeOutput.log")
 
 exit 1
 %ninja_build
