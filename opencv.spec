@@ -731,6 +731,7 @@ cd ..
 	-DWITH_QT:BOOL=ON \
 	-DWITH_CUDA:BOOL=OFF \
 	-DWITH_VTK:BOOL=ON \
+	-DVTK_DIR="%{_libdir}/cmake/vtk-9.0" \
 	-DWITH_OPENMP:BOOL=ON \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
@@ -749,6 +750,9 @@ cd ..
 	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
 	-G Ninja
 
+cat build/CMakeFiles/CMakeOutput.log
+
+exit 1
 %ninja_build
 
 %install
