@@ -526,7 +526,6 @@ OpenCV development files.
 %files		devel
 %{_libdir}/*.so
 %{_includedir}/*
-%{_libdir}/pkgconfig/*
 %{_libdir}/cmake/opencv4
 %dir %{_datadir}/opencv4
 %{_datadir}/opencv4/valgrind.supp
