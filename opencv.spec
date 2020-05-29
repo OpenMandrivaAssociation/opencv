@@ -93,6 +93,7 @@ BuildRequires:	pkgconfig(libva)
 BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(vtk)
+BuildRequires:	cmake(jsoncpp)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
 BuildRequires:	mesa-opencl-devel
