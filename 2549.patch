@@ -1,0 +1,173 @@
+From c4b3b920461f9c7207d4c184a5bedf7608a51ed1 Mon Sep 17 00:00:00 2001
+From: Maksim Shabunin <maksim.shabunin@gmail.com>
+Date: Sat, 30 May 2020 06:09:02 +0300
+Subject: [PATCH] Added VTK 9 support
+
+---
+ modules/viz/CMakeLists.txt           |  4 +++-
+ modules/viz/src/precomp.hpp          |  8 +++++++-
+ modules/viz/src/types.cpp            |  3 ++-
+ modules/viz/src/vizimpl.cpp          | 13 +++++++++++--
+ modules/viz/src/vtk/vtkOBJWriter.cpp | 14 +++++++++-----
+ modules/viz/src/vtk/vtkXYZReader.cpp |  2 +-
+ modules/viz/src/vtk/vtkXYZWriter.cpp |  2 +-
+ 7 files changed, 34 insertions(+), 12 deletions(-)
+
+diff --git a/modules/viz/CMakeLists.txt b/modules/viz/CMakeLists.txt
+index 89a9c3e098..3426e1dd26 100644
+--- a/modules/viz/CMakeLists.txt
++++ b/modules/viz/CMakeLists.txt
+@@ -3,7 +3,9 @@ if(NOT HAVE_VTK)
+ endif()
+ 
+ set(the_description "Viz")
+-include(${VTK_USE_FILE})
++if(VTK_VERSION VERSION_LESS 8.90)
++  include(${VTK_USE_FILE})
++endif()
+ 
+ if(NOT BUILD_SHARED_LIBS)
+   # We observed conflict between builtin 3rdparty libraries and
+diff --git a/modules/viz/src/precomp.hpp b/modules/viz/src/precomp.hpp
+index f92fdb6ac2..4c4bf7c599 100644
+--- a/modules/viz/src/precomp.hpp
++++ b/modules/viz/src/precomp.hpp
+@@ -133,7 +133,8 @@
+ #include <vtkColorTransferFunction.h>
+ #include <vtkStreamingDemandDrivenPipeline.h>
+ #include <vtkLight.h>
+-#include "vtkCallbackCommand.h"
++#include <vtkCallbackCommand.h>
++#include <vtkVersion.h>
+ 
+ #if !defined(_WIN32) || defined(__CYGWIN__)
+ # include <unistd.h> /* unlink */
+@@ -149,6 +150,11 @@
+ #include "vtk/vtkTrajectorySource.h"
+ #include "vtk/vtkImageMatSource.h"
+ 
++#if VTK_MAJOR_VERSION >= 9
++typedef vtkIdType const * CellIterT;
++#else
++typedef vtkIdType * CellIterT;
++#endif
+ 
+ #include <opencv2/core.hpp>
+ #include <opencv2/viz.hpp>
+diff --git a/modules/viz/src/types.cpp b/modules/viz/src/types.cpp
+index 65571a192e..0e14477891 100644
+--- a/modules/viz/src/types.cpp
++++ b/modules/viz/src/types.cpp
+@@ -100,7 +100,8 @@ cv::viz::Mesh cv::viz::Mesh::load(const String& file, int type)
+     int* poly_ptr = mesh.polygons.ptr<int>();
+ 
+     polygons->InitTraversal();
+-    vtkIdType nr_cell_points, *cell_points;
++    vtkIdType nr_cell_points;
++    CellIterT cell_points;
+     while (polygons->GetNextCell(nr_cell_points, cell_points))
+     {
+         *poly_ptr++ = nr_cell_points;
+diff --git a/modules/viz/src/vizimpl.cpp b/modules/viz/src/vizimpl.cpp
+index 2c291c0569..2c7ce997a4 100644
+--- a/modules/viz/src/vizimpl.cpp
++++ b/modules/viz/src/vizimpl.cpp
+@@ -55,8 +55,17 @@ cv::viz::Viz3d::VizImpl::VizImpl(const String &name) : spin_once_state_(false),
+ 
+     // Create render window
+     window_ = vtkSmartPointer<vtkRenderWindow>::New();
+-    cv::Vec2i window_size = cv::Vec2i(window_->GetScreenSize()) / 2;
+-    window_->SetSize(window_size.val);
++    int * sz = window_->GetScreenSize();
++    if (sz)
++    {
++        cv::Vec2i window_size = cv::Vec2i(sz) / 2;
++        window_->SetSize(window_size.val);
++    }
++    else
++    {
++        int new_sz[2] = { 640, 480 };
++        window_->SetSize(new_sz);
++    }
+     window_->AddRenderer(renderer_);
+ 
+     // Create the interactor style
+diff --git a/modules/viz/src/vtk/vtkOBJWriter.cpp b/modules/viz/src/vtk/vtkOBJWriter.cpp
+index 296b6eb065..2e5764fc27 100644
+--- a/modules/viz/src/vtk/vtkOBJWriter.cpp
++++ b/modules/viz/src/vtk/vtkOBJWriter.cpp
+@@ -72,7 +72,7 @@ void cv::viz::vtkOBJWriter::WriteData()
+     }
+ 
+     vtkDebugMacro(<<"Opening vtk file for writing...");
+-    ostream *outfilep = new ofstream(this->FileName, ios::out);
++    std::ostream *outfilep = new std::ofstream(this->FileName, ios::out);
+     if (outfilep->fail())
+     {
+         vtkErrorMacro(<< "Unable to open file: "<< this->FileName);
+@@ -127,7 +127,8 @@ void cv::viz::vtkOBJWriter::WriteData()
+     // write out verts if any
+     if (input->GetNumberOfVerts() > 0)
+     {
+-        vtkIdType npts = 0, *index = 0;
++        vtkIdType npts = 0;
++        CellIterT index = 0;
+         vtkCellArray *cells = input->GetVerts();
+         for (cells->InitTraversal(); cells->GetNextCell(npts, index); )
+         {
+@@ -141,7 +142,8 @@ void cv::viz::vtkOBJWriter::WriteData()
+     // write out lines if any
+     if (input->GetNumberOfLines() > 0)
+     {
+-        vtkIdType npts = 0, *index = 0;
++        vtkIdType npts = 0;
++        CellIterT index = 0;
+         vtkCellArray *cells = input->GetLines();
+         for (cells->InitTraversal(); cells->GetNextCell(npts, index); )
+         {
+@@ -162,7 +164,8 @@ void cv::viz::vtkOBJWriter::WriteData()
+     // write out polys if any
+     if (input->GetNumberOfPolys() > 0)
+     {
+-        vtkIdType npts = 0, *index = 0;
++        vtkIdType npts = 0;
++        CellIterT index = 0;
+         vtkCellArray *cells = input->GetPolys();
+         for (cells->InitTraversal(); cells->GetNextCell(npts, index); )
+         {
+@@ -191,7 +194,8 @@ void cv::viz::vtkOBJWriter::WriteData()
+     // write out tstrips if any
+     if (input->GetNumberOfStrips() > 0)
+     {
+-        vtkIdType npts = 0, *index = 0;
++        vtkIdType npts = 0;
++        CellIterT index = 0;
+         vtkCellArray *cells = input->GetStrips();
+         for (cells->InitTraversal(); cells->GetNextCell(npts, index); )
+         {
+diff --git a/modules/viz/src/vtk/vtkXYZReader.cpp b/modules/viz/src/vtk/vtkXYZReader.cpp
+index 57726eae9b..3b9265fed6 100644
+--- a/modules/viz/src/vtk/vtkXYZReader.cpp
++++ b/modules/viz/src/vtk/vtkXYZReader.cpp
+@@ -77,7 +77,7 @@ int cv::viz::vtkXYZReader::RequestData(vtkInformation*, vtkInformationVector**,
+     }
+ 
+     // Open the input file.
+-    ifstream fin(this->FileName);
++    std::ifstream fin(this->FileName);
+     if(!fin)
+     {
+         vtkErrorMacro("Error opening file " << this->FileName);
+diff --git a/modules/viz/src/vtk/vtkXYZWriter.cpp b/modules/viz/src/vtk/vtkXYZWriter.cpp
+index cf95e3c6a0..56a26b38a0 100644
+--- a/modules/viz/src/vtk/vtkXYZWriter.cpp
++++ b/modules/viz/src/vtk/vtkXYZWriter.cpp
+@@ -69,7 +69,7 @@ void cv::viz::vtkXYZWriter::WriteData()
+     }
+ 
+     vtkDebugMacro(<<"Opening vtk file for writing...");
+-    ostream *outfilep = new ofstream(this->FileName, ios::out);
++    std::ostream *outfilep = new std::ofstream(this->FileName, ios::out);
+     if (outfilep->fail())
+     {
+         vtkErrorMacro(<< "Unable to open file: "<< this->FileName);

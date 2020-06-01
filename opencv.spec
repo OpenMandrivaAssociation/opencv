@@ -52,6 +52,9 @@ Source100:	%{name}.rpmlintrc
 # For now, this is good enough, hoping upstream will fix the
 # problem...
 Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
+# (tpg) https://github.com/opencv/opencv/issues/17401
+Patch100:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
+Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(libjpeg)
@@ -596,7 +599,13 @@ Java bindings for OpenCV.
 
 %prep
 %setup -q -a 1
-%autopatch -p1
+#autopatch -p1
+
+%patch12 -p1
+%patch100 -p1
+cd %{name}_contrib-%{version}
+%patch101 -p1
+cd.. 
 
 mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
