@@ -690,7 +690,7 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DCPU_BASELINE=SSE4_2 \
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
-	-DOPENCV_GENERATE_PKGCONFIG:BOOL=ON \
+	-DOPENCV_GENERATE_PKGCONFIG:BOOL=OFF \
 	-DWITH_FREETYPE:BOOL=ON \
 	-DWITH_VULKAN:BOOL=ON \
 	-DWITH_VA:BOOL=ON \
@@ -714,7 +714,7 @@ cd ..
 %endif
 
 %cmake \
-	-DBUILD_EXAMPLES:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=ON CMAKE_VERBOSE=1 \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
@@ -761,6 +761,11 @@ cd ..
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
 	-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-%{version}/modules \
+	-DOPENCV_GENERATE_PKGCONFIG:BOOL=ON \
+	-DWITH_FREETYPE:BOOL=ON \
+	-DWITH_VULKAN:BOOL=ON \
+	-DWITH_VA:BOOL=ON \
+	-DWITH_VA_INTEL:BOOL=ON \	
 	-G Ninja
 
 cat $(find . -type f -name "CMakeOutput.log")
