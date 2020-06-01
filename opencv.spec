@@ -713,7 +713,7 @@ ninja -t clean
 cd ..
 %endif
 
-%cmake \
+%cmake CMAKE_VERBOSE=1 \
 	-DBUILD_EXAMPLES:BOOL=ON \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
@@ -765,7 +765,7 @@ cd ..
 	-DWITH_FREETYPE:BOOL=ON \
 	-DWITH_VULKAN:BOOL=ON \
 	-DWITH_VA:BOOL=ON \
-	-DWITH_VA_INTEL:BOOL=ON \	
+	-DWITH_VA_INTEL:BOOL=ON \
 	-G Ninja || cat $(find . -type f -name "CMake*.log") && exit 1
 
 %ninja_build
