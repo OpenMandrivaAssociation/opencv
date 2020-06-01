@@ -691,10 +691,10 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DCPU_DISPATCH=AVX,AVX2 \
 %endif
 	-DOPENCV_GENERATE_PKGCONFIG:BOOL=OFF \
-	-DWITH_FREETYPE:BOOL=ON \
-	-DWITH_VULKAN:BOOL=ON \
-	-DWITH_VA:BOOL=ON \
-	-DWITH_VA_INTEL:BOOL=ON \
+	-DWITH_FREETYPE:BOOL=OFF \
+	-DWITH_VULKAN:BOOL=OFF \
+	-DWITH_VA:BOOL=OFF \
+	-DWITH_VA_INTEL:BOOL=OFF \
 	-G Ninja
 
 %ninja_build
@@ -713,7 +713,7 @@ ninja -t clean
 cd ..
 %endif
 
-%cmake CMAKE_VERBOSE=1 \
+%cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
@@ -766,12 +766,8 @@ cd ..
 	-DWITH_VULKAN:BOOL=ON \
 	-DWITH_VA:BOOL=ON \
 	-DWITH_VA_INTEL:BOOL=ON \	
-	-G Ninja
+	-G Ninja || cat $(find . -type f -name "CMake*.log") && exit 1
 
-cat $(find . -type f -name "CMakeOutput.log")
-cat $(find . -type f -name "CMakeError.log")
-
-exit 1
 %ninja_build
 
 %install
