@@ -605,7 +605,7 @@ Java bindings for OpenCV.
 %patch100 -p1
 cd %{name}_contrib-%{version}
 %patch101 -p1
-cd.. 
+cd ..
 
 mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
