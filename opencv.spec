@@ -713,8 +713,8 @@ ninja -t clean
 cd ..
 %endif
 
-%cmake \
-	-DBUILD_EXAMPLES:BOOL=ON CMAKE_VERBOSE=1 \
+%cmake CMAKE_VERBOSE=1 \
+	-DBUILD_EXAMPLES:BOOL=ON \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
