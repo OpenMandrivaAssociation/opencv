@@ -766,7 +766,7 @@ cd ..
 	-DWITH_VULKAN:BOOL=ON \
 	-DWITH_VA:BOOL=ON \
 	-DWITH_VA_INTEL:BOOL=ON \
-	-G Ninja || cat $(find . -type f -name "CMake*.log") && exit 1
+	-G Ninja
 
 %ninja_build
 
