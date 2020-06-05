@@ -555,7 +555,7 @@ OpenCV python bindings.
 %{py_puresitedir}/*
 %else
 %{python_sitelib}/cv2/*
-
+%endif
 %endif
 
 #--------------------------------------------------------------------------------
