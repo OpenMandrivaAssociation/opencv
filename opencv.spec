@@ -13,7 +13,7 @@
 
 # (tpg) enable PGO build
 %ifnarch riscv64 %{armx}
-%bcond_with pgo
+%bcond_without pgo
 %else
 %bcond_with pgo
 %endif
@@ -22,7 +22,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.3.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
