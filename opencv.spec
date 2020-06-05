@@ -713,7 +713,7 @@ ninja -t clean
 cd ..
 %endif
 
-%cmake \
+%cmake CMAKE_VERBOSE=1 \
 	-DBUILD_EXAMPLES:BOOL=ON \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
@@ -748,7 +748,8 @@ cd ..
 	-DWITH_OPENMP:BOOL=ON \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
-	-DBUILD_PROTOBUF:BOOL=ON \
+	-DBUILD_PROTOBUF:BOOL=OFF \
+	-DPROTOBUF_UPDATE_FILES=ON \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
@@ -768,7 +769,7 @@ cd ..
 	-DWITH_VA_INTEL:BOOL=ON \
 	-G Ninja
 
-%ninja_build
+%ninja_build VERBOSE=1
 
 %install
 %ninja_install -C build
