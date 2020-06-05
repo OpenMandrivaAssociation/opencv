@@ -535,6 +535,7 @@ OpenCV development files.
 %{_libdir}/*.so
 %{_includedir}/*
 %{_libdir}/cmake/opencv4
+%{_libdir}/pkgconfig/opencv4.pc
 %dir %{_datadir}/opencv4
 %{_datadir}/opencv4/valgrind.supp
 %{_datadir}/opencv4/valgrind_3rdparty.supp
@@ -769,7 +770,7 @@ cd ..
 	-DWITH_VA_INTEL:BOOL=ON \
 	-G Ninja
 
-%ninja_build -v
+%ninja_build
 
 %install
 %ninja_install -C build
