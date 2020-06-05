@@ -769,7 +769,7 @@ cd ..
 	-DWITH_VA_INTEL:BOOL=ON \
 	-G Ninja
 
-%ninja_build VERBOSE=1
+%ninja_build -v
 
 %install
 %ninja_install -C build
