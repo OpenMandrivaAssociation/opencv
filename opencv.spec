@@ -553,6 +553,8 @@ OpenCV python bindings.
 %{_bindir}/setup_vars_opencv4.sh
 %ifnarch %{ix86}
 %{py_puresitedir}/*
+%{python3_sitelib}/cv2/*
+
 %endif
 %endif
 
