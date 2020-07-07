@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %ifnarch %{armx}
 %bcond_without java
 %endif
