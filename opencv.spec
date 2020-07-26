@@ -54,8 +54,8 @@ Source100:	%{name}.rpmlintrc
 # problem...
 Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 # (tpg) https://github.com/opencv/opencv/issues/17401
-Patch100:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
-Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
+#Patch100:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
+#Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(libjpeg)
