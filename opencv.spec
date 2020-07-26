@@ -609,10 +609,10 @@ Java bindings for OpenCV.
 #autopatch -p1
 
 %patch12 -p1
-%patch100 -p1
-cd %{name}_contrib-%{version}
-%patch101 -p1
-cd ..
+#patch100 -p1
+#cd %{name}_contrib-%{version}
+#patch101 -p1
+#cd ..
 
 mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
