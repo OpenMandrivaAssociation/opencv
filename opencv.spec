@@ -57,7 +57,7 @@ Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 #Patch100:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
 #Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
 
-Patch102:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/18060.patch
+#Patch102:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/18060.patch
 
 BuildRequires:	cmake
 BuildRequires:	ninja
