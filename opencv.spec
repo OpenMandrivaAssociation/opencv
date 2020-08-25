@@ -22,8 +22,8 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.3.0
-Release:	3
+Version:	4.4.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -53,9 +53,9 @@ Source100:	%{name}.rpmlintrc
 # For now, this is good enough, hoping upstream will fix the
 # problem...
 Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
-# (tpg) https://github.com/opencv/opencv/issues/17401
-Patch100:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/17431.patch
-Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
+# https://github.com/opencv/opencv/issues/17952
+Patch103:	fix-call-to-implicitly-deleted-default-constructor-of-cv-gimpl-op.patch
+
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	pkgconfig(libjpeg)
@@ -609,10 +609,10 @@ Java bindings for OpenCV.
 #autopatch -p1
 
 %patch12 -p1
-%patch100 -p1
-cd %{name}_contrib-%{version}
-%patch101 -p1
-cd ..
+%patch103 -p1
+#cd %{name}_contrib-%{version}
+#patch101 -p1
+#cd ..
 
 mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \

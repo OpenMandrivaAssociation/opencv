@@ -2,5 +2,5 @@ sources:
   v1.0.0a3.tar.gz: f3875bf7ea2b56e453375545688f45b6133e1be6
   res10_300x300_ssd_iter_140000.caffemodel: 15aa726b4d46d9f023526d85537db81cbc8dd566
   face_landmark_model.dat: 474c7aec203cd46d5d4d2d3beb022d987fad6ac3
-  opencv-4.3.0.tar.gz: 709be121cbcf77285380192e7df8121444d89c90
-  opencv_contrib-4.3.0.tar.gz: f78a22dcb245a69d303996a13644457a3ccbf2e9
+  opencv-4.4.0.tar.gz: 6e7d007fcab22339f262c3bdf4bdf6f5c19066ab
+  opencv_contrib-4.4.0.tar.gz: 09104005afbbc96f8ec003738a119671f6ec0e5b

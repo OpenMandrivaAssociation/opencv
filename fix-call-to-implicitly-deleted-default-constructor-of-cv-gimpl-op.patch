@@ -1,0 +1,14 @@
+diff -uraN opencv-4.4.0/modules/gapi/include/opencv2/gapi/gkernel.hpp omv-opencv-4.4.0/modules/gapi/include/opencv2/gapi/gkernel.hpp
+--- opencv-4.4.0/modules/gapi/include/opencv2/gapi/gkernel.hpp	2020-07-18 00:43:40.000000000 +0200
++++ omv-opencv-4.4.0/modules/gapi/include/opencv2/gapi/gkernel.hpp	2020-08-25 22:40:39.088599704 +0200
+@@ -39,8 +39,8 @@
+     const std::string name;       // kernel ID, defined by its API (signature)
+     const std::string tag;        // some (implementation-specific) tag
+     const M           outMeta;    // generic adaptor to API::outMeta(...)
+-    const GSpecs      inSpecs;    // specs of kernel's inputs (FIXME: below)
+-    const GShapes     outShapes;  // types (shapes) kernel's outputs
++    GSpecs      inSpecs;    // specs of kernel's inputs (FIXME: below)
++    GShapes     outShapes;  // types (shapes) kernel's outputs
+ };
+ // TODO: It's questionable if inSpecs should really be here. Instead,
+ // this information could come from meta.

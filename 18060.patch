@@ -1,0 +1,64 @@
+From f0149cdae29bc429537237c2bd9bc828822828f7 Mon Sep 17 00:00:00 2001
+From: YashasSamaga <yashas_2010@yahoo.com>
+Date: Sun, 9 Aug 2020 14:43:20 +0530
+Subject: [PATCH] fix compile-time errors, disable unsupported tests
+
+---
+ modules/dnn/src/cuda/detection_output.cu | 10 +++++++---
+ modules/dnn/test/test_onnx_importer.cpp  |  6 ++++++
+ 2 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/modules/dnn/src/cuda/detection_output.cu b/modules/dnn/src/cuda/detection_output.cu
+index 4d54540b050..9e38f0cf42d 100644
+--- a/modules/dnn/src/cuda/detection_output.cu
++++ b/modules/dnn/src/cuda/detection_output.cu
+@@ -673,18 +673,22 @@ void launch_decode_boxes_kernel(const Stream& stream, Span<T> decoded_bboxes, Vi
+     launch_kernel(kernel, policy, decoded_bboxes, locations, priors, transpose_location, normalized_bbox, num_loc_classes, background_class_id, clip_width, clip_height);
+ }
+ 
+-template <class T, std::size_t current, class ...Args> static
++template <class T, unsigned int current, class ...Args> static
+ typename std::enable_if<current == 0, void>
+ ::type dispatch_decode_bboxes(int selector, Args&& ...args) {
+     if(selector == 0)
+         launch_decode_boxes_kernel<T, 0, 0, 0, 0>(std::forward<Args>(args)...);
+ }
+ 
+-template <class T, std::size_t current, class ...Args> static
++template <class T, unsigned int current, class ...Args> static
+ typename std::enable_if<current != 0, void>
+ ::type dispatch_decode_bboxes(int selector, Args&& ...args) {
+     if(selector == current)
+-        launch_decode_boxes_kernel<T, current & 8, current & 4, current & 2, current & 1>(std::forward<Args>(args)...);
++        launch_decode_boxes_kernel<T,
++                static_cast<bool>(current & 8),
++                static_cast<bool>(current & 4),
++                static_cast<bool>(current & 2),
++                static_cast<bool>(current & 1)>(std::forward<Args>(args)...);
+     else
+         dispatch_decode_bboxes<T, current - 1, Args...>(selector, std::forward<Args>(args)...);
+ }
+diff --git a/modules/dnn/test/test_onnx_importer.cpp b/modules/dnn/test/test_onnx_importer.cpp
+index 22a45286d6a..d7f68c7606f 100644
+--- a/modules/dnn/test/test_onnx_importer.cpp
++++ b/modules/dnn/test/test_onnx_importer.cpp
+@@ -120,6 +120,9 @@ TEST_P(Test_ONNX_layers, Convolution_variable_weight)
+          backend == DNN_BACKEND_INFERENCE_ENGINE_NN_BUILDER_2019) && target == DNN_TARGET_MYRIAD)
+         applyTestTag(CV_TEST_TAG_DNN_SKIP_IE_MYRIAD, CV_TEST_TAG_DNN_SKIP_IE_NN_BUILDER, CV_TEST_TAG_DNN_SKIP_IE_NGRAPH);
+ 
++    if (backend == DNN_BACKEND_CUDA)
++        applyTestTag(CV_TEST_TAG_DNN_SKIP_CUDA); // not supported
++
+     String basename = "conv_variable_w";
+     Net net = readNetFromONNX(_tf("models/" + basename + ".onnx"));
+     ASSERT_FALSE(net.empty());
+@@ -147,6 +150,9 @@ TEST_P(Test_ONNX_layers, Convolution_variable_weight_bias)
+          backend == DNN_BACKEND_INFERENCE_ENGINE_NN_BUILDER_2019) && target == DNN_TARGET_MYRIAD)
+         applyTestTag(CV_TEST_TAG_DNN_SKIP_IE_MYRIAD, CV_TEST_TAG_DNN_SKIP_IE_NN_BUILDER, CV_TEST_TAG_DNN_SKIP_IE_NGRAPH);
+ 
++    if (backend == DNN_BACKEND_CUDA)
++        applyTestTag(CV_TEST_TAG_DNN_SKIP_CUDA); // not supported
++
+     String basename = "conv_variable_wb";
+     Net net = readNetFromONNX(_tf("models/" + basename + ".onnx"));
+     ASSERT_FALSE(net.empty());
