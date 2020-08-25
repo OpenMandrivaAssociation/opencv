@@ -58,6 +58,7 @@ Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 #Patch101:	https://patch-diff.githubusercontent.com/raw/opencv/opencv_contrib/pull/2549.patch
 
 #Patch102:	https://patch-diff.githubusercontent.com/raw/opencv/opencv/pull/18060.patch
+Patch103:	opencv.patch
 
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -613,6 +614,7 @@ Java bindings for OpenCV.
 
 %patch12 -p1
 #patch100 -p1
+%patch103 -p1
 #cd %{name}_contrib-%{version}
 #patch101 -p1
 #cd ..
