@@ -22,8 +22,8 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.4.0
-Release:	2
+Version:	4.5.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -39,6 +39,10 @@ Source8:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d5
 Source9:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_lbgm.i
 Source14:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/8afa57abc8229d611c4937165d20e2a2d9fc5a12/face_landmark_model.dat
 Source15:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/b2bfc75f6aea5b1f834ff0f0b865a7c18ff1459f/res10_300x300_ssd_iter_140000.caffemodel
+Source16:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_48.i
+Source17:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
+Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
+Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
 Source100:	%{name}.rpmlintrc
 
 #Patch1:		opencv-3.4.0-x32-sse.patch
@@ -54,7 +58,7 @@ Source100:	%{name}.rpmlintrc
 # problem...
 Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 # https://github.com/opencv/opencv/issues/17952
-Patch103:	fix-call-to-implicitly-deleted-default-constructor-of-cv-gimpl-op.patch
+#Patch103:	fix-call-to-implicitly-deleted-default-constructor-of-cv-gimpl-op.patch
 
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -463,6 +467,9 @@ OpenCV Video stabilization module.
 %libpackage opencv_quality %{major}
 %{_datadir}/opencv4/quality
 %libpackage opencv_rapid %{major}
+# Added in 4.5
+%libpackage opencv_mcc %{major}
+%libpackage opencv_ovis %{major}
 
 %package	devel
 Summary:	OpenCV development files
@@ -522,6 +529,8 @@ Requires:	%{mklibname opencv_gapi %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_intensity_transform %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_quality %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_rapid %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_mcc %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_ovis %{major}} = %{EVRD}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
@@ -609,7 +618,7 @@ Java bindings for OpenCV.
 #autopatch -p1
 
 %patch12 -p1
-%patch103 -p1
+#patch103 -p1
 #cd %{name}_contrib-%{version}
 #patch101 -p1
 #cd ..
@@ -618,7 +627,7 @@ mkdir -p build/downloads/xfeatures2d \
          build/share/OpenCV/testdata/cv/face/ \
          samples/dnn/face_detector/
 cp %{S:3} %{S:4} %{S:5} %{S:6} %{S:7} %{S:8} \
-   %{S:9} \
+   %{S:9} %{S:16} %{S:17} %{S:18} %{S:19} \
    build/downloads/xfeatures2d/
 cp %{S:14} \
    build/share/OpenCV/testdata/cv/face/
