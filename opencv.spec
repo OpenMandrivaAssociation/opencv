@@ -123,6 +123,8 @@ BuildRequires:	pkgconfig(Qt5OpenGL)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Widgets)
+# OVIS module
+BuildRequires:	pkgconfig(OGRE)
 # Documentation generation
 #BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
