@@ -14,7 +14,7 @@
 
 # (tpg) enable PGO build
 %ifnarch riscv64 %{armx}
-%bcond_without pgo
+%bcond_with pgo
 %else
 %bcond_with pgo
 %endif
