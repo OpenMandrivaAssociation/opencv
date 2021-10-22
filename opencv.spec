@@ -23,7 +23,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.5.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -694,6 +694,7 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
+	-BUILD_TESTS=OFF \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
@@ -765,6 +766,7 @@ cd ..
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
 	-DPROTOBUF_UPDATE_FILES=ON \
+	-BUILD_TESTS=OFF \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
