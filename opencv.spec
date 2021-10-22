@@ -124,7 +124,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Widgets)
 # OVIS module
-BuildRequires:	pkgconfig(OGRE) ogre
+BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 # Documentation generation
 #BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
