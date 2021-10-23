@@ -152,6 +152,21 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 %{_libdir}/libopencv_core.so.%{libopencv_core_soname}*
 
 #--------------------------------------------------------------------------------
+	
+%define libopencv_barcode_soname %{major}
+%define libopencv_barcode %mklibname opencv_barcode %{libopencv_barcode_soname}
+
+%package -n %{libopencv_barcode}
+Summary: OpenCV bar code recognition module
+Group: System/Libraries
+
+%description -n %{libopencv_barcode}
+Bar code detection and decoding module supporting the EAN13 encoding method.
+
+%files -n %{libopencv_barcode}
+%{_libdir}/libopencv_barcode.so.%{libopencv_barcode_soname}{,.*}
+
+#--------------------------------------------------------------------------------
 
 %define libopencv_imgcodecs_soname %{major}
 %define libopencv_imgcodecs %mklibname opencv_imgcodecs %{libopencv_imgcodecs_soname}
@@ -414,6 +429,24 @@ namespace, one can combine and use them separately.
 
 #--------------------------------------------------------------------------------
 
+%define libopencv_wechat_qrcode_soname %{major}
+%define libopencv_wechat_qrcode %mklibname opencv_wechat_qrcode %{libopencv_wechat_qrcode_soname}
+
+%package -n %{libopencv_wechat_qrcode}
+Summary: OpenCV WeChat QR code detector module
+Group: System/Libraries
+
+%description -n %{libopencv_wechat_qrcode}
+WeChat QRCode includes two CNN-based models: A object detection model
+and a super resolution model. Object detection model is applied to
+etect QRCode with the bounding box. super resolution model is applied
+to zoom in QRCode when it is small.
+	
+%files -n %{libopencv_wechat_qrcode}
+%{_libdir}/libopencv_wechat_qrcode.so.%{libopencv_wechat_qrcode_soname}{,.*}
+
+#--------------------------------------------------------------------------------
+
 %define libopencv_videostab_soname %{major}
 %define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
 
@@ -494,6 +527,7 @@ Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
 Requires:	%{mklibname opencv_aruco %{major}} = %{EVRD}
+Requires: 	%{libopencv_barcode} = %{EVRD}
 Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
@@ -520,6 +554,7 @@ Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
+Requires: 	%{libopencv_wechat_qrcode} = %{EVRD}
 Requires:	%{mklibname opencv_viz %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
@@ -598,6 +633,7 @@ OpenCV sample code.
 %{_bindir}/opencv_version
 %{_bindir}/opencv_interactive-calibration
 %{_bindir}/opencv_waldboost_detector
+%{_bindir}/opencv_model_diagnostics
 %{_datadir}/opencv4/samples
 %{_datadir}/opencv4/haarcascades
 %{_datadir}/opencv4/lbpcascades
