@@ -1,4 +1,4 @@
-%global debug_package %{nil}
+%define _empty_manifest_terminate_build 0
 %ifnarch %{armx}
 %bcond_without java
 %endif
@@ -22,7 +22,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.5.1
+Version:	4.5.4
 Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
@@ -124,7 +124,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Widgets)
 # OVIS module
-BuildRequires:	pkgconfig(OGRE) ogre
+BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 # Documentation generation
 #BuildRequires:	python-sphinx
 #BuildRequires:	latex2html
@@ -150,6 +150,21 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 %files -n	%{libopencv_core}
 %{_libdir}/libopencv_core.so.%{libopencv_core_soname}*
+
+#--------------------------------------------------------------------------------
+	
+%define libopencv_barcode_soname %{major}
+%define libopencv_barcode %mklibname opencv_barcode %{libopencv_barcode_soname}
+
+%package -n %{libopencv_barcode}
+Summary: OpenCV bar code recognition module
+Group: System/Libraries
+
+%description -n %{libopencv_barcode}
+Bar code detection and decoding module supporting the EAN13 encoding method.
+
+%files -n %{libopencv_barcode}
+%{_libdir}/libopencv_barcode.so.%{libopencv_barcode_soname}{,.*}
 
 #--------------------------------------------------------------------------------
 
@@ -414,6 +429,24 @@ namespace, one can combine and use them separately.
 
 #--------------------------------------------------------------------------------
 
+%define libopencv_wechat_qrcode_soname %{major}
+%define libopencv_wechat_qrcode %mklibname opencv_wechat_qrcode %{libopencv_wechat_qrcode_soname}
+
+%package -n %{libopencv_wechat_qrcode}
+Summary: OpenCV WeChat QR code detector module
+Group: System/Libraries
+
+%description -n %{libopencv_wechat_qrcode}
+WeChat QRCode includes two CNN-based models: A object detection model
+and a super resolution model. Object detection model is applied to
+etect QRCode with the bounding box. super resolution model is applied
+to zoom in QRCode when it is small.
+	
+%files -n %{libopencv_wechat_qrcode}
+%{_libdir}/libopencv_wechat_qrcode.so.%{libopencv_wechat_qrcode_soname}{,.*}
+
+#--------------------------------------------------------------------------------
+
 %define libopencv_videostab_soname %{major}
 %define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
 
@@ -433,7 +466,7 @@ OpenCV Video stabilization module.
 %libpackage opencv_bgsegm %{major}
 %libpackage opencv_bioinspired %{major}
 %libpackage opencv_ccalib %{major}
-%libpackage opencv_cvv %{major}
+#libpackage opencv_cvv %{major}
 %libpackage opencv_datasets %{major}
 %libpackage opencv_dnn %{major}
 %libpackage opencv_dnn_objdetect %{major}
@@ -494,10 +527,11 @@ Requires:	%{libopencv_photo} = %{EVRD}
 Requires:	%{libopencv_stitching} = %{EVRD}
 Requires:	%{libopencv_videostab} = %{EVRD}
 Requires:	%{mklibname opencv_aruco %{major}} = %{EVRD}
+Requires: 	%{libopencv_barcode} = %{EVRD}
 Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
+#Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
@@ -520,6 +554,7 @@ Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
+Requires: 	%{libopencv_wechat_qrcode} = %{EVRD}
 Requires:	%{mklibname opencv_viz %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
@@ -598,6 +633,7 @@ OpenCV sample code.
 %{_bindir}/opencv_version
 %{_bindir}/opencv_interactive-calibration
 %{_bindir}/opencv_waldboost_detector
+%{_bindir}/opencv_model_diagnostics
 %{_datadir}/opencv4/samples
 %{_datadir}/opencv4/haarcascades
 %{_datadir}/opencv4/lbpcascades
@@ -694,6 +730,7 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
+	-DBUILD_TESTS=OFF \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
@@ -765,6 +802,7 @@ cd ..
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
 	-DPROTOBUF_UPDATE_FILES=ON \
+	-DBUILD_TESTS=OFF \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
 %endif
