@@ -433,7 +433,7 @@ OpenCV Video stabilization module.
 %libpackage opencv_bgsegm %{major}
 %libpackage opencv_bioinspired %{major}
 %libpackage opencv_ccalib %{major}
-%libpackage opencv_cvv %{major}
+#libpackage opencv_cvv %{major}
 %libpackage opencv_datasets %{major}
 %libpackage opencv_dnn %{major}
 %libpackage opencv_dnn_objdetect %{major}
@@ -497,7 +497,7 @@ Requires:	%{mklibname opencv_aruco %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
+#Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
