@@ -11,6 +11,7 @@
 %global _python_bytecompile_build 0
 
 %define major %(echo %{version} |cut -d. -f1-2)
+%define major2 %(echo %{version} |cut -d. -f1)0%(echo %{version} |cut -d. -f2)
 
 # (tpg) enable PGO build
 %ifnarch riscv64 %{armx}
@@ -22,8 +23,8 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.5.4
-Release:	2
+Version:	4.5.5
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -150,6 +151,7 @@ OpenCV core library (basic structures, arithmetics and linear algebra,
 
 %files -n	%{libopencv_core}
 %{_libdir}/libopencv_core.so.%{libopencv_core_soname}*
+%{_libdir}/libopencv_core.so.%{major2}
 
 #--------------------------------------------------------------------------------
 	
@@ -165,6 +167,7 @@ Bar code detection and decoding module supporting the EAN13 encoding method.
 
 %files -n %{libopencv_barcode}
 %{_libdir}/libopencv_barcode.so.%{libopencv_barcode_soname}{,.*}
+%{_libdir}/libopencv_barcode.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -181,10 +184,11 @@ Requires:	%{libopencv_core} = %{EVRD}
 %description -n	%{libopencv_imgcodecs}
 OpenCV image codecs library.
 
-#--------------------------------------------------------------------------------
-
 %files -n      %{libopencv_imgcodecs}
 %{_libdir}/libopencv_imgcodecs.so.%{libopencv_imgcodecs_soname}*
+%{_libdir}/libopencv_imgcodecs.so.%{major2}
+
+#--------------------------------------------------------------------------------
 
 %define libopencv_imgproc_soname %{major}
 %define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
@@ -202,6 +206,7 @@ resize, remap, etc.).
 
 %files -n	%{libopencv_imgproc}
 %{_libdir}/libopencv_imgproc.so.%{libopencv_imgproc_soname}*
+%{_libdir}/libopencv_imgproc.so.%{major2}*
 
 #--------------------------------------------------------------------------------
 
@@ -221,6 +226,7 @@ OpenCV GUI and image/video I/O library.
 
 %files -n	%{libopencv_highgui}
 %{_libdir}/libopencv_highgui.so.%{libopencv_highgui_soname}*
+%{_libdir}/libopencv_highgui.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -240,6 +246,7 @@ decision trees, boosting, etc.).
 
 %files -n	%{libopencv_ml}
 %{_libdir}/libopencv_ml.so.%{libopencv_ml_soname}*
+%{_libdir}/libopencv_ml.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -256,6 +263,7 @@ OpenCV shape library.
 
 %files -n	%{libopencv_shape}
 %{_libdir}/libopencv_shape.so.%{libopencv_shape_soname}*
+%{_libdir}/libopencv_shape.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -274,6 +282,7 @@ OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
 
 %files -n	%{libopencv_flann}
 %{_libdir}/libopencv_flann.so.%{libopencv_flann_soname}*
+%{_libdir}/libopencv_flann.so.%{major2}*
 
 #--------------------------------------------------------------------------------
 
@@ -294,6 +303,7 @@ elements of 3D data processing.
 
 %files -n	%{libopencv_calib3d}
 %{_libdir}/libopencv_calib3d.so.%{libopencv_calib3d_soname}*
+%{_libdir}/libopencv_calib3d.so.%{major2}*
 
 #--------------------------------------------------------------------------------
 
@@ -316,6 +326,7 @@ OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
 
 %files -n	%{libopencv_features2d}
 %{_libdir}/libopencv_features2d.so.%{libopencv_features2d_soname}*
+%{_libdir}/libopencv_features2d.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -332,6 +343,7 @@ Super-resolution support for OpenCV.
 
 %files -n	%{libopencv_superres}
 %{_libdir}/libopencv_superres.so.%{libopencv_superres_soname}*
+%{_libdir}/libopencv_superres.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -352,6 +364,7 @@ motion templates, background subtraction, etc.).
 
 %files -n	%{libopencv_video}
 %{_libdir}/libopencv_video.so.%{libopencv_video_soname}*
+%{_libdir}/libopencv_video.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -373,6 +386,7 @@ people detector, etc.).
 
 %files -n	%{libopencv_objdetect}
 %{_libdir}/libopencv_objdetect.so.%{libopencv_objdetect_soname}*
+%{_libdir}/libopencv_objdetect.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -389,6 +403,7 @@ OpenCV videoio library.
 
 %files -n	%{libopencv_videoio}
 %{_libdir}/libopencv_videoio.so.%{libopencv_videoio_soname}*
+%{_libdir}/libopencv_videoio.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -407,6 +422,7 @@ motion templates, background subtraction, etc.).
 
 %files -n	%{libopencv_photo}
 %{_libdir}/libopencv_photo.so.%{libopencv_photo_soname}*
+%{_libdir}/libopencv_photo.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -426,6 +442,7 @@ namespace, one can combine and use them separately.
 
 %files -n %{libopencv_stitching}
 %{_libdir}/libopencv_stitching.so.%{libopencv_stitching_soname}*
+%{_libdir}/libopencv_stitching.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -444,6 +461,7 @@ to zoom in QRCode when it is small.
 	
 %files -n %{libopencv_wechat_qrcode}
 %{_libdir}/libopencv_wechat_qrcode.so.%{libopencv_wechat_qrcode_soname}{,.*}
+%{_libdir}/libopencv_wechat_qrcode.so.%{major2}
 
 #--------------------------------------------------------------------------------
 
@@ -459,52 +477,64 @@ OpenCV Video stabilization module.
 
 %files -n %{libopencv_videostab}
 %{_libdir}/libopencv_videostab.so.%{libopencv_videostab_soname}*
+%{_libdir}/libopencv_videostab.so.%{major2}
 
 #--------------------------------------------------------------------------------
+%define cvlibpackage()\
+%%package -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
+Summary: The %{1} library, a part of %{name}\
+Group: System/Libraries\
+%%description -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
+The %{1} library, a part of %{name}\
+%%files -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
+%{_libdir}/lib%{1}%{?3:-%{2}}.so.%{?3:%{3}}%{?!3:%{2}}*\
+%{_libdir}/lib%{1}%{?3:-%{2}}.so.%{major2}\
+%{nil}
 
-%libpackage opencv_aruco %{major}
-%libpackage opencv_bgsegm %{major}
-%libpackage opencv_bioinspired %{major}
-%libpackage opencv_ccalib %{major}
-#libpackage opencv_cvv %{major}
-%libpackage opencv_datasets %{major}
-%libpackage opencv_dnn %{major}
-%libpackage opencv_dnn_objdetect %{major}
-%libpackage opencv_dpm %{major}
-%libpackage opencv_face %{major}
-%libpackage opencv_freetype %{major}
-%libpackage opencv_fuzzy %{major}
-%libpackage opencv_hdf %{major}
-%libpackage opencv_hfs %{major}
-%libpackage opencv_img_hash %{major}
-%libpackage opencv_line_descriptor %{major}
-%libpackage opencv_optflow %{major}
-%libpackage opencv_phase_unwrapping %{major}
-%libpackage opencv_plot %{major}
-%libpackage opencv_reg %{major}
-%libpackage opencv_rgbd %{major}
-%libpackage opencv_saliency %{major}
-%libpackage opencv_stereo %{major}
-%libpackage opencv_structured_light %{major}
-%libpackage opencv_surface_matching %{major}
-%libpackage opencv_text %{major}
-%libpackage opencv_tracking %{major}
-%libpackage opencv_viz %{major}
-%libpackage opencv_xfeatures2d %{major}
-%libpackage opencv_ximgproc %{major}
-%libpackage opencv_xobjdetect %{major}
-%libpackage opencv_xphoto %{major}
+
+%cvlibpackage opencv_aruco %{major}
+%cvlibpackage opencv_bgsegm %{major}
+%cvlibpackage opencv_bioinspired %{major}
+%cvlibpackage opencv_ccalib %{major}
+%cvlibpackage opencv_cvv %{major}
+%cvlibpackage opencv_datasets %{major}
+%cvlibpackage opencv_dnn %{major}
+%cvlibpackage opencv_dnn_objdetect %{major}
+%cvlibpackage opencv_dpm %{major}
+%cvlibpackage opencv_face %{major}
+%cvlibpackage opencv_freetype %{major}
+%cvlibpackage opencv_fuzzy %{major}
+%cvlibpackage opencv_hdf %{major}
+%cvlibpackage opencv_hfs %{major}
+%cvlibpackage opencv_img_hash %{major}
+%cvlibpackage opencv_line_descriptor %{major}
+%cvlibpackage opencv_optflow %{major}
+%cvlibpackage opencv_phase_unwrapping %{major}
+%cvlibpackage opencv_plot %{major}
+%cvlibpackage opencv_reg %{major}
+%cvlibpackage opencv_rgbd %{major}
+%cvlibpackage opencv_saliency %{major}
+%cvlibpackage opencv_stereo %{major}
+%cvlibpackage opencv_structured_light %{major}
+%cvlibpackage opencv_surface_matching %{major}
+%cvlibpackage opencv_text %{major}
+%cvlibpackage opencv_tracking %{major}
+%cvlibpackage opencv_viz %{major}
+%cvlibpackage opencv_xfeatures2d %{major}
+%cvlibpackage opencv_ximgproc %{major}
+%cvlibpackage opencv_xobjdetect %{major}
+%cvlibpackage opencv_xphoto %{major}
 # Added in 4.x
-%libpackage opencv_alphamat %{major}
-%libpackage opencv_dnn_superres %{major}
-%libpackage opencv_gapi %{major}
-%libpackage opencv_intensity_transform %{major}
-%libpackage opencv_quality %{major}
+%cvlibpackage opencv_alphamat %{major}
+%cvlibpackage opencv_dnn_superres %{major}
+%cvlibpackage opencv_gapi %{major}
+%cvlibpackage opencv_intensity_transform %{major}
+%cvlibpackage opencv_quality %{major}
 %{_datadir}/opencv4/quality
-%libpackage opencv_rapid %{major}
+%cvlibpackage opencv_rapid %{major}
 # Added in 4.5
-%libpackage opencv_mcc %{major}
-%libpackage opencv_ovis %{major}
+%cvlibpackage opencv_mcc %{major}
+%cvlibpackage opencv_ovis %{major}
 
 %package	devel
 Summary:	OpenCV development files
