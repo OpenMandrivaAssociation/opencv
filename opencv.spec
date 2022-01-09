@@ -46,6 +46,7 @@ Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
 Source100:	%{name}.rpmlintrc
 
+Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
@@ -683,9 +684,9 @@ Java bindings for OpenCV.
 
 %prep
 %setup -q -a 1
-#autopatch -p1
+%autopatch -p1
 
-%patch12 -p1
+#patch12 -p1
 #patch103 -p1
 #cd %{name}_contrib-%{version}
 #patch101 -p1
