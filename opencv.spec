@@ -24,7 +24,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.5.5
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -563,7 +563,7 @@ Requires: 	%{libopencv_barcode} = %{EVRD}
 Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
-#Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
+Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
 Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
