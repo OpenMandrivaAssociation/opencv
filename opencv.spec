@@ -47,6 +47,7 @@ Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source100:	%{name}.rpmlintrc
 
 Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
+Patch1:		opencv-4.5.5-GL-linkage.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch

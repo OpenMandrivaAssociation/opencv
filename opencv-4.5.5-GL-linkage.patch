@@ -1,0 +1,11 @@
+diff -up opencv-4.5.5/modules/highgui/CMakeLists.txt.omv~ opencv-4.5.5/modules/highgui/CMakeLists.txt
+--- opencv-4.5.5/modules/highgui/CMakeLists.txt.omv~	2022-01-09 18:05:33.811626090 +0100
++++ opencv-4.5.5/modules/highgui/CMakeLists.txt	2022-01-09 18:05:41.938669285 +0100
+@@ -108,6 +108,7 @@ if(HAVE_QT)
+       set_source_files_properties(${_RCC_OUTFILES} PROPERTIES COMPILE_FLAGS -Wno-missing-declarations)
+     endif()
+   endif()
++  list(APPEND HIGHGUI_LIBRARIES GL)
+ elseif(WINRT)
+   set(OPENCV_HIGHGUI_BUILTIN_BACKEND "WINRT")
+   if(NOT WINRT_8_0)
