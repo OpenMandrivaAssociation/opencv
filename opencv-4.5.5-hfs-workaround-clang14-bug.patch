@@ -1,0 +1,17 @@
+diff -up opencv-4.5.5/modules/core/CMakeLists.txt.omv~ opencv-4.5.5/modules/core/CMakeLists.txt
+diff -up opencv-4.5.5/opencv_contrib-4.5.5/modules/hfs/CMakeLists.txt.omv~ opencv-4.5.5/opencv_contrib-4.5.5/modules/hfs/CMakeLists.txt
+--- opencv-4.5.5/opencv_contrib-4.5.5/modules/hfs/CMakeLists.txt.omv~	2022-03-26 17:42:15.881466003 +0100
++++ opencv-4.5.5/opencv_contrib-4.5.5/modules/hfs/CMakeLists.txt	2022-03-26 17:42:32.486017246 +0100
+@@ -3,5 +3,10 @@ if(HAVE_CUDA)
+   ocv_warnings_disable(CMAKE_CXX_FLAGS -Wundef)
+ endif()
+ 
++# Workaround for clang 14 bug
++# "Block containing LandingPadInst must be jumped to only by the unwind edge of an invoke."
++# at link time
++add_compile_options(-O1)
++
+ set(the_description "Hierarchical Feature Selection for Efficient Image Segmentation")
+-ocv_define_module(hfs opencv_core opencv_imgproc WRAP python)
+\ No newline at end of file
++ocv_define_module(hfs opencv_core opencv_imgproc WRAP python)

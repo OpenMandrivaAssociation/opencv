@@ -24,7 +24,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.5.5
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -50,6 +50,7 @@ Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 Patch1:		opencv-4.5.5-GL-linkage.patch
 # Experimental, but unfortunately needed now
 Patch2:		opencv-4.5.5-ffmpeg-5.0.patch
+Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
@@ -731,7 +732,6 @@ done
 %if %{with pgo}
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)/build/lib"
-
 %cmake \
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-generate" \
 	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-generate" \
@@ -811,7 +811,7 @@ cd ..
 	-DCMAKE_EXE_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 	-DCMAKE_SHARED_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \|sed -e 's#-Wl,--no-undefined##')" \
-%endif
+%endif # " <--- workaround for vim syntax highlighting bug
 	-DBUILD_opencv_gpu:BOOL=OFF \
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
 %if %{with python}
