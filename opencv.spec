@@ -23,8 +23,8 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.5.5
-Release:	6
+Version:	4.6.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -48,8 +48,7 @@ Source100:	%{name}.rpmlintrc
 
 Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 Patch1:		opencv-4.5.5-GL-linkage.patch
-# Experimental, but unfortunately needed now
-Patch2:		opencv-4.5.5-ffmpeg-5.0.patch
+Patch2:		opencv-4.6.0-missing-includes.patch
 Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
@@ -57,12 +56,6 @@ Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch6:		opencv-pkgcmake2.patch
 #Patch7:		opencv-2.4.8-ts_static.patch
 #Patch11:	opencv-3.4.0-python3.7.patch
-# FIXME THIS PATCH IS BOGUS
-# We disable the OpenCL sample here because it won't build,
-# without addressing the real issue.
-# For now, this is good enough, hoping upstream will fix the
-# problem...
-Patch12:	opencv-3.4.1-workaround-for-opencl-sample-failure.patch
 # https://github.com/opencv/opencv/issues/17952
 #Patch103:	fix-call-to-implicitly-deleted-default-constructor-of-cv-gimpl-op.patch
 

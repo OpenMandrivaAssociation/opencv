@@ -1,0 +1,11 @@
+diff -up opencv-4.6.0/modules/videoio/src/ffmpeg_codecs.hpp.omv~ opencv-4.6.0/modules/videoio/src/ffmpeg_codecs.hpp
+--- opencv-4.6.0/modules/videoio/src/ffmpeg_codecs.hpp.omv~	2022-08-27 19:39:54.997918301 +0200
++++ opencv-4.6.0/modules/videoio/src/ffmpeg_codecs.hpp	2022-08-27 19:41:41.616767008 +0200
+@@ -61,6 +61,7 @@ extern "C" {
+ #endif
+ 
+ #include <libavformat/avformat.h>
++#include <libavcodec/version.h>
+ 
+ #ifdef __cplusplus
+ }
