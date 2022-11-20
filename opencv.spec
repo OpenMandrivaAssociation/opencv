@@ -680,8 +680,7 @@ Java bindings for OpenCV.
 %endif
 
 %prep
-%setup -q -a 1
-%autopatch -p1
+%autosetup -p1 -a 1
 
 #patch12 -p1
 #patch103 -p1
@@ -720,6 +719,9 @@ find . -name "*.proto" |while read r; do
 	protoc --cpp_out=$out $(basename $r)
 	cd -
 done
+
+# Debug misbehaving VTK detection
+sed -i -e 's, QUIET,,g' cmake/OpenCVDetectVTK.cmake
 
 %build
 %if %{with pgo}
