@@ -725,18 +725,17 @@ sed -i -e 's, QUIET,,g' cmake/OpenCVDetectVTK.cmake
 
 %build
 %if %{with pgo}
-export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)/build/lib"
 %cmake \
-	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-generate" \
-	-DCMAKE_EXE_LINKER_FLAGS="%{ldflags} -fprofile-instr-generate" \
-	-DCMAKE_SHARED_LINKER_FLAGS="%{ldflags} -fprofile-instr-generate" \
-	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{ldflags} -fprofile-instr-generate|sed -e 's#-Wl,--no-undefined##')" \
+	-DCMAKE_C_FLAGS="%{optflags} -fprofile-generate" \
+	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-generate" \
+	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-generate" \
+	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-generate" \
+	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-generate" \
+	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-generate" \
+	-DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags} -fprofile-generate" \
+	-DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags} -fprofile-generate" \
+	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{build_ldflags} -fprofile-generate|sed -e 's#-Wl,--no-undefined##')" \
 	-DBUILD_DOCS:BOOL=OFF \
 	-DBUILD_EXAMPLES:BOOL=OFF \
 	-DBUILD_opencv_gpu:BOOL=OFF \
@@ -788,8 +787,10 @@ LD_PRELOAD="./lib/libopencv_features2d.so.%{major} ./lib/libopencv_features2d.so
 LD_PRELOAD="./lib/libopencv_superres.so.%{major} ./lib/libopencv_superres.so" bin/opencv_perf_superres ||:
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile $(find . -name "*.profile.d" -type f)
-find . -name "*.profile.d" -type f -delete
+
+llvm-profdata merge --output=%{name}-llvm.profdata $(find ./pgo -name "*.profraw" -type f)
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+find . -name "*.profraw" -type f -delete
 ninja -t clean
 cd ..
 %endif
@@ -797,15 +798,15 @@ cd ..
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
 %if %{with pgo}
-	-DCMAKE_C_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_EXE_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_SHARED_LINKER_FLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \|sed -e 's#-Wl,--no-undefined##')" \
+	-DCMAKE_C_FLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_C_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
+	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{build_ldflags} -fprofile-use=$PROFDATA" \|sed -e 's#-Wl,--no-undefined##')" \
 %endif # " <--- workaround for vim syntax highlighting bug
 	-DBUILD_opencv_gpu:BOOL=OFF \
 	-DINSTALL_C_EXAMPLES:BOOL=ON \
