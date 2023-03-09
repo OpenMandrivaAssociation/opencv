@@ -24,7 +24,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.6.0
-Release:	5
+Release:	6
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -50,6 +50,7 @@ Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 Patch1:		opencv-4.5.5-GL-linkage.patch
 Patch2:		opencv-4.6.0-missing-includes.patch
 Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
+Patch4:		opencv-4.6.0-protobuf-22.1.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
