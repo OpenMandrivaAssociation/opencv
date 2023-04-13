@@ -4,6 +4,9 @@
 %endif
 %bcond_without python
 
+# Temporarily until we can build with clang again
+%define _disable_lto 1
+
 # (tpg) libomp is already in llvm-devel
 %global __requires_exclude 'devel\\(libomp.*\\)'
 
@@ -23,13 +26,14 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
-Version:	4.6.0
-Release:	10
+Version:	4.7.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
 Source0:	https://github.com/opencv/opencv/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}/%{name}_contrib-%{version}.tar.gz
+Source2:	https://github.com/opencv/ade/archive/v0.1.2a.zip
 # TODO Keep in sync with versions downloaded by opencv_contrib/modules/xfeatures2d/cmake/download_boostdesc.cmake
 Source3:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm.i
 Source4:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm_bi.i
@@ -48,9 +52,12 @@ Source100:	%{name}.rpmlintrc
 
 Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 Patch1:		opencv-4.5.5-GL-linkage.patch
-Patch2:		opencv-4.6.0-missing-includes.patch
-Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
-Patch4:		opencv-4.6.0-protobuf-22.1.patch
+Patch2:		opencv-4.7.0-compile.patch
+#Patch2:		opencv-4.6.0-missing-includes.patch
+#Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
+#Patch4:		opencv-4.6.0-protobuf-22.1.patch
+#Patch5:		opencv-4.6.0-libstdc++13.patch
+#Patch6:		opencv-no-downloads-at-buildtime.patch
 #Patch1:		opencv-3.4.0-x32-sse.patch
 #Patch2:		opencv-3.4-libdir.patch
 #Patch3:		opencv-3.4.0-float-vs-float_t.patch
@@ -95,12 +102,14 @@ BuildRequires:	pkgconfig(OpenEXR)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(tesseract)
+BuildRequires:	pkgconfig(libarchive)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	pkgconfig(libva)
 BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(vtk)
+BuildRequires:	cmake(Verdict)
 BuildRequires:	cmake(jsoncpp)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
@@ -115,14 +124,14 @@ BuildRequires:	pkgconfig(xt)
 BuildRequires:	java-devel java-openjdk java-openjdk-headless
 BuildRequires:	ant
 %endif
-# Qt 5.x module
-BuildRequires:	qmake5
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5OpenGL)
-BuildRequires:	pkgconfig(Qt5Test)
-BuildRequires:	pkgconfig(Qt5Concurrent)
-BuildRequires:	pkgconfig(Qt5Widgets)
+# Qt 6.x module
+BuildRequires:	cmake(Qt6)
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6Widgets)
+BuildRequires:	cmake(Qt6OpenGLWidgets)
+BuildRequires:	cmake(Qt6Test)
+BuildRequires:	cmake(Qt6Concurrent)
 # OVIS module
 BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 # Documentation generation
@@ -681,7 +690,10 @@ Java bindings for OpenCV.
 %endif
 
 %prep
-%autosetup -p1 -a 1
+# Intentionally not using %%autosetup so we
+# can use %%autopatch later, when additional
+# sources have been unpacked
+%setup -q -a 1
 
 #patch12 -p1
 #patch103 -p1
@@ -690,6 +702,7 @@ Java bindings for OpenCV.
 #cd ..
 
 mkdir -p build/downloads/xfeatures2d \
+	 build/3rdparty/ade build/.cache/ade \
          build/share/OpenCV/testdata/cv/face/ \
          samples/dnn/face_detector/
 cp %{S:3} %{S:4} %{S:5} %{S:6} %{S:7} %{S:8} \
@@ -699,6 +712,10 @@ cp %{S:14} \
    build/share/OpenCV/testdata/cv/face/
 cp %{S:15} \
    samples/dnn/face_detector/
+cp %{S:2} build/.cache/ade/fa4b3e25167319cb0fa9432ef8281945-v0.1.2a.zip
+cd build/3rdparty/ade
+tar xf %{S:2}
+cd ../../..
 
 %if 0
 mkdir -p build/3rdparty/tinydnn
@@ -706,6 +723,8 @@ cd build/3rdparty/tinydnn
 tar xf %{SOURCE2}
 cd -
 %endif
+
+%autopatch -p1
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
@@ -734,6 +753,7 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DCMAKE_CXX_FLAGS="%{optflags} -fprofile-generate" \
 	-DCMAKE_CXX_FLAGS_RELEASE="%{optflags} -fprofile-generate" \
 	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="%{optflags} -fprofile-generate" \
+	-DCMAKE_CXX_STANDARD=20 \
 	-DCMAKE_EXE_LINKER_FLAGS="%{build_ldflags} -fprofile-generate" \
 	-DCMAKE_SHARED_LINKER_FLAGS="%{build_ldflags} -fprofile-generate" \
 	-DCMAKE_MODULE_LINKER_FLAGS="%(echo %{build_ldflags} -fprofile-generate|sed -e 's#-Wl,--no-undefined##')" \
@@ -798,6 +818,7 @@ cd ..
 
 %cmake \
 	-DBUILD_EXAMPLES:BOOL=ON \
+	-DCMAKE_CXX_STANDARD=20 \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-use=$PROFDATA" \
 	-DCMAKE_C_FLAGS_RELEASE="%{optflags} -fprofile-use=$PROFDATA" \

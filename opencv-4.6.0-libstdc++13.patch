@@ -1,0 +1,11 @@
+diff -up opencv-4.6.0/build/3rdparty/ade/ade-0.1.1f/sources/ade/include/ade/typed_graph.hpp.omv~ opencv-4.6.0/build/3rdparty/ade/ade-0.1.1f/sources/ade/include/ade/typed_graph.hpp
+--- opencv-4.6.0/build/3rdparty/ade/ade-0.1.1f/sources/ade/include/ade/typed_graph.hpp.omv~	2023-04-12 19:51:33.240364784 +0200
++++ opencv-4.6.0/build/3rdparty/ade/ade-0.1.1f/sources/ade/include/ade/typed_graph.hpp	2023-04-12 19:51:40.757414233 +0200
+@@ -9,6 +9,7 @@
+ #ifndef ADE_TYPED_GRAPH_HPP
+ #define ADE_TYPED_GRAPH_HPP
+ 
++#include <cstdint>
+ #include <unordered_set>
+ #include <string>
+ 
