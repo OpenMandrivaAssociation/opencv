@@ -128,11 +128,21 @@ BuildRequires:	ant
 # Qt 6.x module
 BuildRequires:	cmake(Qt6)
 BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6CoreTools)
+BuildRequires:	cmake(Qt6DBus)
 BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6GuiTools)
 BuildRequires:	cmake(Qt6Widgets)
+BuildRequires:	cmake(Qt6WidgetsTools)
+BuildRequires:	cmake(Qt6OpenGL)
 BuildRequires:	cmake(Qt6OpenGLWidgets)
 BuildRequires:	cmake(Qt6Test)
 BuildRequires:	cmake(Qt6Concurrent)
+BuildRequires:	cmake(Qt6Tools)
+BuildRequires:	cmake(Qt6ToolsTools)
+BuildRequires:	cmake(Qt6Core5Compat)
+BuildRequires:	qt6-cmake
+BuildRequires:	qmake-qt6
 # OVIS module
 BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 # Documentation generation
@@ -741,8 +751,8 @@ find . -name "*.proto" |while read r; do
 	cd -
 done
 
-# Debug misbehaving VTK detection
-sed -i -e 's, QUIET,,g' cmake/OpenCVDetectVTK.cmake
+# Debug misbehaving VTK and Qt6 detection
+sed -i -e 's, QUIET,,g' cmake/OpenCVDetectVTK.cmake cmake/OpenCVFindLibsGUI.cmake
 
 %build
 %if %{with pgo}
@@ -773,7 +783,7 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
-	-DWITH_QT:BOOL=OFF \
+	-DWITH_QT=6 \
 	-DWITH_CUDA:BOOL=OFF \
 	-DWITH_VTK:BOOL=OFF \
 	-DWITH_OPENMP:BOOL=ON \
@@ -846,7 +856,7 @@ cd ..
 	-DWITH_FFMPEG:BOOL=ON \
 	-DWITH_OPENGL:BOOL=ON \
 	-DWITH_TIFF:BOOL=ON \
-	-DWITH_QT:BOOL=ON \
+	-DWITH_QT=6 \
 	-DWITH_CUDA:BOOL=OFF \
 	-DWITH_VTK:BOOL=ON \
 	-DVTK_RENDERING_BACKEND=OpenGL2 \
