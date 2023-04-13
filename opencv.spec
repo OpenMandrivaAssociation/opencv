@@ -78,6 +78,7 @@ BuildRequires:	python3-numpy-devel >= 1.16.5
 BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
+BuildRequires:	pkgconfig(freeglut)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(gstreamer-app-1.0)
