@@ -1,7 +1,4 @@
-%define _empty_manifest_terminate_build 0
-%ifnarch %{armx}
 %bcond_without java
-%endif
 %bcond_without python
 
 # Temporarily until we can build with clang again
@@ -27,7 +24,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.7.0
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -122,7 +119,7 @@ BuildRequires:	pkgconfig(sm)
 BuildRequires:	pkgconfig(xt)
 %if %{with java}
 # Java bindings
-BuildRequires:	java-devel java-openjdk java-openjdk-headless
+BuildRequires:	jdk-current
 BuildRequires:	ant
 %endif
 # Qt 6.x module
@@ -153,470 +150,81 @@ BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 OpenCV (Open Source Computer Vision) is a library of programming
 functions for real time computer vision.
 
-#--------------------------------------------------------------------------------
-
-%define libopencv_core_soname %{major}
-%define libopencv_core %mklibname opencv_core %{libopencv_core_soname}
-%define wrongcore %mklibname opencv_core 2
-
-%package -n	%{libopencv_core}
-Summary:	OpenCV core library
-
-Group:		System/Libraries
-%rename		%{wrongcore}
-
-%description -n	%{libopencv_core}
-OpenCV core library (basic structures, arithmetics and linear algebra,
-
-%files -n	%{libopencv_core}
-%{_libdir}/libopencv_core.so.%{libopencv_core_soname}*
-%{_libdir}/libopencv_core.so.%{major2}
-
-#--------------------------------------------------------------------------------
-	
-%define libopencv_barcode_soname %{major}
-%define libopencv_barcode %mklibname opencv_barcode %{libopencv_barcode_soname}
-
-%package -n %{libopencv_barcode}
-Summary: OpenCV bar code recognition module
-Group: System/Libraries
-
-%description -n %{libopencv_barcode}
-Bar code detection and decoding module supporting the EAN13 encoding method.
-
-%files -n %{libopencv_barcode}
-%{_libdir}/libopencv_barcode.so.%{libopencv_barcode_soname}{,.*}
-%{_libdir}/libopencv_barcode.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_imgcodecs_soname %{major}
-%define libopencv_imgcodecs %mklibname opencv_imgcodecs %{libopencv_imgcodecs_soname}
-%define wrongts %mklibname opencv_imgcodecs 2
-
-%package -n	%{libopencv_imgcodecs}
-Summary:	OpenCV image codecs library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-%rename		%{wrongts}
-
-%description -n	%{libopencv_imgcodecs}
-OpenCV image codecs library.
-
-%files -n      %{libopencv_imgcodecs}
-%{_libdir}/libopencv_imgcodecs.so.%{libopencv_imgcodecs_soname}*
-%{_libdir}/libopencv_imgcodecs.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_imgproc_soname %{major}
-%define libopencv_imgproc %mklibname opencv_imgproc %{libopencv_imgproc_soname}
-%define wrongimgproc %mklibname opencv_imgproc 2
-
-%package -n	%{libopencv_imgproc}
-Summary:	OpenCV image processing library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-%rename		%{wrongimgproc}
-
-%description -n	%{libopencv_imgproc}
-OpenCV image processing library (filter, Gaussian blur, erode, dilate,
-resize, remap, etc.).
-
-%files -n	%{libopencv_imgproc}
-%{_libdir}/libopencv_imgproc.so.%{libopencv_imgproc_soname}*
-%{_libdir}/libopencv_imgproc.so.%{major2}*
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_highgui_soname %{major}
-%define libopencv_highgui %mklibname opencv_highgui %{libopencv_highgui_soname}
-%define wronghighgui %mklibname opencv_highgui 2
-
-%package -n	%{libopencv_highgui}
-Summary:	OpenCV GUI and image/video I/O library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-%rename		%{wronghighgui}
-
-%description -n	%{libopencv_highgui}
-OpenCV GUI and image/video I/O library.
-
-%files -n	%{libopencv_highgui}
-%{_libdir}/libopencv_highgui.so.%{libopencv_highgui_soname}*
-%{_libdir}/libopencv_highgui.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_ml_soname %{major}
-%define libopencv_ml %mklibname opencv_ml %{libopencv_ml_soname}
-%define wrongml %mklibname opencv_ml 2
-
-%package -n	%{libopencv_ml}
-Summary:	OpenCV machine learning model library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-%rename		%{wrongml}
-
-%description -n	%{libopencv_ml}
-OpenCV statistical machine learning models (SVM,
-decision trees, boosting, etc.).
-
-%files -n	%{libopencv_ml}
-%{_libdir}/libopencv_ml.so.%{libopencv_ml_soname}*
-%{_libdir}/libopencv_ml.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_shape_soname %{major}
-%define libopencv_shape %mklibname opencv_shape %{libopencv_shape_soname}
-
-%package -n	%{libopencv_shape}
-Summary:	OpenCV shape library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-
-%description -n	%{libopencv_shape}
-OpenCV shape library.
-
-%files -n	%{libopencv_shape}
-%{_libdir}/libopencv_shape.so.%{libopencv_shape_soname}*
-%{_libdir}/libopencv_shape.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_flann_soname %{major}
-%define libopencv_flann %mklibname opencv_flann %{libopencv_flann_soname}
-%define wrongflann %mklibname opencv_flann 2
-
-%package -n	%{libopencv_flann}
-Summary:	OpenCV FLANN library
-Group:		System/Libraries
-%rename		%{wrongflann}
-
-%description -n	%{libopencv_flann}
-OpenCV wrappers for the Fast Library for Approximate Neurest Neighbors
-(FLANN).
-
-%files -n	%{libopencv_flann}
-%{_libdir}/libopencv_flann.so.%{libopencv_flann_soname}*
-%{_libdir}/libopencv_flann.so.%{major2}*
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_calib3d_soname %{major}
-%define libopencv_calib3d %mklibname opencv_calib3d %{libopencv_calib3d_soname}
-%define wrongcalib3d %mklibname opencv_calib3d 2
-
-%package -n	%{libopencv_calib3d}
-Summary:	OpenCV camera calibration library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-%rename		%{wrongcalib3d}
-
-%description -n	%{libopencv_calib3d}
-OpenCV library for camera calibration, stereo correspondence, and
-elements of 3D data processing.
-
-%files -n	%{libopencv_calib3d}
-%{_libdir}/libopencv_calib3d.so.%{libopencv_calib3d_soname}*
-%{_libdir}/libopencv_calib3d.so.%{major2}*
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_features2d_soname %{major}
-%define libopencv_features2d %mklibname opencv_features2d %{libopencv_features2d_soname}
-%define wrongfeatures2d %mklibname opencv_features2d 2
-
-%package -n	%{libopencv_features2d}
-Summary:	OpenCV 2D feature detectors
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-Requires:	%{libopencv_calib3d} = %{EVRD}
-Requires:	%{libopencv_highgui} = %{EVRD}
-Requires:	%{libopencv_flann} = %{EVRD}
-%rename		%{wrongfeatures2d}
-
-%description -n	%{libopencv_features2d}
-OpenCV 2D feature detectors and descriptors (SURF, FAST, etc.).
-
-%files -n	%{libopencv_features2d}
-%{_libdir}/libopencv_features2d.so.%{libopencv_features2d_soname}*
-%{_libdir}/libopencv_features2d.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_superres_soname %{major}
-%define libopencv_superres %mklibname opencv_superres %{libopencv_superres_soname}
-
-%package -n	%{libopencv_superres}
-Summary:	OpenCV super-resolution support
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-
-%description -n	%{libopencv_superres}
-Super-resolution support for OpenCV.
-
-%files -n	%{libopencv_superres}
-%{_libdir}/libopencv_superres.so.%{libopencv_superres_soname}*
-%{_libdir}/libopencv_superres.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_video_soname %{major}
-%define libopencv_video %mklibname opencv_video %{libopencv_video_soname}
-%define wrongvideo %mklibname opencv_video 2
-
-%package -n	%{libopencv_video}
-Summary:	OpenCV motion analysis and object tracking library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-%rename		%{wrongvideo}
-
-%description -n	%{libopencv_video}
-OpenCV motion analysis and object tracking library (optical flow,
-motion templates, background subtraction, etc.).
-
-%files -n	%{libopencv_video}
-%{_libdir}/libopencv_video.so.%{libopencv_video_soname}*
-%{_libdir}/libopencv_video.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_objdetect_soname %{major}
-%define libopencv_objdetect %mklibname opencv_objdetect %{libopencv_objdetect_soname}
-%define wrongobjdetect %mklibname opencv_objdetect 2
-
-%package -n	%{libopencv_objdetect}
-Summary:	OpenCV motion analysis and object tracking library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-Requires:	%{libopencv_highgui} = %{EVRD}
-%rename		%{wrongobjdetect}
-
-%description -n	%{libopencv_objdetect}
-OpenCV object detection library (Haar and LBP face detectors, HOG
-people detector, etc.).
-
-%files -n	%{libopencv_objdetect}
-%{_libdir}/libopencv_objdetect.so.%{libopencv_objdetect_soname}*
-%{_libdir}/libopencv_objdetect.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_videoio_soname %{major}
-%define libopencv_videoio %mklibname opencv_videoio %{libopencv_videoio_soname}
-
-%package -n	%{libopencv_videoio}
-Summary:	OpenCV videoio library
-Group:		System/Libraries
-Requires:	%{libopencv_core} = %{EVRD}
-
-%description -n	%{libopencv_videoio}
-OpenCV videoio library.
-
-%files -n	%{libopencv_videoio}
-%{_libdir}/libopencv_videoio.so.%{libopencv_videoio_soname}*
-%{_libdir}/libopencv_videoio.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_photo_soname %{major}
-%define libopencv_photo %mklibname opencv_photo %{libopencv_photo_soname}
-%define wrongphoto %mklibname opencv_photo 2
-
-%package -n	%{libopencv_photo}
-Summary:	OpenCV motion analysis and object tracking library
-Group:		System/Libraries
-%rename		%{wrongphoto}
-
-%description -n	%{libopencv_photo}
-OpenCV motion analysis and object tracking library (optical flow,
-motion templates, background subtraction, etc.).
-
-%files -n	%{libopencv_photo}
-%{_libdir}/libopencv_photo.so.%{libopencv_photo_soname}*
-%{_libdir}/libopencv_photo.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_stitching_soname %{major}
-%define libopencv_stitching %mklibname opencv_stitching %{libopencv_stitching_soname}
-
-%package -n %{libopencv_stitching}
-Summary:	OpenCV Stitching Pipeline
-Group:		System/Libraries
-
-%description -n %{libopencv_stitching}
-This figure illustrates the stitching module pipeline implemented in the
-:ocv:class:`Stitcher` class. Using that class it's possible to configure/remove
-some steps, i.e. adjust the stitching pipeline according to the particular
-needs. All building blocks from the pipeline are available in the ``detail``
-namespace, one can combine and use them separately.
-
-%files -n %{libopencv_stitching}
-%{_libdir}/libopencv_stitching.so.%{libopencv_stitching_soname}*
-%{_libdir}/libopencv_stitching.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_wechat_qrcode_soname %{major}
-%define libopencv_wechat_qrcode %mklibname opencv_wechat_qrcode %{libopencv_wechat_qrcode_soname}
-
-%package -n %{libopencv_wechat_qrcode}
-Summary: OpenCV WeChat QR code detector module
-Group: System/Libraries
-
-%description -n %{libopencv_wechat_qrcode}
+%define libraries core barcode imgcodecs imgproc highgui ml shape flann calib3d features2d superres video objdetect videoio photo stitching wechat_qrcode videostab aruco bgsegm bioinspired ccalib cvv datasets dnn dnn_objdetect dpm face freetype fuzzy hdf hfs img_hash line_descriptor optflow phase_unwrapping plot reg rgbd saliency stereo structured_light surface_matching text tracking viz xfeatures2d ximgproc xobjdetect xphoto alphamat dnn_superres gapi intensity_transform quality rapid mcc ovis
+%define extra_files_quality %{_datadir}/opencv4/quality
+
+%{expand:%(
+S[core]="OpenCV core library (basic structures, arithmetics, linear algebra)"
+S[barcode]="OpenCV barcode recognition module supporting the EAN13 encoding method"
+S[imgproc]="OpenCV image processing library"
+D[imgproc]="${S[imgproc]}
+(filter, Gaussian blur, erode, dilate, resize, remap, etc.)"
+S[highgui]="OpenCV GUI and image/video I/O library"
+S[ml]="OpenCV machine learning model library"
+D[ml]="OpenCV statistical machine learning models
+(SVM, decision trees, boosting, etc.)"
+S[flann]="OpenCV FLANN (Fast Library for Approximate Nearest Neighbors) library"
+S[calib3d]="OpenCV camera calibration library"
+D[calib3d]="OpenCV library for camera calibration, stereo correspondence,
+and elements of 3D data processing"
+S[features2d]="OpenCV 2D feature detectors"
+D[features2d]="OpenCV 2D feature detectors and descriptors
+(SURF, FAST, etc.)"
+S[superres]="OpenCV super-resolution support"
+S[video]="OpenCV motion analysis and object tracking library"
+D[video]="${S[video]}
+(optical flow, motion templates, background subtraction, etc.)"
+S[objdetect]="OpenCV motion analysis and object tracking library"
+D[objdetect]="${S[objdetect]}
+(Haar and LBP face detectors, HOG people detector, etc.)"
+S[videoio]="OpenCV video I/O library"
+S[photo]="OpenCV photo library"
+S[stitching]="OpenCV stitching pipeline"
+D[stitching]="${S[stitching]}
+Using this class, it's possible to configure/remove
+some steps, i.e. adjust the stitching pipeline according
+to the particular needs. All building blocks from the
+pipeline are available in the 'detail' namespace, one can
+combine and use them separately"
+S[wechat_qrcode]="OpenCV WeChat QR code detector module"
+D[wechat_qrcode]="${S[wechat_qrcode]}
 WeChat QRCode includes two CNN-based models: A object detection model
 and a super resolution model. Object detection model is applied to
 etect QRCode with the bounding box. super resolution model is applied
-to zoom in QRCode when it is small.
-	
-%files -n %{libopencv_wechat_qrcode}
-%{_libdir}/libopencv_wechat_qrcode.so.%{libopencv_wechat_qrcode_soname}{,.*}
-%{_libdir}/libopencv_wechat_qrcode.so.%{major2}
-
-#--------------------------------------------------------------------------------
-
-%define libopencv_videostab_soname %{major}
-%define libopencv_videostab %mklibname opencv_videostab %{libopencv_videostab_soname}
-
-%package -n %{libopencv_videostab}
-Summary:	OpenCV Video stabilization
+to zoom in QRCode when it is small."
+S[videostab]="OpenCV video stabilization module"
+for i in %{libraries}; do
+	S="${S[$i]}"
+	[ -z "$S" ] && S="The OpenCV $i library"
+	D="${D[$i]}"
+	[ -z "$D" ] && D=$S
+	cat <<EOF
+%%package -n %{mklibname opencv_${i}}
+Summary:	$S
 Group:		System/Libraries
+%%rename	%%{mklibname opencv_${i} 4.7}
+Obsoletes:	%%{mklibname opencv_${i} 4.6} < %{EVRD}
 
-%description -n %{libopencv_videostab}
-OpenCV Video stabilization module.
+%%description -n %{mklibname opencv_${i}}
+$D
 
-%files -n %{libopencv_videostab}
-%{_libdir}/libopencv_videostab.so.%{libopencv_videostab_soname}*
-%{_libdir}/libopencv_videostab.so.%{major2}
-
-#--------------------------------------------------------------------------------
-%define cvlibpackage()\
-%%package -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
-Summary: The %{1} library, a part of %{name}\
-Group: System/Libraries\
-%%description -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
-The %{1} library, a part of %{name}\
-%%files -n %{expand:%%mklibname %{1} %{2} %{?3:%{3}}}\
-%{_libdir}/lib%{1}%{?3:-%{2}}.so.%{?3:%{3}}%{?!3:%{2}}*\
-%{_libdir}/lib%{1}%{?3:-%{2}}.so.%{major2}\
-%{nil}
-
-
-%cvlibpackage opencv_aruco %{major}
-%cvlibpackage opencv_bgsegm %{major}
-%cvlibpackage opencv_bioinspired %{major}
-%cvlibpackage opencv_ccalib %{major}
-%cvlibpackage opencv_cvv %{major}
-%cvlibpackage opencv_datasets %{major}
-%cvlibpackage opencv_dnn %{major}
-%cvlibpackage opencv_dnn_objdetect %{major}
-%cvlibpackage opencv_dpm %{major}
-%cvlibpackage opencv_face %{major}
-%cvlibpackage opencv_freetype %{major}
-%cvlibpackage opencv_fuzzy %{major}
-%cvlibpackage opencv_hdf %{major}
-%cvlibpackage opencv_hfs %{major}
-%cvlibpackage opencv_img_hash %{major}
-%cvlibpackage opencv_line_descriptor %{major}
-%cvlibpackage opencv_optflow %{major}
-%cvlibpackage opencv_phase_unwrapping %{major}
-%cvlibpackage opencv_plot %{major}
-%cvlibpackage opencv_reg %{major}
-%cvlibpackage opencv_rgbd %{major}
-%cvlibpackage opencv_saliency %{major}
-%cvlibpackage opencv_stereo %{major}
-%cvlibpackage opencv_structured_light %{major}
-%cvlibpackage opencv_surface_matching %{major}
-%cvlibpackage opencv_text %{major}
-%cvlibpackage opencv_tracking %{major}
-%cvlibpackage opencv_viz %{major}
-%cvlibpackage opencv_xfeatures2d %{major}
-%cvlibpackage opencv_ximgproc %{major}
-%cvlibpackage opencv_xobjdetect %{major}
-%cvlibpackage opencv_xphoto %{major}
-# Added in 4.x
-%cvlibpackage opencv_alphamat %{major}
-%cvlibpackage opencv_dnn_superres %{major}
-%cvlibpackage opencv_gapi %{major}
-%cvlibpackage opencv_intensity_transform %{major}
-%cvlibpackage opencv_quality %{major}
-%{_datadir}/opencv4/quality
-%cvlibpackage opencv_rapid %{major}
-# Added in 4.5
-%cvlibpackage opencv_mcc %{major}
-%cvlibpackage opencv_ovis %{major}
+%%files -n %{mklibname opencv_${i}}
+%optional %{_libdir}/libopencv_${i}.so.%{major}*
+%optional %{_libdir}/libopencv_${i}.so.%{major2}
+%%{?extra_files_${i}:%%{extra_files_${i}}}
+EOF
+done
+)}
 
 %package	devel
 Summary:	OpenCV development files
 Group:		Development/C
 Provides:	opencv-devel = %{EVRD}
-Requires:	%{libopencv_core} = %{EVRD}
-Requires:	%{libopencv_imgcodecs} = %{EVRD}
-Requires:	%{libopencv_imgproc} = %{EVRD}
-Requires:	%{libopencv_highgui} = %{EVRD}
-Requires:	%{libopencv_ml} = %{EVRD}
-Requires:	%{libopencv_shape} = %{EVRD}
-Requires:	%{libopencv_flann} = %{EVRD}
-Requires:	%{libopencv_calib3d} = %{EVRD}
-Requires:	%{libopencv_features2d} = %{EVRD}
-Requires:	%{libopencv_superres} = %{EVRD}
-Requires:	%{libopencv_video} = %{EVRD}
-Requires:	%{libopencv_objdetect} = %{EVRD}
-Requires:	%{libopencv_videoio} = %{EVRD}
-Requires:	%{libopencv_photo} = %{EVRD}
-Requires:	%{libopencv_stitching} = %{EVRD}
-Requires:	%{libopencv_videostab} = %{EVRD}
-Requires:	%{mklibname opencv_aruco %{major}} = %{EVRD}
-Requires: 	%{libopencv_barcode} = %{EVRD}
-Requires:	%{mklibname opencv_bgsegm %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_bioinspired %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_ccalib %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_cvv %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_datasets %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_dnn %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_dnn_objdetect %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_dpm %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_face %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_freetype %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_fuzzy %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_hdf %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_hfs %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_img_hash %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_line_descriptor %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_optflow %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_phase_unwrapping %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_plot %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_reg %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_rgbd %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_saliency %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_stereo %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_structured_light %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_surface_matching %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_text %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_tracking %{major}} = %{EVRD}
-Requires: 	%{libopencv_wechat_qrcode} = %{EVRD}
-Requires:	%{mklibname opencv_viz %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_xfeatures2d %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_ximgproc %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_xobjdetect %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_xphoto %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_alphamat %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_dnn_superres %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_gapi %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_intensity_transform %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_quality %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_rapid %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_mcc %{major}} = %{EVRD}
-Requires:	%{mklibname opencv_ovis %{major}} = %{EVRD}
+%{expand:%(
+for i in %{libraries}; do
+	echo "Requires: %%{mklibname opencv_${i}} = %{EVRD}"
+done
+)}
 %if %{with java}
 Requires:	%{name}-java = %{EVRD}
 %endif
@@ -755,6 +363,10 @@ done
 sed -i -e 's, QUIET,,g' cmake/OpenCVDetectVTK.cmake cmake/OpenCVFindLibsGUI.cmake
 
 %build
+%if %{with java}
+. %{_sysconfdir}/profile.d/90java.sh
+%endif
+
 %if %{with pgo}
 export LD_LIBRARY_PATH="$(pwd)/build/lib"
 %cmake \
