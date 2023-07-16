@@ -14,7 +14,38 @@ diff -uraN opencv-4.8.0/modules/dnn/CMakeLists.txt omv-opencv-4.8.0/modules/dnn/
    list(APPEND include_dirs ${Protobuf_INCLUDE_DIRS})
  endif()
 
-diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp omv-opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt	2023-07-16 13:44:44.970722794 +0200
+@@ -19,12 +19,14 @@
+ include_directories(${OGRE_INCLUDE_DIRS})
+ link_directories(${OGRE_LIBRARY_DIRS})
+ 
++include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../modules/objdetect/include)
++
+ ocv_add_module(ovis opencv_core opencv_imgproc opencv_calib3d WRAP python)
+ ocv_glob_module_sources()
+ ocv_module_include_directories()
+ ocv_create_module()
+ 
+-ocv_add_samples(opencv_aruco)
++#ocv_add_samples(opencv_aruco)
+ 
+ ocv_warnings_disable(CMAKE_CXX_FLAGS -Wunused-parameter)
+ ocv_target_link_libraries(${the_module} ${OGRE_LIBRARIES})
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-07-16 13:45:47.378409705 +0200
+@@ -3,7 +3,7 @@
+ #include <opencv2/videoio.hpp>
+ 
+ #include <opencv2/ovis.hpp>
+-#include <opencv2/aruco_detector.hpp>
++#include <opencv2/objdetect/aruco_detector.hpp>
+ 
+ #include <iostream>
+ 
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp
 --- opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp	2023-06-28 11:48:14.000000000 +0200
 +++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp	2023-07-16 13:15:37.309987059 +0200
 @@ -38,7 +38,7 @@
