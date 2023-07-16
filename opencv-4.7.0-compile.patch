@@ -57,3 +57,16 @@ diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recogniti
              std::cout << "text box: " << currrentBox << " confidence: " << probs[indexes[i]] << "\n";
  
              int baseLine = 0;
+
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp	2023-07-16 14:09:27.302693692 +0200
+@@ -159,7 +159,7 @@
+     {
+         Mat t, res;
+         Mat(auc).convertTo(t, CV_64F); // integral does not support CV_32S input
+-        integral(t.t(), res, CV_64F); // t is a column of values
++        cv::integral(t.t(), res, CV_64F); // t is a column of values
+         return res.row(1) / (double)numTotal;
+     }
+ 
