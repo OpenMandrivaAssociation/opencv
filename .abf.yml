@@ -5,6 +5,6 @@ sources:
   vgg_generated_48.i: 8f14057a10cb1c084191b15f17ac396fccf8e081
   vgg_generated_64.i: 166d6575d33e0d9286ec16f36847d832ce28ebbd
   vgg_generated_80.i: bfe12980e6c68426bb95e429a5d3cd71f3e56737
-  opencv-4.7.0.tar.gz: 7865fc2ff7267c26b289cda8b479439694fcfb98
-  opencv_contrib-4.7.0.tar.gz: 7b119a24d91c168422c88a600dff4637e312b18e
+  opencv-4.8.0.tar.gz: 7a2771045ff376eb15889f5b0974dd5a151c668e
+  opencv_contrib-4.8.0.tar.gz: ba773bb8dbce96f3e4f3b9beadd923d03673cb3f
   v0.1.2a.zip: 31318f21be752ce92666374814e56debf502f657
