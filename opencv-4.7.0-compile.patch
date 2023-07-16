@@ -1,22 +1,23 @@
-diff -up opencv-4.7.0/modules/dnn/CMakeLists.txt.omv~ opencv-4.7.0/modules/dnn/CMakeLists.txt
---- opencv-4.7.0/modules/dnn/CMakeLists.txt.omv~	2023-04-13 03:17:39.926890059 +0200
-+++ opencv-4.7.0/modules/dnn/CMakeLists.txt	2023-04-13 03:37:51.292207554 +0200
-@@ -127,8 +127,10 @@ else()
-   set(fw_inc "${CMAKE_CURRENT_LIST_DIR}/misc/caffe" "${CMAKE_CURRENT_LIST_DIR}/misc/tensorflow" "${CMAKE_CURRENT_LIST_DIR}/misc/onnx")
+diff -uraN opencv-4.8.0/modules/dnn/CMakeLists.txt omv-opencv-4.8.0/modules/dnn/CMakeLists.txt
+--- opencv-4.8.0/modules/dnn/CMakeLists.txt	2023-06-28 13:53:33.000000000 +0200
++++ omv-opencv-4.8.0/modules/dnn/CMakeLists.txt	2023-07-16 11:58:51.878820904 +0200
+@@ -143,8 +143,10 @@
+   #      COMMAND flatbuffers::flatc --cpp -o "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_LIST_DIR}/src/tflite/schema.fbs")
  endif()
  
 +add_definitions(-DPROTOBUF_USE_DLLS)
 +
  list(APPEND include_dirs ${fw_inc})
 -list(APPEND libs ${Protobuf_LIBRARIES})
-+list(APPEND libs ${Protobuf_LIBRARIES} absl_hash absl_log_internal_check_op absl_log_internal_message absl_raw_hash_set absl_raw_logging_internal absl_spinlock_wait absl_synchronization absl_log_internal_nullguard)
++list(APPEND libs ${Protobuf_LIBRARIES}  absl_hash absl_log_internal_check_op absl_log_internal_message absl_raw_hash_set absl_raw_logging_internal absl_spinlock_wait absl_synchronization absl_log_internal_nullguard)
  if(NOT BUILD_PROTOBUF)
    list(APPEND include_dirs ${Protobuf_INCLUDE_DIRS})
  endif()
-diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/CMakeLists.txt.omv~ opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/CMakeLists.txt
---- opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/CMakeLists.txt.omv~	2023-04-13 03:40:46.152793000 +0200
-+++ opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/CMakeLists.txt	2023-04-13 03:44:35.772869584 +0200
-@@ -19,12 +19,14 @@ endif()
+
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/CMakeLists.txt	2023-07-16 13:44:44.970722794 +0200
+@@ -19,12 +19,14 @@
  include_directories(${OGRE_INCLUDE_DIRS})
  link_directories(${OGRE_LIBRARY_DIRS})
  
@@ -32,9 +33,9 @@ diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/CMakeLists.txt.omv~ open
  
  ocv_warnings_disable(CMAKE_CXX_FLAGS -Wunused-parameter)
  ocv_target_link_libraries(${the_module} ${OGRE_LIBRARIES})
-diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/samples/aruco_ar_demo.cpp.omv~ opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/samples/aruco_ar_demo.cpp
---- opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/samples/aruco_ar_demo.cpp.omv~	2023-04-13 03:39:49.298277967 +0200
-+++ opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-04-13 03:39:56.448342761 +0200
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-07-16 13:45:47.378409705 +0200
 @@ -3,7 +3,7 @@
  #include <opencv2/videoio.hpp>
  
@@ -44,27 +45,28 @@ diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/ovis/samples/aruco_ar_demo.cp
  
  #include <iostream>
  
-diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/text/samples/text_recognition_cnn.cpp.omv~ opencv-4.7.0/opencv_contrib-4.7.0/modules/text/samples/text_recognition_cnn.cpp
---- opencv-4.7.0/opencv_contrib-4.7.0/modules/text/samples/text_recognition_cnn.cpp.omv~	2023-04-13 03:23:29.163261481 +0200
-+++ opencv-4.7.0/opencv_contrib-4.7.0/modules/text/samples/text_recognition_cnn.cpp	2023-04-13 03:23:34.535312256 +0200
-@@ -38,7 +38,7 @@ void textbox_draw(Mat src, std::vector<R
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/text/samples/text_recognition_cnn.cpp	2023-07-16 13:15:37.309987059 +0200
+@@ -38,7 +38,7 @@
          {
              Rect currrentBox = groups[indexes[i]];
              rectangle(src, currrentBox, Scalar( 0, 255, 255 ), 2, LINE_AA);
 -            String label = format("%.2f", probs[indexes[i]]);
-+            String label = cv::format("%.2f", probs[indexes[i]]);
++           String label = cv::format("%.2f", probs[indexes[i]]);
              std::cout << "text box: " << currrentBox << " confidence: " << probs[indexes[i]] << "\n";
  
              int baseLine = 0;
-diff -up opencv-4.7.0/opencv_contrib-4.7.0/modules/tracking/samples/benchmark.cpp.omv~ opencv-4.7.0/opencv_contrib-4.7.0/modules/tracking/samples/benchmark.cpp
---- opencv-4.7.0/opencv_contrib-4.7.0/modules/tracking/samples/benchmark.cpp.omv~	2023-04-13 03:49:48.596314323 +0200
-+++ opencv-4.7.0/opencv_contrib-4.7.0/modules/tracking/samples/benchmark.cpp	2023-04-13 03:49:52.229340427 +0200
-@@ -159,7 +159,7 @@ struct AlgoWrap
+
+diff -uraN opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp
+--- opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.8.0/opencv_contrib-4.8.0/modules/tracking/samples/benchmark.cpp	2023-07-16 14:09:27.302693692 +0200
+@@ -159,7 +159,7 @@
      {
          Mat t, res;
          Mat(auc).convertTo(t, CV_64F); // integral does not support CV_32S input
 -        integral(t.t(), res, CV_64F); // t is a column of values
-+	cv::integral(t.t(), res, CV_64F); // t is a column of values
++        cv::integral(t.t(), res, CV_64F); // t is a column of values
          return res.row(1) / (double)numTotal;
      }
  
