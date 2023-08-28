@@ -24,7 +24,7 @@ Summary:	Open Source Computer Vision library
 Name:		opencv
 # When updating, please check if patch 12 is still needed
 Version:	4.8.0
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
