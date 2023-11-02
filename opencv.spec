@@ -22,9 +22,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-# When updating, please check if patch 12 is still needed
-Version:	4.8.0
-Release:	4
+Version:	4.8.1
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -314,7 +313,6 @@ Java bindings for OpenCV.
 # sources have been unpacked
 %setup -q -a 1
 
-#patch12 -p1
 #patch103 -p1
 #cd %{name}_contrib-%{version}
 #patch101 -p1
