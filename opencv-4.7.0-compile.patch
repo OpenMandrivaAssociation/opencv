@@ -1,6 +1,6 @@
-diff -uraN opencv-4.8.1/modules/dnn/CMakeLists.txt omv-opencv-4.8.1/modules/dnn/CMakeLists.txt
---- opencv-4.8.1/modules/dnn/CMakeLists.txt	2023-06-28 13:53:33.000000000 +0200
-+++ omv-opencv-4.8.1/modules/dnn/CMakeLists.txt	2023-07-16 11:58:51.878820904 +0200
+diff -uraN opencv-4.9.0/modules/dnn/CMakeLists.txt omv-opencv-4.9.0/modules/dnn/CMakeLists.txt
+--- opencv-4.9.0/modules/dnn/CMakeLists.txt	2023-06-28 13:53:33.000000000 +0200
++++ omv-opencv-4.9.0/modules/dnn/CMakeLists.txt	2023-07-16 11:58:51.878820904 +0200
 @@ -143,8 +143,10 @@
    #      COMMAND flatbuffers::flatc --cpp -o "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_LIST_DIR}/src/tflite/schema.fbs")
  endif()
@@ -14,9 +14,9 @@ diff -uraN opencv-4.8.1/modules/dnn/CMakeLists.txt omv-opencv-4.8.1/modules/dnn/
    list(APPEND include_dirs ${Protobuf_INCLUDE_DIRS})
  endif()
 
-diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/CMakeLists.txt omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/CMakeLists.txt
---- opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/CMakeLists.txt	2023-06-28 11:48:14.000000000 +0200
-+++ omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/CMakeLists.txt	2023-07-16 13:44:44.970722794 +0200
+diff -uraN opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/CMakeLists.txt omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/CMakeLists.txt
+--- opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/CMakeLists.txt	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/CMakeLists.txt	2023-07-16 13:44:44.970722794 +0200
 @@ -19,12 +19,14 @@
  include_directories(${OGRE_INCLUDE_DIRS})
  link_directories(${OGRE_LIBRARY_DIRS})
@@ -33,9 +33,9 @@ diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/CMakeLists.txt omv-ope
  
  ocv_warnings_disable(CMAKE_CXX_FLAGS -Wunused-parameter)
  ocv_target_link_libraries(${the_module} ${OGRE_LIBRARIES})
-diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/samples/aruco_ar_demo.cpp omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/samples/aruco_ar_demo.cpp
---- opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/samples/aruco_ar_demo.cpp	2023-06-28 11:48:14.000000000 +0200
-+++ omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/samples/aruco_ar_demo.cpp	2023-07-16 13:45:47.378409705 +0200
+diff -uraN opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/samples/aruco_ar_demo.cpp omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/samples/aruco_ar_demo.cpp
+--- opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/ovis/samples/aruco_ar_demo.cpp	2023-07-16 13:45:47.378409705 +0200
 @@ -3,7 +3,7 @@
  #include <opencv2/videoio.hpp>
  
@@ -45,9 +45,9 @@ diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/ovis/samples/aruco_ar_demo.
  
  #include <iostream>
  
-diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/text/samples/text_recognition_cnn.cpp omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/text/samples/text_recognition_cnn.cpp
---- opencv-4.8.1/opencv_contrib-4.8.1/modules/text/samples/text_recognition_cnn.cpp	2023-06-28 11:48:14.000000000 +0200
-+++ omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/text/samples/text_recognition_cnn.cpp	2023-07-16 13:15:37.309987059 +0200
+diff -uraN opencv-4.9.0/opencv_contrib-4.9.0/modules/text/samples/text_recognition_cnn.cpp omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/text/samples/text_recognition_cnn.cpp
+--- opencv-4.9.0/opencv_contrib-4.9.0/modules/text/samples/text_recognition_cnn.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/text/samples/text_recognition_cnn.cpp	2023-07-16 13:15:37.309987059 +0200
 @@ -38,7 +38,7 @@
          {
              Rect currrentBox = groups[indexes[i]];
@@ -58,9 +58,9 @@ diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/text/samples/text_recogniti
  
              int baseLine = 0;
 
-diff -uraN opencv-4.8.1/opencv_contrib-4.8.1/modules/tracking/samples/benchmark.cpp omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/tracking/samples/benchmark.cpp
---- opencv-4.8.1/opencv_contrib-4.8.1/modules/tracking/samples/benchmark.cpp	2023-06-28 11:48:14.000000000 +0200
-+++ omv-opencv-4.8.1/opencv_contrib-4.8.1/modules/tracking/samples/benchmark.cpp	2023-07-16 14:09:27.302693692 +0200
+diff -uraN opencv-4.9.0/opencv_contrib-4.9.0/modules/tracking/samples/benchmark.cpp omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/tracking/samples/benchmark.cpp
+--- opencv-4.9.0/opencv_contrib-4.9.0/modules/tracking/samples/benchmark.cpp	2023-06-28 11:48:14.000000000 +0200
++++ omv-opencv-4.9.0/opencv_contrib-4.9.0/modules/tracking/samples/benchmark.cpp	2023-07-16 14:09:27.302693692 +0200
 @@ -159,7 +159,7 @@
      {
          Mat t, res;
