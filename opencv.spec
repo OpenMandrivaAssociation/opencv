@@ -11,7 +11,7 @@
 %global _python_bytecompile_build 0
 
 %define major %(echo %{version} |cut -d. -f1-2)
-%define major2 %(echo %{version} |cut -d. -f1)0%(echo %{version} |cut -d. -f2)
+%define major2 %(echo %{version} |cut -d. -f1)%(echo %{version} |cut -d. -f2)
 
 # (tpg) enable PGO build
 %ifnarch riscv64 %{armx}
@@ -22,8 +22,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	4.9.0
-Release:	5
+Version:	4.10.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		http://opencv.org/
@@ -149,8 +149,10 @@ BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 OpenCV (Open Source Computer Vision) is a library of programming
 functions for real time computer vision.
 
-%define libraries core barcode imgcodecs imgproc highgui ml shape flann calib3d features2d superres video objdetect videoio photo stitching wechat_qrcode videostab aruco bgsegm bioinspired ccalib cvv datasets dnn dnn_objdetect dpm face freetype fuzzy hdf hfs img_hash line_descriptor optflow phase_unwrapping plot reg rgbd saliency stereo structured_light surface_matching text tracking viz xfeatures2d ximgproc xobjdetect xphoto alphamat dnn_superres gapi intensity_transform quality rapid mcc ovis
+%define libraries core imgcodecs imgproc highgui ml shape flann calib3d features2d superres video objdetect videoio photo stitching wechat_qrcode videostab aruco bgsegm bioinspired ccalib cvv datasets dnn dnn_objdetect dpm face freetype fuzzy hdf hfs img_hash line_descriptor optflow phase_unwrapping plot reg rgbd saliency stereo structured_light surface_matching text tracking viz xfeatures2d ximgproc xobjdetect xphoto alphamat dnn_superres gapi intensity_transform quality rapid mcc ovis sfm signal
 %define extra_files_quality %{_datadir}/opencv4/quality
+
+# Removed in 4.10: barcode
 
 %{expand:%(
 S[core]="OpenCV core library (basic structures, arithmetics, linear algebra)"
@@ -242,6 +244,11 @@ OpenCV development files.
 %dir %{_datadir}/opencv4
 %{_datadir}/opencv4/valgrind.supp
 %{_datadir}/opencv4/valgrind_3rdparty.supp
+# For now this is only static libraries, so we should
+# own the directory here too
+%dir %{_libdir}/opencv4
+%dir %{_libdir}/opencv4/3rdparty
+%{_libdir}/opencv4/3rdparty/*.a
 
 %if %{with python}
 #--------------------------------------------------------------------------------
