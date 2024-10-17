@@ -26,7 +26,7 @@ Version:	4.10.0
 Release:	7
 License:	GPLv2+
 Group:		Sciences/Computer science
-Url:		http://opencv.org/
+Url:		https://opencv.org/
 Source0:	https://github.com/opencv/opencv/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}/%{name}_contrib-%{version}.tar.gz
 Source2:	https://github.com/opencv/ade/archive/v0.1.2a.zip
