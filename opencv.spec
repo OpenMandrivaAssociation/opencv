@@ -49,6 +49,8 @@ Source100:	%{name}.rpmlintrc
 Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 Patch1:		opencv-4.5.5-GL-linkage.patch
 Patch2:		opencv-4.7.0-compile.patch
+Patch3:		opencv-4.11.0-cmake-4.x.patch
+Patch4:		opencv-4.11.0-QTBUG-137447.patch
 #Patch2:		opencv-4.6.0-missing-includes.patch
 #Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch4:		opencv-4.6.0-protobuf-22.1.patch
@@ -442,7 +444,7 @@ unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}-llvm.profdata $(find ./pgo -name "*.profraw" -type f)
 PROFDATA="$(realpath %{name}-llvm.profdata)"
 find . -name "*.profraw" -type f -delete
-ninja -t clean
+%ninja_build -t clean
 cd ..
 %endif
 

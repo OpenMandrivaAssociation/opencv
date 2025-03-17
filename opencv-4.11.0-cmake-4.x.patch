@@ -1,0 +1,12 @@
+diff -up opencv-4.11.0/cmake/OpenCVGenPkgconfig.cmake.omv~ opencv-4.11.0/cmake/OpenCVGenPkgconfig.cmake
+--- opencv-4.11.0/cmake/OpenCVGenPkgconfig.cmake.omv~	2025-03-17 15:42:09.308136852 +0100
++++ opencv-4.11.0/cmake/OpenCVGenPkgconfig.cmake	2025-03-17 15:42:18.386529508 +0100
+@@ -110,7 +110,7 @@ endif()
+ # =============================================================================
+ else() # DEFINED CMAKE_HELPER_SCRIPT
+ 
+-cmake_minimum_required(VERSION 2.8.12.2)
++cmake_minimum_required(VERSION 3.5)
+ cmake_policy(SET CMP0012 NEW)
+ include("${CMAKE_HELPER_SCRIPT}")
+ include("${OpenCV_SOURCE_DIR}/cmake/OpenCVUtils.cmake")
