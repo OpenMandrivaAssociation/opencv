@@ -72,7 +72,7 @@ BuildRequires:	pkgconfig(OpenCL)
 BuildRequires:	protobuf-compiler
 BuildRequires:	pkgconfig(protobuf)
 %if %{with python}
-BuildRequires:	python3-numpy-devel >= 1.16.5
+BuildRequires:	python-numpy
 BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
