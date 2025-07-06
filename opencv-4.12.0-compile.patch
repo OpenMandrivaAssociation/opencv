@@ -1,0 +1,12 @@
+diff -up opencv-4.12.0/modules/core/src/opengl.cpp.omv~ opencv-4.12.0/modules/core/src/opengl.cpp
+--- opencv-4.12.0/modules/core/src/opengl.cpp.omv~	2025-07-07 00:39:21.581544297 +0200
++++ opencv-4.12.0/modules/core/src/opengl.cpp	2025-07-07 00:39:42.876442585 +0200
+@@ -75,7 +75,7 @@ namespace
+ {
+ #ifndef HAVE_OPENGL
+ inline static CV_NORETURN void throw_no_ogl() { CV_Error(cv::Error::OpenGlNotSupported, "The library is compiled without OpenGL support"); }
+-#elif defined _DEBUG
++#else //if defined _DEBUG
+ inline static bool checkError(const char* file, const int line, const char* func = 0)
+ {
+     GLenum err = gl::GetError();

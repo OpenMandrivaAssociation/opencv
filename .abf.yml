@@ -6,5 +6,5 @@ sources:
   vgg_generated_64.i: 166d6575d33e0d9286ec16f36847d832ce28ebbd
   vgg_generated_80.i: bfe12980e6c68426bb95e429a5d3cd71f3e56737
   v0.1.2a.zip: 31318f21be752ce92666374814e56debf502f657
-  opencv-4.11.0.tar.gz: 8aa48979e6a086a447a9acf1727a8eb9c35c2d4e
-  opencv_contrib-4.11.0.tar.gz: 49de72d02c9804745e4b861f17602fb1e9da00ca
+  opencv-4.12.0.tar.gz: dda4c8f904f54733133b0d3df7058b304721c8a3
+  opencv_contrib-4.12.0.tar.gz: 2bcf20557c5019119c2307cb879e47b09bd1a4e5
