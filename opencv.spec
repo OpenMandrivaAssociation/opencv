@@ -114,7 +114,7 @@ BuildRequires:	cmake(Verdict)
 BuildRequires:	cmake(jsoncpp)
 BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
-BuildRequires:	mesa-opencl-devel
+BuildRequires:	mesa-rusticl
 BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	cmake(double-conversion)
