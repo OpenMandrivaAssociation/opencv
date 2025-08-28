@@ -51,6 +51,7 @@ Patch1:		opencv-4.5.5-GL-linkage.patch
 Patch2:		opencv-4.7.0-compile.patch
 Patch3:		opencv-4.12.0-compile.patch
 Patch4:		opencv-4.11.0-QTBUG-137447.patch
+Patch5:		fix-deprecated-ffmpeg-calls.patch
 #Patch2:		opencv-4.6.0-missing-includes.patch
 #Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch4:		opencv-4.6.0-protobuf-22.1.patch
