@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	4.12.0
-Release:	9
+Release:	10
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -52,6 +52,8 @@ Patch2:		opencv-4.7.0-compile.patch
 Patch3:		opencv-4.12.0-compile.patch
 Patch4:		opencv-4.11.0-QTBUG-137447.patch
 Patch5:		fix-deprecated-ffmpeg-calls.patch
+# Fix detect Eigen3 >3            
+Patch18:        https://github.com/opencv/opencv/pull/27536.patch
 #Patch2:		opencv-4.6.0-missing-includes.patch
 #Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch4:		opencv-4.6.0-protobuf-22.1.patch
