@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	4.12.0
-Release:	10
+Release:	11
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -110,7 +110,7 @@ BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	pkgconfig(libva)
 BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	pkgconfig(libopenjp2)
-BuildRequires:	pkgconfig(libglog)
+BuildRequires:	cmake(ng-log)
 BuildRequires:	pkgconfig(gflags)
 BuildRequires:	cmake(vtk)
 BuildRequires:	cmake(Verdict)
