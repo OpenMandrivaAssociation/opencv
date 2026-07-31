@@ -1,10 +1,17 @@
 sources:
-  res10_300x300_ssd_iter_140000.caffemodel: 15aa726b4d46d9f023526d85537db81cbc8dd566
+  boostdesc_bgm.i: 351d578450b14e049c7a05b4dcfb313eb1789950
+  boostdesc_bgm_bi.i: 6a4c0a95bb6188b208ae9c6e96d3820db59e5def
+  boostdesc_bgm_hd.i: a951ffdf2b9939b0bb2bccfd4bb0cb1dd00c52a4
+  boostdesc_binboost_064.i: 3d2bbfc8d3458262879797b057ea90c05a2db6fb
+  boostdesc_binboost_128.i: e4d4551cb78fff76ffd8d1b873a8bd4488c6a6c3
+  boostdesc_binboost_256.i: f589c76a047206b2da3f2640dc22fcaf121d463e
+  boostdesc_lbgm.i: f2db472d27c4ef740d6bcff11663206cfd3679ab
   face_landmark_model.dat: 474c7aec203cd46d5d4d2d3beb022d987fad6ac3
+  opencv-5.0.0.tar.gz: 67e27a1ed9e9998bba211691dac766a8740fc476
+  opencv_contrib-5.0.0.tar.gz: 62cb2c7bfb53e790b97d373f759c4f7a62efae27
+  res10_300x300_ssd_iter_140000.caffemodel: 15aa726b4d46d9f023526d85537db81cbc8dd566
+  v0.1.2a.zip: 31318f21be752ce92666374814e56debf502f657
   vgg_generated_120.i: f27a96dc8b76d7c6dfe35ae2336b656e2dd4d3c5
   vgg_generated_48.i: 8f14057a10cb1c084191b15f17ac396fccf8e081
   vgg_generated_64.i: 166d6575d33e0d9286ec16f36847d832ce28ebbd
   vgg_generated_80.i: bfe12980e6c68426bb95e429a5d3cd71f3e56737
-  v0.1.2a.zip: 31318f21be752ce92666374814e56debf502f657
-  opencv-4.12.0.tar.gz: dda4c8f904f54733133b0d3df7058b304721c8a3
-  opencv_contrib-4.12.0.tar.gz: 2bcf20557c5019119c2307cb879e47b09bd1a4e5

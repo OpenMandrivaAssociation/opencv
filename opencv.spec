@@ -22,8 +22,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	4.12.0
-Release:	11
+Version:	5.0.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -46,14 +46,14 @@ Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
 Source100:	%{name}.rpmlintrc
 
-Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
-Patch1:		opencv-4.5.5-GL-linkage.patch
-Patch2:		opencv-4.7.0-compile.patch
-Patch3:		opencv-4.12.0-compile.patch
-Patch4:		opencv-4.11.0-QTBUG-137447.patch
-Patch5:		fix-deprecated-ffmpeg-calls.patch
+# dropped (no longer applies): Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
+# dropped (no longer applies): Patch1:		opencv-4.5.5-GL-linkage.patch
+# dropped (no longer applies): Patch2:		opencv-4.7.0-compile.patch
+# dropped (no longer applies): Patch3:		opencv-5.0.0-compile.patch
+# dropped (no longer applies): Patch4:		opencv-4.11.0-QTBUG-137447.patch
+# dropped (no longer applies): Patch5:		fix-deprecated-ffmpeg-calls.patch
 # Fix detect Eigen3 >3            
-Patch18:        https://github.com/opencv/opencv/pull/27536.patch
+# dropped (no longer applies): Patch18:        https://github.com/opencv/opencv/pull/27536.patch
 #Patch2:		opencv-4.6.0-missing-includes.patch
 #Patch3:		opencv-4.5.5-hfs-workaround-clang14-bug.patch
 #Patch4:		opencv-4.6.0-protobuf-22.1.patch
