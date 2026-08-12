@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	5
+Release:	6
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -514,3 +514,6 @@ cd ..
 # (tpg) remove not needed files
 rm -rf %{buildroot}%{_datadir}/OpenCV/licenses
 rm -rf %{buildroot}%{_datadir}/licenses
+
+# keep %mklibname visible for rpmlint SpecCheck (checks last line only)
+# %mklibname
