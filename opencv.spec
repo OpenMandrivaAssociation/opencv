@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	6
+Release:	7
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -110,10 +110,13 @@ BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(ng-log)
 BuildRequires:	pkgconfig(gflags)
-BuildRequires:	cmake(vtk)
-BuildRequires:	cmake(Verdict)
-BuildRequires:	cmake(jsoncpp)
-BuildRequires:	vtk-python
+# VTK currently unusable as a BR: lib64vtk-devel pulls missing cmake(jogl)/cmake(viskores)
+# on x86, and aarch64 still has vtk built against obsolete libjsoncpp.so.26.
+# OpenCV builds fine without VTK (viz module optional).
+#BuildRequires:	cmake(vtk)
+#BuildRequires:	cmake(Verdict)
+#BuildRequires:	cmake(jsoncpp)
+#BuildRequires:	vtk-python
 BuildRequires:	hdf5-devel
 BuildRequires:	mesa-rusticl
 BuildRequires:	doxygen
@@ -479,8 +482,7 @@ cd ..
 	-DWITH_TIFF:BOOL=ON \
 	-DWITH_QT=6 \
 	-DWITH_CUDA:BOOL=OFF \
-	-DWITH_VTK:BOOL=ON \
-	-DVTK_RENDERING_BACKEND=OpenGL2 \
+	-DWITH_VTK:BOOL=OFF \
 	-DWITH_OPENMP:BOOL=ON \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
