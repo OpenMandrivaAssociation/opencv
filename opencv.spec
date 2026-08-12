@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -44,8 +44,6 @@ Source16:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source17:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
 Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
-Source100:	%{name}.rpmlintrc
-
 # dropped (no longer applies): Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
 # dropped (no longer applies): Patch1:		opencv-4.5.5-GL-linkage.patch
 # dropped (no longer applies): Patch2:		opencv-4.7.0-compile.patch
@@ -355,7 +353,6 @@ tar xf %{SOURCE2}
 cd -
 %endif
 
-%autopatch -p1
 
 # Fix source files having executable permissions
 find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
