@@ -1,4 +1,5 @@
-%bcond_without java
+# Java bindings need a full JDK image; disable by default (no files installed offline)
+%bcond_with java
 %bcond_without python
 
 # Temporarily until we can build with clang again
@@ -24,7 +25,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	13
+Release:	14
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -254,9 +255,7 @@ OpenCV development files.
 %{_libdir}/*.so
 %{_includedir}/*
 %{_libdir}/cmake/opencv5
-%optional %{_libdir}/cmake/opencv4
 %{_libdir}/pkgconfig/opencv5.pc
-%optional %{_libdir}/pkgconfig/opencv4.pc
 %dir %{_datadir}/opencv5
 %optional %{_datadir}/opencv5/valgrind.supp
 %optional %{_datadir}/opencv5/valgrind_3rdparty.supp
@@ -277,7 +276,6 @@ OpenCV python bindings.
 
 %files -n	python-opencv
 %optional %{_bindir}/setup_vars_opencv5.sh
-%optional %{_bindir}/setup_vars_opencv4.sh
 %ifnarch %{ix86}
 %{py_puresitedir}/*
 %else
@@ -328,7 +326,8 @@ Group:		Sciences/Computer science
 Java bindings for OpenCV.
 
 %files		java
-%{_datadir}/java/opencv4
+%optional %{_datadir}/java/opencv5
+%optional %{_datadir}/java/opencv4
 %endif
 
 %prep
