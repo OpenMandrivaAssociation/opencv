@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -44,7 +44,7 @@ Source16:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source17:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
 Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
-# dropped (no longer applies): Patch0:		opencv-4.5.5-skip-broken-VTK-check.patch
+Patch0:		opencv-5.0.0-ffmpeg9.patch
 # dropped (no longer applies): Patch1:		opencv-4.5.5-GL-linkage.patch
 # dropped (no longer applies): Patch2:		opencv-4.7.0-compile.patch
 # dropped (no longer applies): Patch3:		opencv-5.0.0-compile.patch
@@ -327,6 +327,7 @@ Java bindings for OpenCV.
 # can use %%autopatch later, when additional
 # sources have been unpacked
 %setup -q -a 1
+%autopatch -p1
 
 #patch103 -p1
 #cd %{name}_contrib-%{version}
