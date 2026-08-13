@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	8
+Release:	9
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -363,13 +363,13 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
 
-# rebuild protobuf files with our version of protobuf
-find . -name "*.proto" |while read r; do
-	dir=$(dirname $(realpath $r))
-	out=${dir/src/misc}
-	cd $dir
-	protoc --cpp_out=$out $(basename $r)
-	cd -
+# rebuild protobuf files with our version of protobuf (into modules/*/misc/)
+find . -name "*.proto" | while read r; do
+	dir=$(dirname "$(realpath "$r")")
+	# replace trailing /src/ segment only (not earlier "src" path components)
+	out=$(echo "$dir" | sed 's|/src/|/misc/|g')
+	mkdir -p "$out"
+	( cd "$dir" && protoc --cpp_out="$out" "$(basename "$r")" )
 done
 
 # Debug misbehaving VTK and Qt6 detection
@@ -488,7 +488,7 @@ cd ..
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
 	-DBUILD_PROTOBUF:BOOL=OFF \
-	-DPROTOBUF_UPDATE_FILES=ON \
+	-DPROTOBUF_UPDATE_FILES:BOOL=OFF \
 	-DBUILD_TESTS=OFF \
 %ifarch %{ix86}
 	-DCPU_BASELINE=SSE2 \
