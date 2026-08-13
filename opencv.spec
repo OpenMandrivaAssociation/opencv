@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	10
+Release:	11
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -462,7 +462,7 @@ cd ..
 %endif
 
 %cmake \
-	-DBUILD_EXAMPLES:BOOL=ON \
+	-DBUILD_EXAMPLES:BOOL=OFF \
 	-DCMAKE_CXX_STANDARD=20 \
 %if %{with pgo}
 	-DCMAKE_C_FLAGS="%{optflags} -fprofile-use=$PROFDATA" \
