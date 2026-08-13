@@ -24,7 +24,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	12
+Release:	13
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -161,9 +161,10 @@ BuildRequires:	pkgconfig(OGRE) ogre ogre-samples
 OpenCV (Open Source Computer Vision) is a library of programming
 functions for real time computer vision.
 
-# gapi/viz/java unavailable in this build; aruco folded into objdetect in some 5.x trees
-%define libraries core imgcodecs imgproc highgui ml shape flann calib3d features2d superres video objdetect videoio photo stitching wechat_qrcode videostab bgsegm bioinspired ccalib cvv datasets dnn dnn_objdetect dpm face freetype fuzzy hdf hfs img_hash line_descriptor optflow phase_unwrapping plot reg rgbd saliency stereo structured_light surface_matching text tracking xfeatures2d ximgproc xobjdetect xphoto alphamat dnn_superres intensity_transform quality rapid mcc ovis sfm signal geometry
-%define extra_files_quality %optional %{_datadir}/opencv4/quality
+# OpenCV 5: install prefix opencv5; calib/features (not calib3d/features2d).
+# gapi/viz/java unavailable without extra deps.
+%define libraries alphamat bgsegm bioinspired calib ccalib core cvv datasets dnn dnn_objdetect dnn_superres dpm face features flann freetype fuzzy geometry hdf hfs highgui img_hash imgcodecs imgproc intensity_transform line_descriptor ml objdetect optflow ovis phase_unwrapping photo plot ptcloud quality rapid reg rgbd saliency sfm shape signal stereo stitching structured_light superres surface_matching text tracking video videoio videostab wechat_qrcode xfeatures2d ximgproc xobjdetect xphoto xstereo
+%define extra_files_quality %optional %{_datadir}/opencv5/quality
 
 # Removed in 4.10: barcode
 
@@ -252,16 +253,18 @@ OpenCV development files.
 %files		devel
 %{_libdir}/*.so
 %{_includedir}/*
-%{_libdir}/cmake/opencv4
-%{_libdir}/pkgconfig/opencv4.pc
-%dir %{_datadir}/opencv4
-%{_datadir}/opencv4/valgrind.supp
-%{_datadir}/opencv4/valgrind_3rdparty.supp
+%{_libdir}/cmake/opencv5
+%optional %{_libdir}/cmake/opencv4
+%{_libdir}/pkgconfig/opencv5.pc
+%optional %{_libdir}/pkgconfig/opencv4.pc
+%dir %{_datadir}/opencv5
+%optional %{_datadir}/opencv5/valgrind.supp
+%optional %{_datadir}/opencv5/valgrind_3rdparty.supp
 # For now this is only static libraries, so we should
 # own the directory here too
-%dir %{_libdir}/opencv4
-%dir %{_libdir}/opencv4/3rdparty
-%{_libdir}/opencv4/3rdparty/*.a
+%optional %dir %{_libdir}/opencv5
+%optional %dir %{_libdir}/opencv5/3rdparty
+%optional %{_libdir}/opencv5/3rdparty/*.a
 
 %if %{with python}
 #--------------------------------------------------------------------------------
@@ -273,7 +276,8 @@ Group:		Development/Python
 OpenCV python bindings.
 
 %files -n	python-opencv
-%{_bindir}/setup_vars_opencv4.sh
+%optional %{_bindir}/setup_vars_opencv5.sh
+%optional %{_bindir}/setup_vars_opencv4.sh
 %ifnarch %{ix86}
 %{py_puresitedir}/*
 %else
@@ -304,15 +308,15 @@ Group:		Books/Computer books
 OpenCV sample code.
 
 %files		samples
-%{_bindir}/opencv_annotation
-%{_bindir}/opencv_visualisation
-%{_bindir}/opencv_version
-%{_bindir}/opencv_interactive-calibration
-%{_bindir}/opencv_waldboost_detector
-%{_bindir}/opencv_model_diagnostics
-%{_datadir}/opencv4/samples
-%{_datadir}/opencv4/haarcascades
-%{_datadir}/opencv4/lbpcascades
+%optional %{_bindir}/opencv_annotation
+%optional %{_bindir}/opencv_visualisation
+%optional %{_bindir}/opencv_version
+%optional %{_bindir}/opencv_interactive-calibration
+%optional %{_bindir}/opencv_waldboost_detector
+%optional %{_bindir}/opencv_model_diagnostics
+%optional %{_datadir}/opencv5/samples
+%optional %{_datadir}/opencv5/haarcascades
+%optional %{_datadir}/opencv5/lbpcascades
 #--------------------------------------------------------------------------------
 
 %if %{with java}
