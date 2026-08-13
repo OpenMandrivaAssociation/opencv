@@ -23,7 +23,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	9
+Release:	10
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -44,6 +44,9 @@ Source16:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source17:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
 Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
+# OpenCV 5 dropped opencv-caffe.proto; keep a copy (from 4.12) so we can regenerate
+# pb.{h,cc} against system protobuf (see %prep protoc loop).
+Source20:	opencv-caffe.proto
 Patch0:		opencv-5.0.0-ffmpeg9.patch
 # dropped (no longer applies): Patch1:		opencv-4.5.5-GL-linkage.patch
 # dropped (no longer applies): Patch2:		opencv-4.7.0-compile.patch
@@ -363,10 +366,16 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
 
-# rebuild protobuf files with our version of protobuf (into modules/*/misc/)
+# OpenCV 5 no longer ships opencv-caffe.proto; restore it so the protoc loop below
+# regenerates caffe stubs for the system protobuf (not the 3.19-era pregenerated ones).
+install -m 644 %{SOURCE20} modules/dnn/src/caffe/opencv-caffe.proto
+
+# Rebuild all protobuf stubs with system protoc into modules/*/misc/
+# PROTOBUF_UPDATE_FILES=OFF makes CMake use these files (UPDATE_FILES=ON would
+# regenerate only tensorflow/onnx and drop caffe entirely).
 find . -name "*.proto" | while read r; do
 	dir=$(dirname "$(realpath "$r")")
-	# replace trailing /src/ segment only (not earlier "src" path components)
+	# replace /src/ path segment only (not earlier "src" components)
 	out=$(echo "$dir" | sed 's|/src/|/misc/|g')
 	mkdir -p "$out"
 	( cd "$dir" && protoc --cpp_out="$out" "$(basename "$r")" )
