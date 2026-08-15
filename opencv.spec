@@ -531,6 +531,3 @@ cd ..
 # (tpg) remove not needed files
 rm -rf %{buildroot}%{_datadir}/OpenCV/licenses
 rm -rf %{buildroot}%{_datadir}/licenses
-
-# keep %mklibname visible for rpmlint SpecCheck (checks last line only)
-# %mklibname
