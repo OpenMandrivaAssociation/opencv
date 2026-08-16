@@ -25,7 +25,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	14
+Release:	15
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -163,11 +163,11 @@ OpenCV (Open Source Computer Vision) is a library of programming
 functions for real time computer vision.
 
 # OpenCV 5: install prefix opencv5; calib/features (not calib3d/features2d).
-# gapi/viz/java unavailable without extra deps.
+# gapi/viz/java unavailable without extra deps; aruco folded into objdetect;
+# mcc dropped (barcode already gone in 4.10). Old subpackages must be
+# Obsoleted or leftover 4.x pkgs keep requiring libopencv_*.so.412.
 %define libraries alphamat bgsegm bioinspired calib ccalib core cvv datasets dnn dnn_objdetect dnn_superres dpm face features flann freetype fuzzy geometry hdf hfs highgui img_hash imgcodecs imgproc intensity_transform line_descriptor ml objdetect optflow ovis phase_unwrapping photo plot ptcloud quality rapid reg rgbd saliency sfm shape signal stereo stitching structured_light superres surface_matching text tracking video videoio videostab wechat_qrcode xfeatures2d ximgproc xobjdetect xphoto xstereo
 %define extra_files_quality %optional %{_datadir}/opencv5/quality
-
-# Removed in 4.10: barcode
 
 %{expand:%(
 S[core]="OpenCV core library (basic structures, arithmetics, linear algebra)"
@@ -214,12 +214,46 @@ for i in %{libraries}; do
 	[ -z "$S" ] && S="The OpenCV $i library"
 	D="${D[$i]}"
 	[ -z "$D" ] && D=$S
+	extra=""
+	if [ "$i" = features ]; then
+		extra="%%rename	%%{mklibname opencv_features2d}
+%%rename	%%{mklibname opencv_features2d 4.7}
+Obsoletes:	%%{mklibname opencv_features2d 4.6} < %{EVRD}"
+	elif [ "$i" = calib ]; then
+		extra="%%rename	%%{mklibname opencv_calib3d}
+%%rename	%%{mklibname opencv_calib3d 4.7}
+Obsoletes:	%%{mklibname opencv_calib3d 4.6} < %{EVRD}"
+	elif [ "$i" = core ]; then
+		extra="Obsoletes:	%%{mklibname opencv_aruco} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_aruco 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_aruco 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_barcode} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_barcode 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_barcode 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_features2d} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_features2d 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_features2d 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_calib3d} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_calib3d 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_calib3d 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_gapi} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_gapi 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_gapi 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_mcc} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_mcc 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_mcc 4.6} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_viz} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_viz 4.7} < %{EVRD}
+Obsoletes:	%%{mklibname opencv_viz 4.6} < %{EVRD}
+Obsoletes:	opencv-java < %{EVRD}"
+	fi
 	cat <<EOF
 %%package -n %{mklibname opencv_${i}}
 Summary:	$S
 Group:		System/Libraries
 %%rename	%%{mklibname opencv_${i} 4.7}
 Obsoletes:	%%{mklibname opencv_${i} 4.6} < %{EVRD}
+$extra
 
 %%description -n %{mklibname opencv_${i}}
 $D
