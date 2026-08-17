@@ -25,13 +25,14 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	15
+Release:	16
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
 Source0:	https://github.com/opencv/opencv/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:	https://github.com/opencv/opencv_contrib/archive/%{version}/%{name}_contrib-%{version}.tar.gz
-Source2:	https://github.com/opencv/ade/archive/v0.1.2a.zip
+# Keep in sync with opencv_contrib/modules/gapi/cmake/DownloadADE.cmake
+Source2:	https://github.com/opencv/ade/archive/v0.1.2e.zip
 # TODO Keep in sync with versions downloaded by opencv_contrib/modules/xfeatures2d/cmake/download_boostdesc.cmake
 Source3:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm.i
 Source4:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/34e4206aef44d50e6bbcd0ab06354b52e7466d26/boostdesc_bgm_bi.i
@@ -115,13 +116,10 @@ BuildRequires:	pkgconfig(libwebp)
 BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(ng-log)
 BuildRequires:	pkgconfig(gflags)
-# VTK currently unusable as a BR: lib64vtk-devel pulls missing cmake(jogl)/cmake(viskores)
-# on x86, and aarch64 still has vtk built against obsolete libjsoncpp.so.26.
-# OpenCV builds fine without VTK (viz module optional).
-#BuildRequires:	cmake(vtk)
-#BuildRequires:	cmake(Verdict)
-#BuildRequires:	cmake(jsoncpp)
-#BuildRequires:	vtk-python
+# viz module
+BuildRequires:	cmake(vtk)
+BuildRequires:	cmake(Verdict)
+BuildRequires:	cmake(jsoncpp)
 BuildRequires:	hdf5-devel
 BuildRequires:	mesa-rusticl
 BuildRequires:	doxygen
@@ -163,10 +161,10 @@ OpenCV (Open Source Computer Vision) is a library of programming
 functions for real time computer vision.
 
 # OpenCV 5: install prefix opencv5; calib/features (not calib3d/features2d).
-# gapi/viz/java unavailable without extra deps; aruco folded into objdetect;
-# mcc dropped (barcode already gone in 4.10). Old subpackages must be
-# Obsoleted or leftover 4.x pkgs keep requiring libopencv_*.so.412.
-%define libraries alphamat bgsegm bioinspired calib ccalib core cvv datasets dnn dnn_objdetect dnn_superres dpm face features flann freetype fuzzy geometry hdf hfs highgui img_hash imgcodecs imgproc intensity_transform line_descriptor ml objdetect optflow ovis phase_unwrapping photo plot ptcloud quality rapid reg rgbd saliency sfm shape signal stereo stitching structured_light superres surface_matching text tracking video videoio videostab wechat_qrcode xfeatures2d ximgproc xobjdetect xphoto xstereo
+# java disabled by default; aruco/mcc/barcode folded into objdetect.
+# Old 4.x subpackages must be Obsoleted or leftovers keep requiring
+# libopencv_*.so.412.
+%define libraries alphamat bgsegm bioinspired calib ccalib core cvv datasets dnn dnn_objdetect dnn_superres dpm face features flann freetype fuzzy gapi geometry hdf hfs highgui img_hash imgcodecs imgproc intensity_transform line_descriptor ml objdetect optflow ovis phase_unwrapping photo plot ptcloud quality rapid reg rgbd saliency sfm shape signal stereo stitching structured_light superres surface_matching text tracking video videoio videostab viz wechat_qrcode xfeatures2d ximgproc xobjdetect xphoto xstereo
 %define extra_files_quality %optional %{_datadir}/opencv5/quality
 
 %{expand:%(
@@ -209,6 +207,8 @@ and a super resolution model. Object detection model is applied to
 etect QRCode with the bounding box. super resolution model is applied
 to zoom in QRCode when it is small."
 S[videostab]="OpenCV video stabilization module"
+S[gapi]="OpenCV Graph API module"
+S[viz]="OpenCV 3D visualization module"
 for i in %{libraries}; do
 	S="${S[$i]}"
 	[ -z "$S" ] && S="The OpenCV $i library"
@@ -236,15 +236,9 @@ Obsoletes:	%%{mklibname opencv_features2d 4.6} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_calib3d} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_calib3d 4.7} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_calib3d 4.6} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_gapi} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_gapi 4.7} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_gapi 4.6} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_mcc} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_mcc 4.7} < %{EVRD}
 Obsoletes:	%%{mklibname opencv_mcc 4.6} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_viz} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_viz 4.7} < %{EVRD}
-Obsoletes:	%%{mklibname opencv_viz 4.6} < %{EVRD}
 Obsoletes:	opencv-java < %{EVRD}"
 	fi
 	cat <<EOF
@@ -378,6 +372,7 @@ Java bindings for OpenCV.
 
 mkdir -p build/downloads/xfeatures2d \
 	 build/3rdparty/ade build/.cache/ade \
+	 .cache/ade \
          build/share/OpenCV/testdata/cv/face/ \
          samples/dnn/face_detector/
 cp %{S:3} %{S:4} %{S:5} %{S:6} %{S:7} %{S:8} \
@@ -387,7 +382,10 @@ cp %{S:14} \
    build/share/OpenCV/testdata/cv/face/
 cp %{S:15} \
    samples/dnn/face_detector/
-cp %{S:2} build/.cache/ade/fa4b3e25167319cb0fa9432ef8281945-v0.1.2a.zip
+# DownloadADE.cmake looks in <source>/.cache/ade/${md5}-v0.1.2e.zip
+# and unpacks into ${OpenCV_BINARY_DIR}/3rdparty/ade
+cp %{S:2} .cache/ade/962ce79e0b95591f226431f7b5f152cd-v0.1.2e.zip
+cp %{S:2} build/.cache/ade/962ce79e0b95591f226431f7b5f152cd-v0.1.2e.zip
 cd build/3rdparty/ade
 tar xf %{S:2}
 cd ../../..
@@ -458,7 +456,9 @@ export LD_LIBRARY_PATH="$(pwd)/build/lib"
 	-DWITH_TIFF:BOOL=ON \
 	-DWITH_QT=6 \
 	-DWITH_CUDA:BOOL=OFF \
-	-DWITH_VTK:BOOL=OFF \
+	-DWITH_VTK:BOOL=ON \
+	-DOPENCV_FORCE_VTK:BOOL=ON \
+	-DWITH_ADE:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
@@ -531,7 +531,9 @@ cd ..
 	-DWITH_TIFF:BOOL=ON \
 	-DWITH_QT=6 \
 	-DWITH_CUDA:BOOL=OFF \
-	-DWITH_VTK:BOOL=OFF \
+	-DWITH_VTK:BOOL=ON \
+	-DOPENCV_FORCE_VTK:BOOL=ON \
+	-DWITH_ADE:BOOL=ON \
 	-DWITH_OPENMP:BOOL=ON \
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_FAST_MATH:BOOL=ON \
