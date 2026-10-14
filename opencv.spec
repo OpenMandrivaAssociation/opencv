@@ -79,7 +79,7 @@ BuildRequires:	pkgconfig(OpenCL)
 BuildRequires:	protobuf-compiler
 BuildRequires:	pkgconfig(protobuf)
 %if %{with python}
-BuildRequires:	python-numpy
+BuildRequires:	python%{pyver}dist(numpy)
 BuildRequires:	pkgconfig(python3)
 %endif
 BuildRequires:	pkgconfig(eigen3)
