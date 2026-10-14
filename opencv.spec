@@ -117,6 +117,9 @@ BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	cmake(ng-log)
 BuildRequires:	pkgconfig(gflags)
 # viz module
+# vtk-devel exports VTK::fast_float against FastFloat::fast_float without requiring it.
+# fast_float 8.0.2 and fastfloat 8.2 both provide cmake(FastFloat); 8.2 has the target.
+BuildRequires:	cmake(FastFloat) >= 8.2
 BuildRequires:	cmake(vtk)
 BuildRequires:	cmake(Verdict)
 BuildRequires:	cmake(jsoncpp)
