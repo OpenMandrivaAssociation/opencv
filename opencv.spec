@@ -368,6 +368,10 @@ Java bindings for OpenCV.
 %setup -q -a 1
 %autopatch -p1
 
+# VTK 9.7 no longer includes iostream. viz uses cout and cerr.
+sed -i '/#include <limits>/a #include <iostream>' \
+	opencv_contrib-%{version}/modules/viz/src/precomp.hpp
+
 #patch103 -p1
 #cd %{name}_contrib-%{version}
 #patch101 -p1
