@@ -25,7 +25,7 @@
 Summary:	Open Source Computer Vision library
 Name:		opencv
 Version:	5.0.0
-Release:	16
+Release:	17
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
