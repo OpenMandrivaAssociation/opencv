@@ -12,7 +12,7 @@
 %global _python_bytecompile_build 0
 
 %define major %(echo %{version} |cut -d. -f1-2)
-# OpenCV soname is major*100+minor (4.12 -> 412, 5.0 -> 500)
+# OpenCV soname is major*100+minor (4.12 -> 412, 5.0 -> 500, 5.1 -> 501)
 %define major2 %(echo %{version} | awk -F. '{print $1*100+$2}')
 
 # (tpg) enable PGO build
@@ -24,8 +24,8 @@
 
 Summary:	Open Source Computer Vision library
 Name:		opencv
-Version:	5.0.0
-Release:	17
+Version:	5.1.0
+Release:	1
 License:	GPLv2+
 Group:		Sciences/Computer science
 Url:		https://opencv.org/
@@ -47,10 +47,10 @@ Source16:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12
 Source17:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_64.i
 Source18:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_80.i
 Source19:	https://raw.githubusercontent.com/opencv/opencv_3rdparty/fccf7cd6a4b12079f73bbfb21745f9babcd4eb1d/vgg_generated_120.i
-# OpenCV 5 dropped opencv-caffe.proto; keep a copy (from 4.12) so we can regenerate
-# pb.{h,cc} against system protobuf (see %prep protoc loop).
+# OpenCV 5.1 removed the Caffe importer, so this 4.12 proto is not installed.
+# It stays vendored; the protoc loop below only regenerates the onnx stubs.
 Source20:	opencv-caffe.proto
-Patch0:		opencv-5.0.0-ffmpeg9.patch
+# FFmpeg 9 is upstream in 5.1 (#30513). The 5.0 pix_fmts patch is dropped.
 # dropped (no longer applies): Patch1:		opencv-4.5.5-GL-linkage.patch
 # dropped (no longer applies): Patch2:		opencv-4.7.0-compile.patch
 # dropped (no longer applies): Patch3:		opencv-5.0.0-compile.patch
@@ -110,6 +110,10 @@ BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(tesseract)
 BuildRequires:	pkgconfig(libarchive)
 BuildRequires:	pkgconfig(freetype2)
+# putText uses HarfBuzz hb-raster. The raster API is a separate pkg-config module.
+# The contrib freetype module also needs core harfbuzz or it is disabled.
+BuildRequires:	pkgconfig(harfbuzz)
+BuildRequires:	pkgconfig(harfbuzz-raster)
 BuildRequires:	pkgconfig(liblz4)
 BuildRequires:	pkgconfig(libva)
 BuildRequires:	pkgconfig(libwebp)
@@ -343,6 +347,7 @@ OpenCV sample code.
 %optional %{_bindir}/opencv_interactive-calibration
 %optional %{_bindir}/opencv_waldboost_detector
 %optional %{_bindir}/opencv_model_diagnostics
+%optional %{_bindir}/opencv_camera_enumerate
 %optional %{_datadir}/opencv5/samples
 %optional %{_datadir}/opencv5/haarcascades
 %optional %{_datadir}/opencv5/lbpcascades
@@ -368,9 +373,8 @@ Java bindings for OpenCV.
 %setup -q -a 1
 %autopatch -p1
 
-# VTK 9.7 no longer includes iostream. viz uses cout and cerr.
-sed -i '/#include <limits>/a #include <iostream>' \
-	opencv_contrib-%{version}/modules/viz/src/precomp.hpp
+# 5.1 precomp.hpp already includes iostream. Two screenshot messages still
+# use unqualified endl; VTK 9.7 does not inject it.
 sed -i -e 's/\([^:]\)cout/\1std::cout/g' -e 's/\([^:]\)endl/\1std::endl/g' \
 	opencv_contrib-%{version}/modules/viz/src/vtk/vtkVizInteractorStyle.cpp
 
@@ -412,13 +416,10 @@ find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" |xargs chmod 0644
 # And scripts lacking them
 find . -name "*.sh" |xargs chmod 0755
 
-# OpenCV 5 no longer ships opencv-caffe.proto; restore it so the protoc loop below
-# regenerates caffe stubs for the system protobuf (not the 3.19-era pregenerated ones).
-install -m 644 %{SOURCE20} modules/dnn/src/caffe/opencv-caffe.proto
-
-# Rebuild all protobuf stubs with system protoc into modules/*/misc/
-# PROTOBUF_UPDATE_FILES=OFF makes CMake use these files (UPDATE_FILES=ON would
-# regenerate only tensorflow/onnx and drop caffe entirely).
+# 5.1 dropped caffe and tensorflow protobuf leftovers. Only opencv-onnx.proto
+# remains, and the shipped pb.{h,cc} is protobuf 3.19 gencode. Cooker protoc 6.32
+# rejects that. Regenerate into modules/*/misc/ and keep PROTOBUF_UPDATE_FILES=OFF
+# so CMake compiles these files instead of the shipped ones.
 find . -name "*.proto" | while read r; do
 	dir=$(dirname "$(realpath "$r")")
 	# replace /src/ path segment only (not earlier "src" components)
