@@ -71,8 +71,8 @@ Source20:	opencv-caffe.proto
 #Patch11:	opencv-3.4.0-python3.7.patch
 # https://github.com/opencv/opencv/issues/17952
 #Patch103:	fix-call-to-implicitly-deleted-default-constructor-of-cv-gimpl-op.patch
-# ocv_check_modules() caches HARFBUZZ_LIBRARIES before the raster library
-# is known. Without FORCE, imgproc links libharfbuzz only.
+# contrib freetype calls ocv_check_modules(HARFBUZZ) again. CACHE INTERNAL
+# replaces the raster list, so imgproc links HARFBUZZ_RASTER_LIBRARIES.
 Patch0:		opencv-5.1.0-harfbuzz-raster.patch
 
 BuildRequires:	cmake

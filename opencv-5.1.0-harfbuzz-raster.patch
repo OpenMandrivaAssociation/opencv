@@ -1,16 +1,36 @@
---- a/cmake/OpenCVFindHarfBuzz.cmake	2026-11-05 12:18:05.000000000 +0100
-+++ b/cmake/OpenCVFindHarfBuzz.cmake	2026-11-07 00:55:13.074603501 +0100
-@@ -71,8 +71,11 @@
+diff -ruN a/cmake/OpenCVFindHarfBuzz.cmake b/cmake/OpenCVFindHarfBuzz.cmake
+--- a/cmake/OpenCVFindHarfBuzz.cmake	2026-11-07 02:19:29.164678128 +0100
++++ b/cmake/OpenCVFindHarfBuzz.cmake	2026-11-07 02:19:29.653469150 +0100
+@@ -71,8 +71,12 @@
        unset(CMAKE_REQUIRED_LIBRARIES)
  
        if(HARFBUZZ_HAS_RASTER)
 -        set(HARFBUZZ_INCLUDE_DIR "${_hb_inc}" CACHE INTERNAL "")
 -        set(HARFBUZZ_LIBRARIES "${_hb_libs}" CACHE INTERNAL "")
-+        # ocv_check_modules(HARFBUZZ) already cached HARFBUZZ_LIBRARIES as
-+        # the core library only. set(CACHE) without FORCE does not replace
-+        # it, so imgproc links libharfbuzz and hb_raster_* stay undefined.
++        # CACHE INTERNAL replaces an existing entry. The contrib freetype
++        # module calls ocv_check_modules(HARFBUZZ) later and puts
++        # libharfbuzz back into HARFBUZZ_LIBRARIES. imgproc links
++        # HARFBUZZ_RASTER_LIBRARIES, which that second probe leaves alone.
 +        set(HARFBUZZ_INCLUDE_DIR "${_hb_inc}" CACHE INTERNAL "" FORCE)
 +        set(HARFBUZZ_LIBRARIES "${_hb_libs}" CACHE INTERNAL "" FORCE)
          set(HAVE_HARFBUZZ 1)
        else()
          message(STATUS "HarfBuzz: found system version ${HARFBUZZ_VERSION} but it lacks the hb-raster API; building the bundled copy instead")
+diff -ruN a/modules/imgproc/CMakeLists.txt b/modules/imgproc/CMakeLists.txt
+--- a/modules/imgproc/CMakeLists.txt	2026-11-07 02:19:29.524682820 +0100
++++ b/modules/imgproc/CMakeLists.txt	2026-11-07 02:19:29.653544581 +0100
+@@ -73,7 +73,13 @@
+   ocv_install_3rdparty_licenses(fonts fonts/Rubik_OFL.txt)
+ 
+   ocv_module_include_directories(opencv_imgproc ${HARFBUZZ_INCLUDE_DIR})
+-  ocv_target_link_libraries(${the_module} LINK_PRIVATE ${HARFBUZZ_LIBRARIES})
++  # See OpenCVFindHarfBuzz.cmake: HARFBUZZ_LIBRARIES is only libharfbuzz
++  # after the freetype module probe. The raster library is this list.
++  if(HARFBUZZ_RASTER_LIBRARIES)
++    ocv_target_link_libraries(${the_module} LINK_PRIVATE ${HARFBUZZ_RASTER_LIBRARIES})
++  else()
++    ocv_target_link_libraries(${the_module} LINK_PRIVATE ${HARFBUZZ_LIBRARIES})
++  endif()
+   if(HARFBUZZ_IS_BUNDLED)
+     ocv_install_3rdparty_licenses(harfbuzz "${OpenCV_SOURCE_DIR}/3rdparty/harfbuzz/COPYING")
+   endif()
